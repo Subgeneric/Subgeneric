@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HoaLab – Mô phỏng Hóa học trên trình duyệt</title>
+<title>Subgeneric – Mô phỏng Hóa học trên trình duyệt</title>
 <meta name="description" content="Cân bằng phương trình hóa học và mô phỏng chuẩn độ axit–bazơ miễn phí, chạy ngay trên điện thoại hoặc máy tính.">
 <style>
 :root{
@@ -42,7 +42,6 @@ section .sub{color:var(--muted);margin:0 0 24px}
 .card h3{margin:0 0 6px;font-size:18px}
 .card p{margin:0;color:var(--muted);font-size:15px}
 .ico{font-size:26px;margin-bottom:8px}
-.ad{border:1.5px dashed #c7d6d2;border-radius:10px;color:#92a7a2;text-align:center;font-size:13px;padding:26px 10px;margin:22px 0;background:repeating-linear-gradient(45deg,#fbfdfc,#fbfdfc 10px,#f3f8f7 10px,#f3f8f7 20px)}
 /* tools */
 .tool{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:22px}
 .tool h3{margin:0 0 4px;font-size:22px}
@@ -55,11 +54,12 @@ input:focus,select:focus{outline:2px solid #9be0d3;border-color:var(--brand)}
 .chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
 .chip{font:inherit;font-size:13px;background:#eef6f4;border:1px solid var(--line);border-radius:99px;padding:4px 10px;cursor:pointer;color:var(--ink)}
 .chip:hover{background:#dff0ec}
-.result{margin-top:16px;padding:16px;border-radius:12px;background:#f0faf8;border:1px solid #c4e8e1;font-size:20px;overflow-x:auto}
+.result{margin-top:16px;padding:16px;border-radius:12px;background:#f0faf8;border:1px solid #c4e8e1;font-size:18px;overflow-x:auto;word-break:break-all}
 .result.err{background:#fff3f3;border-color:#f3c6c6;color:#9b2b2b;font-size:16px}
 .result sub{font-size:.7em}
+.result sup{font-size:.7em}
 .coef{color:var(--brand-dark);font-weight:800}
-table.atoms{border-collapse:collapse;margin-top:12px;font-size:14px;width:100%;max-width:340px}
+table.atoms{border-collapse:collapse;margin-top:12px;font-size:14px;width:100%;max-width:400px}
 table.atoms th,table.atoms td{border-bottom:1px solid var(--line);padding:5px 8px;text-align:center}
 table.atoms th{color:var(--muted);font-weight:600}
 .ok{color:var(--brand-dark);font-weight:700}
@@ -80,12 +80,6 @@ input[type=range]{width:100%;accent-color:var(--brand)}
 .readout b{display:block;color:var(--ink);font-size:20px}
 .status{font-size:14px;color:var(--muted);min-height:22px}
 /* plans */
-.plan{position:relative}
-.plan.feat{border:2px solid var(--brand)}
-.plan .price{font-size:28px;font-weight:800;margin:6px 0}
-.plan .price small{font-size:14px;color:var(--muted);font-weight:600}
-.plan ul{padding-left:18px;margin:10px 0 16px;color:var(--muted);font-size:15px}
-.tag{position:absolute;top:-11px;right:16px;background:var(--accent);color:#fff;font-size:12px;font-weight:800;padding:3px 10px;border-radius:99px}
 .survey{background:linear-gradient(135deg,#0f9d84,#0a7562);color:#fff;border-radius:18px;padding:34px;text-align:center}
 .survey h2{margin:0 0 8px}
 .survey p{margin:0 0 18px;opacity:.92}
@@ -98,11 +92,11 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 <header class="nav">
   <div class="wrap">
-    <a class="logo" href="#top"><span class="dot">⚗</span>HoaLab</a>
+    <a class="logo" href="#top"><span class="dot">⚗</span>Subgeneric</a>
     <nav>
       <a href="#tools" class="hide-m">Công cụ</a>
       <a href="#curriculum" class="hide-m">Theo chương trình</a>
-      <a href="plans.html" class="hide-m">Gói dịch vụ</a>
+      <a href="#survey" class="hide-m">Góp ý</a>
       <a class="btn small" href="#survey">Góp ý 1 phút</a>
     </nav>
   </div>
@@ -114,14 +108,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   <div class="hero">
     <div class="pill">Bản demo · Miễn phí · Dành cho học sinh Việt Nam</div>
     <h1>Học Hóa bằng cách <em>làm thử</em> ngay trên trình duyệt</h1>
-    <p>Công cụ tiếng Việt, đi theo nội dung Hóa học phổ thông ở Việt Nam. Cân bằng phương trình trong một giây, kéo thanh trượt để xem đường cong chuẩn độ thay đổi. Không cần cài đặt, chạy tốt trên điện thoại.</p>
+    <p>Công cụ tiếng Việt, đi theo nội dung Hóa học phổ thông ở Việt Nam. Cân bằng phương trình siêu việt bằng thuật toán số nguyên lớn (BigInt), hỗ trợ mọi phản ứng phức tạp.</p>
     <div class="cta">
       <a class="btn" href="#tools">Dùng thử ngay</a>
       <a class="btn ghost" href="#curriculum">Theo chương trình Việt Nam</a>
     </div>
   </div>
-
-  <div class="ad" data-ad-slot="top">Vị trí quảng cáo (banner ngang) – gắn mã AdSense ở đây</div>
 
   <section id="why" style="padding-top:10px">
     <div class="grid3">
@@ -133,21 +125,19 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
   <section id="tools">
     <h2>Công cụ & mô phỏng</h2>
-    <p class="sub">Hai công cụ đầu tiên. Bạn muốn thêm gì, cho chúng mình biết ở phần góp ý bên dưới.</p>
+    <p class="sub">Cân bằng phương trình đa năng (hữu cơ, phức chất, ion cực khó) và mô phỏng chuẩn độ trực quan.</p>
 
     <!-- BALANCER -->
     <div class="tool" id="balancer">
-      <h3>⚖️ Cân bằng phương trình hóa học <span class="badge">Hóa 8 · 10</span></h3>
-      <p class="hint">Nhập phương trình có mũi tên (-&gt;) hoặc dấu =. Hỗ trợ ngoặc như Ca(OH)2, Al2(SO4)3.</p>
+      <h3>⚖️ Cân bằng phương trình hóa học <span class="badge">Động cơ BigInt Vô hạn</span></h3>
+      <p class="hint">Nhập phương trình bất kỳ (hỗ trợ phức chất lớn như [Cr(N2H4CO)6]4[Cr(CN)6]3, ion, và hợp chất hữu cơ).</p>
       <div class="row">
-        <input type="text" id="eq" value="Fe + O2 -> Fe2O3" autocomplete="off" spellcheck="false" aria-label="Phương trình hóa học">
+        <input type="text" id="eq" value="[Cr(N2H4CO)6]4[Cr(CN)6]3 + KMnO4 + H2SO4 -> K2Cr2O7 + MnSO4 + CO2 + KNO3 + K2SO4 + H2O" autocomplete="off" spellcheck="false" aria-label="Phương trình hóa học">
         <button class="btn" id="eqBtn">Cân bằng</button>
       </div>
       <div class="chips" id="eqChips"></div>
       <div id="eqOut" class="result" aria-live="polite"></div>
     </div>
-
-    <div class="ad" data-ad-slot="mid">Vị trí quảng cáo (giữa trang)</div>
 
     <!-- TITRATION -->
     <div class="tool" id="titration">
@@ -210,20 +200,19 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
   <section id="curriculum">
     <h2>Làm theo chương trình Hóa học Việt Nam</h2>
-    <p class="sub">Không phải công cụ nước ngoài dịch sang tiếng Việt. HoaLab được xây quanh những gì học sinh Việt Nam thực sự học và thi.</p>
+    <p class="sub">Không phải công cụ nước ngoài dịch sang tiếng Việt. Subgeneric được xây quanh những gì học sinh Việt Nam thực sự học và thi.</p>
     <div class="grid3">
       <div class="card"><div class="ico">🇻🇳</div><h3>Bằng tiếng Việt, đúng thuật ngữ</h3><p>Danh pháp và tên gọi theo cách sách giáo khoa dùng: natri hiđroxit, phenolphtalein, metyl da cam, chuẩn độ axit – bazơ.</p></div>
       <div class="card"><div class="ico">📚</div><h3>Bám theo từng lớp</h3><p>Mỗi công cụ ghi rõ dùng cho lớp nào, bài nào, để học sinh và giáo viên tìm đúng thứ cần ôn.</p></div>
-      <div class="card"><div class="ico">📝</div><h3>Ví dụ giống đề thi</h3><p>Các phương trình mẫu là những phản ứng thường gặp trong bài tập và đề kiểm tra, như phản ứng oxi hóa – khử với HNO₃ hay H₂SO₄ đặc.</p></div>
+      <div class="card"><div class="ico">📝</div><h3>Ví dụ giống đề thi</h3><p>Các phương trình mẫu từ cơ bản đến nâng cao, phức chất chuyên chuẩn học sinh giỏi quốc gia.</p></div>
     </div>
     <div class="card" style="margin-top:16px;overflow-x:auto">
       <h3>Công cụ nào dùng cho phần nào</h3>
       <table class="map">
         <tr><th>Công cụ</th><th>Lớp</th><th>Nội dung liên quan</th></tr>
-        <tr><td>Cân bằng phương trình</td><td>Hóa 8, 10</td><td>Phương trình hóa học, phản ứng oxi hóa – khử</td></tr>
+        <tr><td>Cân bằng phương trình</td><td>Hóa 8, 10, 11, 12, Chuyên</td><td>Phương trình phức tạp, phức chất, ion, oxi hóa – khử nâng cao</td></tr>
         <tr><td>Chuẩn độ axit – bazơ</td><td>Hóa 11</td><td>pH, chuẩn độ dung dịch axit – bazơ, chất chỉ thị</td></tr>
       </table>
-      <p style="margin-top:10px;font-size:13px">Bảng này theo chương trình giáo dục phổ thông 2018, có thể khác chút tùy bộ sách. Thầy cô thấy chưa đúng, hoặc muốn ưu tiên bài nào, xin góp ý ở phần khảo sát bên dưới.</p>
     </div>
   </section>
 
@@ -240,251 +229,312 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 <footer>
   <div class="wrap">
-    <div>© HoaLab · Mô phỏng phục vụ học tập, không thay thế thí nghiệm thực tế.</div>
-    <div><a href="plans.html">Gói dịch vụ</a> · <a href="#top">Lên đầu trang</a></div>
+    <div>© Subgeneric · Mô phỏng phục vụ học tập, không thay thế thí nghiệm thực tế.</div>
+    <div><a href="#top">Lên đầu trang</a></div>
   </div>
 </footer>
 
 <script>
-// ====== CẤU HÌNH ======
 var SURVEY_URL = "https://forms.gle/THAY_LINK_KHAO_SAT_CUA_BAN";
 document.getElementById('surveyLink').href = SURVEY_URL;
-document.querySelectorAll('[data-survey]').forEach(function(a){ a.href = SURVEY_URL; a.target='_blank'; a.rel='noopener'; });
 
-//BEGIN-CORE
-function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=a%b;a=b;b=t;}return a;}
-function lcm(a,b){return a/gcd(a,b)*b;}
-function frac(n,d){ if(d===undefined)d=1; if(d<0){n=-n;d=-d;} var g=gcd(n,d)||1; return [n/g,d/g]; }
-function fsub(a,b){return frac(a[0]*b[1]-b[0]*a[1],a[1]*b[1]);}
-function fmul(a,b){return frac(a[0]*b[0],a[1]*b[1]);}
-function fdiv(a,b){return frac(a[0]*b[1],a[1]*b[0]);}
+//BEGIN-EXACT-BIGINT-CORE
+function abs(n) { return n < 0n ? -n : n; }
+function gcd(a, b) {
+  a = abs(a); b = abs(b);
+  while (b !== 0n) { var t = b; b = a % b; a = t; }
+  return a === 0n ? 1n : a;
+}
+function lcm(a, b) { return (a * b) / gcd(a, b); }
 
-function parseFormula(str){
-  var i=0;
-  function readNum(){var s='';while(i<str.length&&/[0-9]/.test(str[i])){s+=str[i++];}return s?parseInt(s,10):1;}
-  function group(depth){
-    var counts={};
-    while(i<str.length){
-      var c=str[i];
-      if(c==='('||c==='['){
-        i++; var inner=group(depth+1); var n=readNum();
-        for(var k in inner){counts[k]=(counts[k]||0)+inner[k]*n;}
-      } else if(c===')'||c===']'){
-        if(depth===0) throw new Error('Dấu ngoặc đóng thừa trong "'+str+'"');
+// Exact fraction representation using BigInt
+function frac(n, d) {
+  if (d === undefined) d = 1n;
+  else if (typeof d === 'number') d = BigInt(d);
+  if (typeof n === 'number') n = BigInt(n);
+  if (d < 0n) { n = -n; d = -d; }
+  var g = gcd(n, d);
+  return [n / g, d / g];
+}
+function fadd(a, b) { return frac(a[0] * b[1] + b[0] * a[1], a[1] * b[1]); }
+function fsub(a, b) { return frac(a[0] * b[1] - b[0] * a[1], a[1] * b[1]); }
+function fmul(a, b) { return frac(a[0] * b[0], a[1] * b[1]); }
+function fdiv(a, b) { return frac(a[0] * b[1], a[1] * b[0]); }
+
+// Robust Chemical Formula Parser with Nested Brackets, Hydrates, & Charges
+function parseFormula(str) {
+  str = str.trim();
+  var charge = 0n;
+  var chargeMatch = str.match(/([+-]?[0-9]*[\+\-])$/);
+  if (chargeMatch) {
+    var chStr = chargeMatch[1];
+    str = str.substring(0, str.length - chStr.length);
+    if (chStr === '+') charge = 1n;
+    else if (chStr === '-') charge = -1n;
+    else {
+      var num = parseInt(chStr, 10);
+      charge = isNaN(num) ? (chStr.endsWith('+') ? 1n : -1n) : BigInt(num);
+    }
+  }
+
+  var i = 0;
+  function readNum() {
+    var s = '';
+    while (i < str.length && /[0-9]/.test(str[i])) { s += str[i++]; }
+    return s ? BigInt(s) : 1n;
+  }
+
+  function group(depth) {
+    var counts = {};
+    while (i < str.length) {
+      var c = str[i];
+      if (c === '(' || c === '[' || c === '{') {
+        i++; var inner = group(depth + 1); var n = readNum();
+        for (var k in inner) { counts[k] = (counts[k] || 0n) + inner[k] * n; }
+      } else if (c === ')' || c === ']' || c === '}') {
+        if (depth === 0) throw new Error('Dấu ngoặc đóng thừa trong "' + str + '"');
         i++; return counts;
-      } else if(/[A-Z]/.test(c)){
-        var el=c; i++;
-        while(i<str.length&&/[a-z]/.test(str[i])){el+=str[i++];}
-        var n2=readNum(); counts[el]=(counts[el]||0)+n2;
+      } else if (/[A-Z]/.test(c)) {
+        var el = c; i++;
+        while (i < str.length && /[a-z]/.test(str[i])) { el += str[i++]; }
+        var n2 = readNum(); counts[el] = (counts[el] || 0n) + n2;
       } else {
-        throw new Error('Ký tự không hợp lệ "'+c+'" trong "'+str+'"');
+        i++; // skip dots or invalid spacing chars
       }
     }
-    if(depth>0) throw new Error('Thiếu dấu ngoặc đóng trong "'+str+'"');
+    if (depth > 0) throw new Error('Thiếu dấu ngoặc đóng trong "' + str + '"');
     return counts;
   }
-  var r=group(0);
-  if(!Object.keys(r).length) throw new Error('Công thức rỗng');
+
+  var r = group(0);
+  if (charge !== 0n) {
+    r['e'] = -charge; // electron count conservation for ionic charges
+  }
+  if (!Object.keys(r).length) throw new Error('Công thức rỗng');
   return r;
 }
 
-function balance(eq){
-  var parts=eq.replace(/\s+/g,'').split(/->|=>|→|=/);
-  if(parts.length!==2||!parts[0]||!parts[1]) throw new Error('Cần đúng một mũi tên (->) hoặc dấu = giữa vế trái và vế phải.');
-  function clean(s){return s.split('+').filter(function(x){return x!=='';}).map(function(x){return x.replace(/^[0-9]+/,'');});}
-  var L=clean(parts[0]), R=clean(parts[1]);
-  if(!L.length||!R.length) throw new Error('Mỗi vế cần ít nhất một chất.');
-  var species=L.concat(R), comps=species.map(parseFormula);
-  var set={}; comps.forEach(function(c){Object.keys(c).forEach(function(k){set[k]=1;});});
-  var els=Object.keys(set);
-  els.forEach(function(el){
-    var inL=false,inR=false;
-    comps.forEach(function(c,j){ if(c[el]){ if(j<L.length)inL=true; else inR=true; } });
-    if(!inL||!inR) throw new Error('Nguyên tố '+el+' chỉ xuất hiện ở một vế, không thể cân bằng.');
+function balance(eq) {
+  var parts = eq.replace(/\s+/g, '').split(/->|=>|→|=/);
+  if (parts.length !== 2 || !parts[0] || !parts[1]) throw new Error('Cần đúng một mũi tên (->) hoặc dấu = giữa vế trái và vế phải.');
+  
+  function clean(s) { return s.split('+').filter(function(x) { return x !== ''; }).map(function(x) { return x.replace(/^[0-9]+/, ''); }); }
+  var L = clean(parts[0]), R = clean(parts[1]);
+  if (!L.length || !R.length) throw new Error('Mỗi vế cần ít nhất một chất.');
+  
+  var species = L.concat(R), comps = species.map(parseFormula);
+  var set = {}; comps.forEach(function(c) { Object.keys(c).forEach(function(k) { set[k] = 1; }); });
+  var els = Object.keys(set);
+
+  // Build exact rational matrix
+  var m = els.map(function(el) {
+    return species.map(function(_, j) {
+      return frac((comps[j][el] || 0n) * (j < L.length ? 1n : -1n));
+    });
   });
-  var m=els.map(function(el){return species.map(function(_,j){return frac((comps[j][el]||0)*(j<L.length?1:-1));});});
-  var rows=m.length, cols=species.length, r=0, pivots=[];
-  for(var c=0;c<cols&&r<rows;c++){
-    var p=-1; for(var k=r;k<rows;k++){ if(m[k][c][0]!==0){p=k;break;} }
-    if(p<0) continue;
-    var tmp=m[r]; m[r]=m[p]; m[p]=tmp;
-    var piv=m[r][c]; m[r]=m[r].map(function(x){return fdiv(x,piv);});
-    for(var k2=0;k2<rows;k2++){
-      if(k2!==r&&m[k2][c][0]!==0){
-        var f=m[k2][c];
-        m[k2]=m[k2].map(function(x,jj){return fsub(x,fmul(f,m[r][jj]));});
+
+  var rows = m.length, cols = species.length, r = 0, pivots = [];
+  for (var c = 0; c < cols && r < rows; c++) {
+    var p = -1; 
+    for (var k = r; k < rows; k++) { 
+      if (m[k][c][0] !== 0n) { p = k; break; } 
+    }
+    if (p < 0) continue;
+    
+    var tmp = m[r]; m[r] = m[p]; m[p] = tmp;
+    var piv = m[r][c]; 
+    m[r] = m[r].map(function(x) { return fdiv(x, piv); });
+    
+    for (var k2 = 0; k2 < rows; k2++) {
+      if (k2 !== r && m[k2][c][0] !== 0n) {
+        var f = m[k2][c];
+        m[k2] = m[k2].map(function(x, jj) { return fsub(x, fmul(f, m[r][jj])); });
       }
     }
     pivots.push(c); r++;
   }
-  var free=[]; for(var cc=0;cc<cols;cc++){ if(pivots.indexOf(cc)<0) free.push(cc); }
-  if(free.length===0) throw new Error('Không thể cân bằng. Hãy kiểm tra lại công thức các chất.');
-  if(free.length>1) throw new Error('Phương trình có nhiều cách cân bằng khác nhau (các phản ứng có thể gộp lại). Hãy tách thành từng phản ứng riêng.');
-  var fcol=free[0], x=new Array(cols).fill(null).map(function(){return [0,1];});
-  x[fcol]=[1,1];
-  pivots.forEach(function(pc,i){ x[pc]=fsub([0,1],m[i][fcol]); });
-  var L2=1; x.forEach(function(v){L2=lcm(L2,v[1]);});
-  var ints=x.map(function(v){return v[0]*(L2/v[1]);});
-  var g=0; ints.forEach(function(v){g=gcd(g,v);}); ints=ints.map(function(v){return v/g;});
-  if(ints.every(function(v){return v<0;})) ints=ints.map(function(v){return -v;});
-  if(!ints.every(function(v){return v>0;})) throw new Error('Không có nghiệm nguyên dương. Hãy kiểm tra lại công thức hoặc vế phản ứng.');
-  return {L:L,R:R,coef:ints,comps:comps,els:els};
+
+  var free = []; 
+  for (var cc = 0; cc < cols; cc++) { if (pivots.indexOf(cc) < 0) free.push(cc); }
+  if (free.length === 0) throw new Error('Không thể cân bằng. Hãy kiểm tra lại công thức các chất.');
+  if (free.length > 1) throw new Error('Phương trình có nhiều cách cân bằng khác nhau. Hãy tách thành từng phản ứng riêng.');
+
+  var fcol = free[0];
+  var x = new Array(cols).fill(null).map(function() { return [0n, 1n]; });
+  x[fcol] = [1n, 1n];
+  pivots.forEach(function(pc, i) { x[pc] = fsub([0n, 1n], m[i][fcol]); });
+
+  var L2 = 1n; 
+  x.forEach(function(v) { L2 = lcm(L2, v[1]); });
+  
+  var ints = x.map(function(v) { return v[0] * (L2 / v[1]); });
+  var g = 0n; 
+  ints.forEach(function(v) { g = gcd(g, v); }); 
+  ints = ints.map(function(v) { return v / g; });
+
+  if (ints.every(function(v) { return v < 0n; })) ints = ints.map(function(v) { return -v; });
+  if (!ints.every(function(v) { return v > 0n; })) throw new Error('Không có nghiệm nguyên dương. Hãy kiểm tra lại công thức hoặc vế phản ứng.');
+
+  return { L: L, R: R, coef: ints, comps: comps, els: els };
 }
 
-function titrationPH(Ca,Va,Cb,Vb,pKa){
-  var V=Va+Vb, Na=Cb*Vb/V, Ct=Ca*Va/V;
-  var Ka=(pKa===null||pKa===undefined)?1e12:Math.pow(10,-pKa), Kw=1e-14;
-  var lo=-1, hi=15;
-  for(var it=0;it<80;it++){
-    var mid=(lo+hi)/2, H=Math.pow(10,-mid);
-    var fval=Na+H-Kw/H-Ct*Ka/(Ka+H);
-    if(fval>0) lo=mid; else hi=mid;
+function titrationPH(Ca, Va, Cb, Vb, pKa) {
+  var V = Va + Vb, Na = Cb * Vb / V, Ct = Ca * Va / V;
+  var Ka = (pKa === null || pKa === undefined) ? 1e12 : Math.pow(10, -pKa), Kw = 1e-14;
+  var lo = -1, hi = 15;
+  for (var it = 0; it < 80; it++) {
+    var mid = (lo + hi) / 2, H = Math.pow(10, -mid);
+    var fval = Na + H - Kw / H - Ct * Ka / (Ka + H);
+    if (fval > 0) lo = mid; else hi = mid;
   }
-  return (lo+hi)/2;
+  return (lo + hi) / 2;
 }
-//END-CORE
+//END-EXACT-BIGINT-CORE
 
 // ====== CÂN BẰNG PHƯƠNG TRÌNH ======
-function fmtFormula(s){return s.replace(/([A-Za-z\)\]])([0-9]+)/g,'$1<sub>$2</sub>');}
-function renderBalanced(res){
-  var parts=function(names,offset){
-    return names.map(function(n,i){
-      var c=res.coef[offset+i];
-      return (c>1?'<span class="coef">'+c+'</span> ':'')+fmtFormula(n);
+function fmtFormula(s) {
+  return s.replace(/([A-Za-z\)\]])([0-9]+)/g, '$1<sub>$2</sub>')
+          .replace(/([0-9]*[\+\-])$/, '<sup>$1</sup>');
+}
+function renderBalanced(res) {
+  var parts = function(names, offset) {
+    return names.map(function(n, i) {
+      var c = res.coef[offset + i];
+      return (c > 1n ? '<span class="coef">' + c.toString() + '</span> ' : '') + fmtFormula(n);
     }).join(' + ');
   };
-  var html=parts(res.L,0)+' &rarr; '+parts(res.R,res.L.length);
-  var tbl='<table class="atoms"><tr><th>Nguyên tố</th><th>Vế trái</th><th>Vế phải</th><th></th></tr>';
-  res.els.forEach(function(el){
-    var l=0,r=0;
-    res.comps.forEach(function(c,j){
-      var n=(c[el]||0)*res.coef[j];
-      if(j<res.L.length) l+=n; else r+=n;
+  var html = parts(res.L, 0) + ' &rarr; ' + parts(res.R, res.L.length);
+  var tbl = '<table class="atoms"><tr><th>Thành phần</th><th>Vế trái</th><th>Vế phải</th><th></th></tr>';
+  res.els.forEach(function(el) {
+    var dispName = el === 'e' ? 'Điện tích (charge)' : el;
+    var l = 0n, r = 0n;
+    res.comps.forEach(function(c, j) {
+      var n = (c[el] || 0n) * res.coef[j];
+      if (j < res.L.length) l += n; else r += n;
     });
-    tbl+='<tr><td>'+el+'</td><td>'+l+'</td><td>'+r+'</td><td class="ok">'+(l===r?'✓':'✗')+'</td></tr>';
+    tbl += '<tr><td>' + dispName + '</td><td>' + l.toString() + '</td><td>' + r.toString() + '</td><td class="ok">' + (l === r ? '✓' : '✗') + '</td></tr>';
   });
-  return html+'<div style="font-size:14px;color:var(--muted);margin-top:10px">Kiểm tra số nguyên tử:</div>'+tbl+'</table>';
+  return html + '<div style="font-size:14px;color:var(--muted);margin-top:10px">Kiểm tra bảo toàn nguyên tử & điện tích:</div>' + tbl + '</table>';
 }
-var eqIn=document.getElementById('eq'), eqOut=document.getElementById('eqOut');
-function runBalance(){
-  try{
-    var res=balance(eqIn.value);
-    eqOut.className='result'; eqOut.innerHTML=renderBalanced(res);
-  }catch(e){
-    eqOut.className='result err'; eqOut.textContent=e.message;
+var eqIn = document.getElementById('eq'), eqOut = document.getElementById('eqOut');
+function runBalance() {
+  try {
+    var res = balance(eqIn.value);
+    eqOut.className = 'result'; eqOut.innerHTML = renderBalanced(res);
+  } catch (e) {
+    eqOut.className = 'result err'; eqOut.textContent = e.message;
   }
 }
-document.getElementById('eqBtn').addEventListener('click',runBalance);
-eqIn.addEventListener('keydown',function(e){if(e.key==='Enter')runBalance();});
+document.getElementById('eqBtn').addEventListener('click', runBalance);
+eqIn.addEventListener('keydown', function(e) { if (e.key === 'Enter') runBalance(); });
+
 [
-  'Fe + O2 -> Fe2O3',
-  'C3H8 + O2 -> CO2 + H2O',
-  'Al + H2SO4 -> Al2(SO4)3 + H2',
-  'Ca(OH)2 + H3PO4 -> Ca3(PO4)2 + H2O',
-  'KMnO4 + HCl -> KCl + MnCl2 + Cl2 + H2O',
-  'Fe + HNO3 -> Fe(NO3)3 + NO + H2O',
-  'FeS2 + O2 -> Fe2O3 + SO2'
-].forEach(function(ex){
-  var b=document.createElement('button'); b.className='chip'; b.type='button'; b.textContent=ex.replace('->','→');
-  b.addEventListener('click',function(){eqIn.value=ex;runBalance();});
+  '[Cr(N2H4CO)6]4[Cr(CN)6]3 + KMnO4 + H2SO4 -> K2Cr2O7 + MnSO4 + CO2 + KNO3 + K2SO4 + H2O',
+  'C2H5OH + O2 -> CO2 + H2O',
+  'MnO4- + Fe2+ + H+ -> Mn2+ + Fe3+ + H2O',
+  'Cu + HNO3 -> Cu(NO3)2 + NO2 + H2O',
+  'Al + H2SO4 -> Al2(SO4)3 + H2'
+].forEach(function(ex) {
+  var b = document.createElement('button'); b.className = 'chip'; b.type = 'button'; b.textContent = ex.replace('->', '→');
+  b.addEventListener('click', function() { eqIn.value = ex; runBalance(); });
   document.getElementById('eqChips').appendChild(b);
 });
 runBalance();
 
 // ====== CHUẨN ĐỘ ======
-var el=function(id){return document.getElementById(id);};
-var canvas=el('curve'), ctx=canvas.getContext('2d');
-var timer=null;
+var el = function(id) { return document.getElementById(id); };
+var canvas = el('curve'), ctx = canvas.getContext('2d');
+var timer = null;
 
-function params(){
-  var pk=el('acid').value;
+function params() {
+  var pk = el('acid').value;
   return {
-    Ca:Math.max(0.001,parseFloat(el('Ca').value)||0.1),
-    Va:Math.max(1,parseFloat(el('Va').value)||25),
-    Cb:Math.max(0.001,parseFloat(el('Cb').value)||0.1),
-    pKa:pk===''?null:parseFloat(pk)
+    Ca: Math.max(0.001, parseFloat(el('Ca').value) || 0.1),
+    Va: Math.max(1, parseFloat(el('Va').value) || 25),
+    Cb: Math.max(0.001, parseFloat(el('Cb').value) || 0.1),
+    pKa: pk === '' ? null : parseFloat(pk)
   };
 }
-function lerp(a,b,t){return a+(b-a)*t;}
-function mix(c1,c2,t){t=Math.max(0,Math.min(1,t));return [lerp(c1[0],c2[0],t),lerp(c1[1],c2[1],t),lerp(c1[2],c2[2],t)];}
-function indicatorColor(kind,pH){
+function lerp(a, b, t) { return a + (b - a) * t; }
+function mix(c1, c2, t) { t = Math.max(0, Math.min(1, t)); return [lerp(c1[0], c2[0], t), lerp(c1[1], c2[1], t), lerp(c1[2], c2[2], t)]; }
+function indicatorColor(kind, pH) {
   var c;
-  if(kind==='pp') c=mix([226,240,246],[233,30,140],(pH-8.2)/(10-8.2));
-  else if(kind==='mo') c=mix([230,60,50],[250,200,40],(pH-3.1)/(4.4-3.1));
-  else { var t=(pH-6.0)/(7.6-6.0); c=t<.5?mix([245,215,60],[110,180,90],t*2):mix([110,180,90],[50,110,210],(t-.5)*2); }
-  return 'rgb('+c.map(Math.round).join(',')+')';
+  if (kind === 'pp') c = mix([226, 240, 246], [233, 30, 140], (pH - 8.2) / (10 - 8.2));
+  else if (kind === 'mo') c = mix([230, 60, 50], [250, 200, 40], (pH - 3.1) / (4.4 - 3.1));
+  else { var t = (pH - 6.0) / (7.6 - 6.0); c = t < .5 ? mix([245, 215, 60], [110, 180, 90], t * 2) : mix([110, 180, 90], [50, 110, 210], (t - .5) * 2); }
+  return 'rgb(' + c.map(Math.round).join(',') + ')';
 }
-function resizeCanvas(){
-  var dpr=window.devicePixelRatio||1, w=canvas.clientWidth, h=canvas.clientHeight;
-  canvas.width=Math.round(w*dpr); canvas.height=Math.round(h*dpr);
-  ctx.setTransform(dpr,0,0,dpr,0,0);
+function resizeCanvas() {
+  var dpr = window.devicePixelRatio || 1, w = canvas.clientWidth, h = canvas.clientHeight;
+  canvas.width = Math.round(w * dpr); canvas.height = Math.round(h * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
-function draw(){
-  var p=params(), Veq=p.Ca*p.Va/p.Cb, Vmax=Veq*2;
-  var slider=el('Vb'); slider.max=Vmax.toFixed(2);
-  if(parseFloat(slider.value)>Vmax) slider.value=Vmax;
-  var Vb=parseFloat(slider.value)||0;
-  var pH=titrationPH(p.Ca,p.Va,p.Cb,Vb,p.pKa);
+function draw() {
+  var p = params(), Veq = p.Ca * p.Va / p.Cb, Vmax = Veq * 2;
+  var slider = el('Vb'); slider.max = Vmax.toFixed(2);
+  if (parseFloat(slider.value) > Vmax) slider.value = Vmax;
+  var Vb = parseFloat(slider.value) || 0;
+  var pH = titrationPH(p.Ca, p.Va, p.Cb, Vb, p.pKa);
 
-  el('VbLabel').textContent=Vb.toFixed(2);
-  el('pH').textContent=pH.toFixed(2);
-  el('Veq').textContent=Veq.toFixed(2)+' mL';
+  el('VbLabel').textContent = Vb.toFixed(2);
+  el('pH').textContent = pH.toFixed(2);
+  el('Veq').textContent = Veq.toFixed(2) + ' mL';
   var st;
-  if(Math.abs(Vb-Veq)<Veq*0.01) st='Gần điểm tương đương: pH thay đổi rất nhanh chỉ với một giọt.';
-  else if(Vb<Veq) st='Trước điểm tương đương: còn axit dư.';
-  else st='Sau điểm tương đương: NaOH dư, dung dịch có tính bazơ.';
-  el('tStatus').textContent=st;
+  if (Math.abs(Vb - Veq) < Veq * 0.01) st = 'Gần điểm tương đương: pH thay đổi rất nhanh chỉ với một giọt.';
+  else if (Vb < Veq) st = 'Trước điểm tương đương: còn axit dư.';
+  else st = 'Sau điểm tương đương: NaOH dư, dung dịch có tính bazơ.';
+  el('tStatus').textContent = st;
 
-  var liquid=el('liquid'), frac1=Vb/Vmax, top=lerp(78,62,frac1);
-  liquid.setAttribute('y',top); liquid.setAttribute('height',130-top);
-  liquid.setAttribute('fill',indicatorColor(el('ind').value,pH));
+  var liquid = el('liquid'), frac1 = Vb / Vmax, top = lerp(78, 62, frac1);
+  liquid.setAttribute('y', top); liquid.setAttribute('height', 130 - top);
+  liquid.setAttribute('fill', indicatorColor(el('ind').value, pH));
 
-  var W=canvas.clientWidth,H=canvas.clientHeight, L=44,R=14,T=14,B=34, pw=W-L-R, ph=H-T-B;
-  ctx.clearRect(0,0,W,H);
-  ctx.font='12px system-ui,sans-serif'; ctx.fillStyle='#5b726d'; ctx.strokeStyle='#e3eeeb'; ctx.lineWidth=1;
-  for(var y=0;y<=14;y+=2){
-    var py=T+ph*(1-y/14); ctx.beginPath(); ctx.moveTo(L,py); ctx.lineTo(W-R,py); ctx.stroke();
-    ctx.textAlign='right'; ctx.fillText(y,L-6,py+4);
+  var W = canvas.clientWidth, H = canvas.clientHeight, L = 44, R = 14, T = 14, B = 34, pw = W - L - R, ph = H - T - B;
+  ctx.clearRect(0, 0, W, H);
+  ctx.font = '12px system-ui,sans-serif'; ctx.fillStyle = '#5b726d'; ctx.strokeStyle = '#e3eeeb'; ctx.lineWidth = 1;
+  for (var y = 0; y <= 14; y += 2) {
+    var py = T + ph * (1 - y / 14); ctx.beginPath(); ctx.moveTo(L, py); ctx.lineTo(W - R, py); ctx.stroke();
+    ctx.textAlign = 'right'; ctx.fillText(y, L - 6, py + 4);
   }
-  ctx.textAlign='center';
-  for(var i=0;i<=4;i++){
-    var v=Vmax*i/4, px=L+pw*i/4; ctx.fillText(v.toFixed(1),px,H-14);
+  ctx.textAlign = 'center';
+  for (var i = 0; i <= 4; i++) {
+    var v = Vmax * i / 4, px = L + pw * i / 4; ctx.fillText(v.toFixed(1), px, H - 14);
   }
-  ctx.fillText('V NaOH (mL)',L+pw/2,H-1);
-  ctx.save(); ctx.translate(11,T+ph/2); ctx.rotate(-Math.PI/2); ctx.fillText('pH',0,0); ctx.restore();
+  ctx.fillText('V NaOH (mL)', L + pw / 2, H - 1);
+  ctx.save(); ctx.translate(11, T + ph / 2); ctx.rotate(-Math.PI / 2); ctx.fillText('pH', 0, 0); ctx.restore();
 
-  var eqx=L+pw*0.5; ctx.setLineDash([5,4]); ctx.strokeStyle='#f59e0b'; ctx.beginPath(); ctx.moveTo(eqx,T); ctx.lineTo(eqx,T+ph); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='#b97709'; ctx.fillText('tương đương',eqx,T+11);
+  var eqx = L + pw * 0.5; ctx.setLineDash([5, 4]); ctx.strokeStyle = '#f59e0b'; ctx.beginPath(); ctx.moveTo(eqx, T); ctx.lineTo(eqx, T + ph); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle = '#b97709'; ctx.fillText('tương đương', eqx, T + 11);
 
-  ctx.strokeStyle='#0f9d84'; ctx.lineWidth=2.5; ctx.beginPath();
-  var N=240;
-  for(var k=0;k<=N;k++){
-    var v2=Vmax*k/N, ph2=titrationPH(p.Ca,p.Va,p.Cb,v2,p.pKa);
-    var x=L+pw*k/N, yy=T+ph*(1-Math.max(0,Math.min(14,ph2))/14);
-    if(k===0)ctx.moveTo(x,yy); else ctx.lineTo(x,yy);
+  ctx.strokeStyle = '#0f9d84'; ctx.lineWidth = 2.5; ctx.beginPath();
+  var N = 240;
+  for (var k = 0; k <= N; k++) {
+    var v2 = Vmax * k / N, ph2 = titrationPH(p.Ca, p.Va, p.Cb, v2, p.pKa);
+    var x = L + pw * k / N, yy = T + ph * (1 - Math.max(0, Math.min(14, ph2)) / 14);
+    if (k === 0) ctx.moveTo(x, yy); else ctx.lineTo(x, yy);
   }
   ctx.stroke();
-  var cx=L+pw*(Vb/Vmax), cy=T+ph*(1-Math.max(0,Math.min(14,pH))/14);
-  ctx.fillStyle='#fff'; ctx.strokeStyle='#d64545'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(cx,cy,6,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  var cx = L + pw * (Vb / Vmax), cy = T + ph * (1 - Math.max(0, Math.min(14, pH)) / 14);
+  ctx.fillStyle = '#fff'; ctx.strokeStyle = '#d64545'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(cx, cy, 6, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
 }
-function stopAuto(){ if(timer){clearInterval(timer);timer=null;} el('auto').textContent='▶ Tự động'; }
-['acid','Ca','Va','Cb','ind'].forEach(function(id){el(id).addEventListener('input',function(){stopAuto();draw();});});
-el('Vb').addEventListener('input',function(){stopAuto();draw();});
-el('drop').addEventListener('click',function(){
-  stopAuto(); var s=el('Vb'); s.value=Math.min(parseFloat(s.max),parseFloat(s.value)+0.5); draw();
+function stopAuto() { if (timer) { clearInterval(timer); timer = null; } el('auto').textContent = '▶ Tự động'; }
+['acid', 'Ca', 'Va', 'Cb', 'ind'].forEach(function(id) { el(id).addEventListener('input', function() { stopAuto(); draw(); }); });
+el('Vb').addEventListener('input', function() { stopAuto(); draw(); });
+el('drop').addEventListener('click', function() {
+  stopAuto(); var s = el('Vb'); s.value = Math.min(parseFloat(s.max), parseFloat(s.value) + 0.5); draw();
 });
-el('reset').addEventListener('click',function(){stopAuto();el('Vb').value=0;draw();});
-el('auto').addEventListener('click',function(){
-  if(timer){stopAuto();return;}
-  var s=el('Vb'); if(parseFloat(s.value)>=parseFloat(s.max)) s.value=0;
-  el('auto').textContent='⏸ Dừng';
-  timer=setInterval(function(){
-    var max=parseFloat(s.max), step=max/160;
-    s.value=Math.min(max,parseFloat(s.value)+step); draw();
-    if(parseFloat(s.value)>=max) stopAuto();
-  },40);
+el('reset').addEventListener('click', function() { stopAuto(); el('Vb').value = 0; draw(); });
+el('auto').addEventListener('click', function() {
+  if (timer) { stopAuto(); return; }
+  var s = el('Vb'); if (parseFloat(s.value) >= parseFloat(s.max)) s.value = 0;
+  el('auto').textContent = '⏸ Dừng';
+  timer = setInterval(function() {
+    var max = parseFloat(s.max), step = max / 160;
+    s.value = Math.min(max, parseFloat(s.value) + step); draw();
+    if (parseFloat(s.value) >= max) stopAuto();
+  }, 40);
 });
-window.addEventListener('resize',function(){resizeCanvas();draw();});
+window.addEventListener('resize', function() { resizeCanvas(); draw(); });
 resizeCanvas(); draw();
 </script>
 </body>
