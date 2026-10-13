@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HoaLab – Mô phỏng Hóa học trên trình duyệt</title>
+<meta name="description" content="Cân bằng phương trình hóa học và mô phỏng chuẩn độ axit–bazơ miễn phí, chạy ngay trên điện thoại hoặc máy tính.">
+<style>
+:root{
+  --bg:#f6faf9; --card:#ffffff; --ink:#12302b; --muted:#5b726d; --line:#dbe7e4;
+  --brand:#0f9d84; --brand-dark:#0a7562; --accent:#f59e0b; --danger:#d64545;
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+a{color:var(--brand-dark)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header.nav{position:sticky;top:0;z-index:10;background:rgba(246,250,249,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-weight:800;font-size:20px;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo span.dot{width:26px;height:26px;border-radius:8px;background:var(--brand);display:inline-grid;place-items:center;color:#fff;font-size:14px}
+.nav nav{display:flex;gap:18px;align-items:center}
+.nav nav a{text-decoration:none;color:var(--muted);font-weight:600;font-size:15px}
+.nav nav a:hover{color:var(--ink)}
+.btn{display:inline-block;border:0;cursor:pointer;font:inherit;font-weight:700;border-radius:10px;padding:10px 18px;background:var(--brand);color:#fff;text-decoration:none}
+.btn:hover{background:var(--brand-dark)}
+.btn.ghost{background:transparent;color:var(--brand-dark);border:1.5px solid var(--brand)}
+.btn.ghost:hover{background:#e6f5f2}
+.btn.small{padding:6px 12px;font-size:14px}
+.hero{padding:64px 0 40px;text-align:center}
+.hero h1{font-size:clamp(30px,5vw,48px);line-height:1.15;margin:0 0 14px}
+.hero h1 em{font-style:normal;color:var(--brand)}
+.hero p{max-width:620px;margin:0 auto 24px;color:var(--muted);font-size:18px}
+.hero .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.pill{display:inline-block;background:#e6f5f2;color:var(--brand-dark);font-weight:700;font-size:13px;padding:4px 12px;border-radius:99px;margin-bottom:16px}
+section{padding:44px 0}
+section h2{font-size:28px;margin:0 0 6px}
+section .sub{color:var(--muted);margin:0 0 24px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.card h3{margin:0 0 6px;font-size:18px}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.ico{font-size:26px;margin-bottom:8px}
+.ad{border:1.5px dashed #c7d6d2;border-radius:10px;color:#92a7a2;text-align:center;font-size:13px;padding:26px 10px;margin:22px 0;background:repeating-linear-gradient(45deg,#fbfdfc,#fbfdfc 10px,#f3f8f7 10px,#f3f8f7 20px)}
+/* tools */
+.tool{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-bottom:22px}
+.tool h3{margin:0 0 4px;font-size:22px}
+.tool .hint{color:var(--muted);font-size:14px;margin:0 0 14px}
+input[type=text],input[type=number],select{font:inherit;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);width:100%}
+input:focus,select:focus{outline:2px solid #9be0d3;border-color:var(--brand)}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1 1 auto}
+.row>.btn{flex:0 0 auto}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.chip{font:inherit;font-size:13px;background:#eef6f4;border:1px solid var(--line);border-radius:99px;padding:4px 10px;cursor:pointer;color:var(--ink)}
+.chip:hover{background:#dff0ec}
+.result{margin-top:16px;padding:16px;border-radius:12px;background:#f0faf8;border:1px solid #c4e8e1;font-size:20px;overflow-x:auto}
+.result.err{background:#fff3f3;border-color:#f3c6c6;color:#9b2b2b;font-size:16px}
+.result sub{font-size:.7em}
+.coef{color:var(--brand-dark);font-weight:800}
+table.atoms{border-collapse:collapse;margin-top:12px;font-size:14px;width:100%;max-width:340px}
+table.atoms th,table.atoms td{border-bottom:1px solid var(--line);padding:5px 8px;text-align:center}
+table.atoms th{color:var(--muted);font-weight:600}
+.ok{color:var(--brand-dark);font-weight:700}
+.badge{display:inline-block;vertical-align:middle;background:#fff4dc;color:#a15f00;border:1px solid #f3d9a0;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;margin-left:6px}
+table.map{border-collapse:collapse;width:100%;font-size:15px;margin-top:8px}
+table.map th,table.map td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left}
+table.map th{color:var(--muted);font-weight:600;font-size:13px}
+.sim{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px;align-items:start}
+@media(max-width:820px){.sim{grid-template-columns:1fr}.nav nav a.hide-m{display:none}}
+canvas{width:100%;height:300px;display:block;background:#fcfefd;border:1px solid var(--line);border-radius:12px}
+.ctrl{display:grid;gap:10px}
+.ctrl label{font-size:13px;font-weight:700;color:var(--muted);display:block;margin-bottom:3px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input[type=range]{width:100%;accent-color:var(--brand)}
+.flaskbox{display:flex;gap:14px;align-items:center}
+.readout{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.readout div{background:#f0faf8;border:1px solid #c4e8e1;border-radius:10px;padding:8px 10px;font-size:13px;color:var(--muted)}
+.readout b{display:block;color:var(--ink);font-size:20px}
+.status{font-size:14px;color:var(--muted);min-height:22px}
+/* plans */
+.plan{position:relative}
+.plan.feat{border:2px solid var(--brand)}
+.plan .price{font-size:28px;font-weight:800;margin:6px 0}
+.plan .price small{font-size:14px;color:var(--muted);font-weight:600}
+.plan ul{padding-left:18px;margin:10px 0 16px;color:var(--muted);font-size:15px}
+.tag{position:absolute;top:-11px;right:16px;background:var(--accent);color:#fff;font-size:12px;font-weight:800;padding:3px 10px;border-radius:99px}
+.survey{background:linear-gradient(135deg,#0f9d84,#0a7562);color:#fff;border-radius:18px;padding:34px;text-align:center}
+.survey h2{margin:0 0 8px}
+.survey p{margin:0 0 18px;opacity:.92}
+.survey .btn{background:#fff;color:var(--brand-dark)}
+footer{padding:30px 0 50px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);margin-top:30px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top"><span class="dot">⚗</span>HoaLab</a>
+    <nav>
+      <a href="#tools" class="hide-m">Công cụ</a>
+      <a href="#curriculum" class="hide-m">Theo chương trình</a>
+      <a href="plans.html" class="hide-m">Gói dịch vụ</a>
+      <a class="btn small" href="#survey">Góp ý 1 phút</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="wrap">
+
+  <div class="hero">
+    <div class="pill">Bản demo · Miễn phí · Dành cho học sinh Việt Nam</div>
+    <h1>Học Hóa bằng cách <em>làm thử</em> ngay trên trình duyệt</h1>
+    <p>Công cụ tiếng Việt, đi theo nội dung Hóa học phổ thông ở Việt Nam. Cân bằng phương trình trong một giây, kéo thanh trượt để xem đường cong chuẩn độ thay đổi. Không cần cài đặt, chạy tốt trên điện thoại.</p>
+    <div class="cta">
+      <a class="btn" href="#tools">Dùng thử ngay</a>
+      <a class="btn ghost" href="#curriculum">Theo chương trình Việt Nam</a>
+    </div>
+  </div>
+
+  <div class="ad" data-ad-slot="top">Vị trí quảng cáo (banner ngang) – gắn mã AdSense ở đây</div>
+
+  <section id="why" style="padding-top:10px">
+    <div class="grid3">
+      <div class="card"><div class="ico">⚡</div><h3>Nhanh và nhẹ</h3><p>Mở lên là dùng, không đăng ký, không tải ứng dụng.</p></div>
+      <div class="card"><div class="ico">🧪</div><h3>Thí nghiệm an toàn</h3><p>Làm lại bao nhiêu lần cũng được, không tốn hóa chất, không nguy hiểm.</p></div>
+      <div class="card"><div class="ico">📱</div><h3>Chạy trên mọi thiết bị</h3><p>Điện thoại, máy tính bảng, máy tính ở trường đều dùng được.</p></div>
+    </div>
+  </section>
+
+  <section id="tools">
+    <h2>Công cụ & mô phỏng</h2>
+    <p class="sub">Hai công cụ đầu tiên. Bạn muốn thêm gì, cho chúng mình biết ở phần góp ý bên dưới.</p>
+
+    <!-- BALANCER -->
+    <div class="tool" id="balancer">
+      <h3>⚖️ Cân bằng phương trình hóa học <span class="badge">Hóa 8 · 10</span></h3>
+      <p class="hint">Nhập phương trình có mũi tên (-&gt;) hoặc dấu =. Hỗ trợ ngoặc như Ca(OH)2, Al2(SO4)3.</p>
+      <div class="row">
+        <input type="text" id="eq" value="Fe + O2 -> Fe2O3" autocomplete="off" spellcheck="false" aria-label="Phương trình hóa học">
+        <button class="btn" id="eqBtn">Cân bằng</button>
+      </div>
+      <div class="chips" id="eqChips"></div>
+      <div id="eqOut" class="result" aria-live="polite"></div>
+    </div>
+
+    <div class="ad" data-ad-slot="mid">Vị trí quảng cáo (giữa trang)</div>
+
+    <!-- TITRATION -->
+    <div class="tool" id="titration">
+      <h3>🧫 Mô phỏng chuẩn độ axit – bazơ <span class="badge">Hóa 11</span></h3>
+      <p class="hint">Chuẩn độ axit bằng dung dịch NaOH. Kéo thanh trượt hoặc bấm nhỏ giọt, quan sát pH và màu chỉ thị.</p>
+      <div class="sim">
+        <div>
+          <canvas id="curve" aria-label="Đường cong chuẩn độ"></canvas>
+          <div class="status" id="tStatus"></div>
+        </div>
+        <div class="ctrl">
+          <div>
+            <label for="acid">Axit trong bình</label>
+            <select id="acid">
+              <option value="">HCl (axit mạnh)</option>
+              <option value="4.76">CH₃COOH (pKa 4,76)</option>
+              <option value="3.75">HCOOH (pKa 3,75)</option>
+              <option value="3.17">HF (pKa 3,17)</option>
+            </select>
+          </div>
+          <div class="two">
+            <div><label for="Ca">Nồng độ axit (M)</label><input type="number" id="Ca" value="0.1" min="0.001" max="2" step="0.01"></div>
+            <div><label for="Va">Thể tích axit (mL)</label><input type="number" id="Va" value="25" min="5" max="100" step="1"></div>
+          </div>
+          <div class="two">
+            <div><label for="Cb">Nồng độ NaOH (M)</label><input type="number" id="Cb" value="0.1" min="0.001" max="2" step="0.01"></div>
+            <div><label for="ind">Chất chỉ thị</label>
+              <select id="ind">
+                <option value="pp">Phenolphtalein</option>
+                <option value="mo">Metyl da cam</option>
+                <option value="bb">Bromthymol xanh</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="Vb">Thể tích NaOH đã nhỏ: <span id="VbLabel">0.00</span> mL</label>
+            <input type="range" id="Vb" min="0" max="50" step="0.05" value="0">
+          </div>
+          <div class="row">
+            <button class="btn small" id="drop">+0,5 mL</button>
+            <button class="btn small ghost" id="auto">▶ Tự động</button>
+            <button class="btn small ghost" id="reset">Đặt lại</button>
+          </div>
+          <div class="flaskbox">
+            <svg id="flask" width="110" height="130" viewBox="0 0 110 130" aria-hidden="true">
+              <defs><clipPath id="fclip"><path d="M40 8 H70 V48 L100 112 Q104 122 92 122 H18 Q6 122 10 112 L40 48 Z"/></clipPath></defs>
+              <rect id="liquid" x="0" y="70" width="110" height="60" fill="#e8f4f8" clip-path="url(#fclip)"/>
+              <path d="M40 8 H70 V48 L100 112 Q104 122 92 122 H18 Q6 122 10 112 L40 48 Z" fill="none" stroke="#6b8a84" stroke-width="3" stroke-linejoin="round"/>
+              <line x1="36" y1="8" x2="74" y2="8" stroke="#6b8a84" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <div class="readout">
+              <div>pH<b id="pH">–</b></div>
+              <div>V tương đương<b id="Veq">–</b></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="curriculum">
+    <h2>Làm theo chương trình Hóa học Việt Nam</h2>
+    <p class="sub">Không phải công cụ nước ngoài dịch sang tiếng Việt. HoaLab được xây quanh những gì học sinh Việt Nam thực sự học và thi.</p>
+    <div class="grid3">
+      <div class="card"><div class="ico">🇻🇳</div><h3>Bằng tiếng Việt, đúng thuật ngữ</h3><p>Danh pháp và tên gọi theo cách sách giáo khoa dùng: natri hiđroxit, phenolphtalein, metyl da cam, chuẩn độ axit – bazơ.</p></div>
+      <div class="card"><div class="ico">📚</div><h3>Bám theo từng lớp</h3><p>Mỗi công cụ ghi rõ dùng cho lớp nào, bài nào, để học sinh và giáo viên tìm đúng thứ cần ôn.</p></div>
+      <div class="card"><div class="ico">📝</div><h3>Ví dụ giống đề thi</h3><p>Các phương trình mẫu là những phản ứng thường gặp trong bài tập và đề kiểm tra, như phản ứng oxi hóa – khử với HNO₃ hay H₂SO₄ đặc.</p></div>
+    </div>
+    <div class="card" style="margin-top:16px;overflow-x:auto">
+      <h3>Công cụ nào dùng cho phần nào</h3>
+      <table class="map">
+        <tr><th>Công cụ</th><th>Lớp</th><th>Nội dung liên quan</th></tr>
+        <tr><td>Cân bằng phương trình</td><td>Hóa 8, 10</td><td>Phương trình hóa học, phản ứng oxi hóa – khử</td></tr>
+        <tr><td>Chuẩn độ axit – bazơ</td><td>Hóa 11</td><td>pH, chuẩn độ dung dịch axit – bazơ, chất chỉ thị</td></tr>
+      </table>
+      <p style="margin-top:10px;font-size:13px">Bảng này theo chương trình giáo dục phổ thông 2018, có thể khác chút tùy bộ sách. Thầy cô thấy chưa đúng, hoặc muốn ưu tiên bài nào, xin góp ý ở phần khảo sát bên dưới.</p>
+    </div>
+  </section>
+
+  <section id="survey">
+    <div class="survey">
+      <h2>Giúp chúng mình làm đúng thứ bạn cần</h2>
+      <p>Khảo sát 1 phút: bạn học (hoặc dạy) lớp mấy, và muốn có thêm mô phỏng cho bài nào?</p>
+      <a class="btn" id="surveyLink" href="#" target="_blank" rel="noopener">Làm khảo sát</a>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© HoaLab · Mô phỏng phục vụ học tập, không thay thế thí nghiệm thực tế.</div>
+    <div><a href="plans.html">Gói dịch vụ</a> · <a href="#top">Lên đầu trang</a></div>
+  </div>
+</footer>
+
+<script>
+// ====== CẤU HÌNH ======
+var SURVEY_URL = "https://forms.gle/THAY_LINK_KHAO_SAT_CUA_BAN";
+document.getElementById('surveyLink').href = SURVEY_URL;
+document.querySelectorAll('[data-survey]').forEach(function(a){ a.href = SURVEY_URL; a.target='_blank'; a.rel='noopener'; });
+
+//BEGIN-CORE
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){var t=a%b;a=b;b=t;}return a;}
+function lcm(a,b){return a/gcd(a,b)*b;}
+function frac(n,d){ if(d===undefined)d=1; if(d<0){n=-n;d=-d;} var g=gcd(n,d)||1; return [n/g,d/g]; }
+function fsub(a,b){return frac(a[0]*b[1]-b[0]*a[1],a[1]*b[1]);}
+function fmul(a,b){return frac(a[0]*b[0],a[1]*b[1]);}
+function fdiv(a,b){return frac(a[0]*b[1],a[1]*b[0]);}
+
+function parseFormula(str){
+  var i=0;
+  function readNum(){var s='';while(i<str.length&&/[0-9]/.test(str[i])){s+=str[i++];}return s?parseInt(s,10):1;}
+  function group(depth){
+    var counts={};
+    while(i<str.length){
+      var c=str[i];
+      if(c==='('||c==='['){
+        i++; var inner=group(depth+1); var n=readNum();
+        for(var k in inner){counts[k]=(counts[k]||0)+inner[k]*n;}
+      } else if(c===')'||c===']'){
+        if(depth===0) throw new Error('Dấu ngoặc đóng thừa trong "'+str+'"');
+        i++; return counts;
+      } else if(/[A-Z]/.test(c)){
+        var el=c; i++;
+        while(i<str.length&&/[a-z]/.test(str[i])){el+=str[i++];}
+        var n2=readNum(); counts[el]=(counts[el]||0)+n2;
+      } else {
+        throw new Error('Ký tự không hợp lệ "'+c+'" trong "'+str+'"');
+      }
+    }
+    if(depth>0) throw new Error('Thiếu dấu ngoặc đóng trong "'+str+'"');
+    return counts;
+  }
+  var r=group(0);
+  if(!Object.keys(r).length) throw new Error('Công thức rỗng');
+  return r;
+}
+
+function balance(eq){
+  var parts=eq.replace(/\s+/g,'').split(/->|=>|→|=/);
+  if(parts.length!==2||!parts[0]||!parts[1]) throw new Error('Cần đúng một mũi tên (->) hoặc dấu = giữa vế trái và vế phải.');
+  function clean(s){return s.split('+').filter(function(x){return x!=='';}).map(function(x){return x.replace(/^[0-9]+/,'');});}
+  var L=clean(parts[0]), R=clean(parts[1]);
+  if(!L.length||!R.length) throw new Error('Mỗi vế cần ít nhất một chất.');
+  var species=L.concat(R), comps=species.map(parseFormula);
+  var set={}; comps.forEach(function(c){Object.keys(c).forEach(function(k){set[k]=1;});});
+  var els=Object.keys(set);
+  els.forEach(function(el){
+    var inL=false,inR=false;
+    comps.forEach(function(c,j){ if(c[el]){ if(j<L.length)inL=true; else inR=true; } });
+    if(!inL||!inR) throw new Error('Nguyên tố '+el+' chỉ xuất hiện ở một vế, không thể cân bằng.');
+  });
+  var m=els.map(function(el){return species.map(function(_,j){return frac((comps[j][el]||0)*(j<L.length?1:-1));});});
+  var rows=m.length, cols=species.length, r=0, pivots=[];
+  for(var c=0;c<cols&&r<rows;c++){
+    var p=-1; for(var k=r;k<rows;k++){ if(m[k][c][0]!==0){p=k;break;} }
+    if(p<0) continue;
+    var tmp=m[r]; m[r]=m[p]; m[p]=tmp;
+    var piv=m[r][c]; m[r]=m[r].map(function(x){return fdiv(x,piv);});
+    for(var k2=0;k2<rows;k2++){
+      if(k2!==r&&m[k2][c][0]!==0){
+        var f=m[k2][c];
+        m[k2]=m[k2].map(function(x,jj){return fsub(x,fmul(f,m[r][jj]));});
+      }
+    }
+    pivots.push(c); r++;
+  }
+  var free=[]; for(var cc=0;cc<cols;cc++){ if(pivots.indexOf(cc)<0) free.push(cc); }
+  if(free.length===0) throw new Error('Không thể cân bằng. Hãy kiểm tra lại công thức các chất.');
+  if(free.length>1) throw new Error('Phương trình có nhiều cách cân bằng khác nhau (các phản ứng có thể gộp lại). Hãy tách thành từng phản ứng riêng.');
+  var fcol=free[0], x=new Array(cols).fill(null).map(function(){return [0,1];});
+  x[fcol]=[1,1];
+  pivots.forEach(function(pc,i){ x[pc]=fsub([0,1],m[i][fcol]); });
+  var L2=1; x.forEach(function(v){L2=lcm(L2,v[1]);});
+  var ints=x.map(function(v){return v[0]*(L2/v[1]);});
+  var g=0; ints.forEach(function(v){g=gcd(g,v);}); ints=ints.map(function(v){return v/g;});
+  if(ints.every(function(v){return v<0;})) ints=ints.map(function(v){return -v;});
+  if(!ints.every(function(v){return v>0;})) throw new Error('Không có nghiệm nguyên dương. Hãy kiểm tra lại công thức hoặc vế phản ứng.');
+  return {L:L,R:R,coef:ints,comps:comps,els:els};
+}
+
+function titrationPH(Ca,Va,Cb,Vb,pKa){
+  var V=Va+Vb, Na=Cb*Vb/V, Ct=Ca*Va/V;
+  var Ka=(pKa===null||pKa===undefined)?1e12:Math.pow(10,-pKa), Kw=1e-14;
+  var lo=-1, hi=15;
+  for(var it=0;it<80;it++){
+    var mid=(lo+hi)/2, H=Math.pow(10,-mid);
+    var fval=Na+H-Kw/H-Ct*Ka/(Ka+H);
+    if(fval>0) lo=mid; else hi=mid;
+  }
+  return (lo+hi)/2;
+}
+//END-CORE
+
+// ====== CÂN BẰNG PHƯƠNG TRÌNH ======
+function fmtFormula(s){return s.replace(/([A-Za-z\)\]])([0-9]+)/g,'$1<sub>$2</sub>');}
+function renderBalanced(res){
+  var parts=function(names,offset){
+    return names.map(function(n,i){
+      var c=res.coef[offset+i];
+      return (c>1?'<span class="coef">'+c+'</span> ':'')+fmtFormula(n);
+    }).join(' + ');
+  };
+  var html=parts(res.L,0)+' &rarr; '+parts(res.R,res.L.length);
+  var tbl='<table class="atoms"><tr><th>Nguyên tố</th><th>Vế trái</th><th>Vế phải</th><th></th></tr>';
+  res.els.forEach(function(el){
+    var l=0,r=0;
+    res.comps.forEach(function(c,j){
+      var n=(c[el]||0)*res.coef[j];
+      if(j<res.L.length) l+=n; else r+=n;
+    });
+    tbl+='<tr><td>'+el+'</td><td>'+l+'</td><td>'+r+'</td><td class="ok">'+(l===r?'✓':'✗')+'</td></tr>';
+  });
+  return html+'<div style="font-size:14px;color:var(--muted);margin-top:10px">Kiểm tra số nguyên tử:</div>'+tbl+'</table>';
+}
+var eqIn=document.getElementById('eq'), eqOut=document.getElementById('eqOut');
+function runBalance(){
+  try{
+    var res=balance(eqIn.value);
+    eqOut.className='result'; eqOut.innerHTML=renderBalanced(res);
+  }catch(e){
+    eqOut.className='result err'; eqOut.textContent=e.message;
+  }
+}
+document.getElementById('eqBtn').addEventListener('click',runBalance);
+eqIn.addEventListener('keydown',function(e){if(e.key==='Enter')runBalance();});
+[
+  'Fe + O2 -> Fe2O3',
+  'C3H8 + O2 -> CO2 + H2O',
+  'Al + H2SO4 -> Al2(SO4)3 + H2',
+  'Ca(OH)2 + H3PO4 -> Ca3(PO4)2 + H2O',
+  'KMnO4 + HCl -> KCl + MnCl2 + Cl2 + H2O',
+  'Fe + HNO3 -> Fe(NO3)3 + NO + H2O',
+  'FeS2 + O2 -> Fe2O3 + SO2'
+].forEach(function(ex){
+  var b=document.createElement('button'); b.className='chip'; b.type='button'; b.textContent=ex.replace('->','→');
+  b.addEventListener('click',function(){eqIn.value=ex;runBalance();});
+  document.getElementById('eqChips').appendChild(b);
+});
+runBalance();
+
+// ====== CHUẨN ĐỘ ======
+var el=function(id){return document.getElementById(id);};
+var canvas=el('curve'), ctx=canvas.getContext('2d');
+var timer=null;
+
+function params(){
+  var pk=el('acid').value;
+  return {
+    Ca:Math.max(0.001,parseFloat(el('Ca').value)||0.1),
+    Va:Math.max(1,parseFloat(el('Va').value)||25),
+    Cb:Math.max(0.001,parseFloat(el('Cb').value)||0.1),
+    pKa:pk===''?null:parseFloat(pk)
+  };
+}
+function lerp(a,b,t){return a+(b-a)*t;}
+function mix(c1,c2,t){t=Math.max(0,Math.min(1,t));return [lerp(c1[0],c2[0],t),lerp(c1[1],c2[1],t),lerp(c1[2],c2[2],t)];}
+function indicatorColor(kind,pH){
+  var c;
+  if(kind==='pp') c=mix([226,240,246],[233,30,140],(pH-8.2)/(10-8.2));
+  else if(kind==='mo') c=mix([230,60,50],[250,200,40],(pH-3.1)/(4.4-3.1));
+  else { var t=(pH-6.0)/(7.6-6.0); c=t<.5?mix([245,215,60],[110,180,90],t*2):mix([110,180,90],[50,110,210],(t-.5)*2); }
+  return 'rgb('+c.map(Math.round).join(',')+')';
+}
+function resizeCanvas(){
+  var dpr=window.devicePixelRatio||1, w=canvas.clientWidth, h=canvas.clientHeight;
+  canvas.width=Math.round(w*dpr); canvas.height=Math.round(h*dpr);
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+function draw(){
+  var p=params(), Veq=p.Ca*p.Va/p.Cb, Vmax=Veq*2;
+  var slider=el('Vb'); slider.max=Vmax.toFixed(2);
+  if(parseFloat(slider.value)>Vmax) slider.value=Vmax;
+  var Vb=parseFloat(slider.value)||0;
+  var pH=titrationPH(p.Ca,p.Va,p.Cb,Vb,p.pKa);
+
+  el('VbLabel').textContent=Vb.toFixed(2);
+  el('pH').textContent=pH.toFixed(2);
+  el('Veq').textContent=Veq.toFixed(2)+' mL';
+  var st;
+  if(Math.abs(Vb-Veq)<Veq*0.01) st='Gần điểm tương đương: pH thay đổi rất nhanh chỉ với một giọt.';
+  else if(Vb<Veq) st='Trước điểm tương đương: còn axit dư.';
+  else st='Sau điểm tương đương: NaOH dư, dung dịch có tính bazơ.';
+  el('tStatus').textContent=st;
+
+  var liquid=el('liquid'), frac1=Vb/Vmax, top=lerp(78,62,frac1);
+  liquid.setAttribute('y',top); liquid.setAttribute('height',130-top);
+  liquid.setAttribute('fill',indicatorColor(el('ind').value,pH));
+
+  var W=canvas.clientWidth,H=canvas.clientHeight, L=44,R=14,T=14,B=34, pw=W-L-R, ph=H-T-B;
+  ctx.clearRect(0,0,W,H);
+  ctx.font='12px system-ui,sans-serif'; ctx.fillStyle='#5b726d'; ctx.strokeStyle='#e3eeeb'; ctx.lineWidth=1;
+  for(var y=0;y<=14;y+=2){
+    var py=T+ph*(1-y/14); ctx.beginPath(); ctx.moveTo(L,py); ctx.lineTo(W-R,py); ctx.stroke();
+    ctx.textAlign='right'; ctx.fillText(y,L-6,py+4);
+  }
+  ctx.textAlign='center';
+  for(var i=0;i<=4;i++){
+    var v=Vmax*i/4, px=L+pw*i/4; ctx.fillText(v.toFixed(1),px,H-14);
+  }
+  ctx.fillText('V NaOH (mL)',L+pw/2,H-1);
+  ctx.save(); ctx.translate(11,T+ph/2); ctx.rotate(-Math.PI/2); ctx.fillText('pH',0,0); ctx.restore();
+
+  var eqx=L+pw*0.5; ctx.setLineDash([5,4]); ctx.strokeStyle='#f59e0b'; ctx.beginPath(); ctx.moveTo(eqx,T); ctx.lineTo(eqx,T+ph); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='#b97709'; ctx.fillText('tương đương',eqx,T+11);
+
+  ctx.strokeStyle='#0f9d84'; ctx.lineWidth=2.5; ctx.beginPath();
+  var N=240;
+  for(var k=0;k<=N;k++){
+    var v2=Vmax*k/N, ph2=titrationPH(p.Ca,p.Va,p.Cb,v2,p.pKa);
+    var x=L+pw*k/N, yy=T+ph*(1-Math.max(0,Math.min(14,ph2))/14);
+    if(k===0)ctx.moveTo(x,yy); else ctx.lineTo(x,yy);
+  }
+  ctx.stroke();
+  var cx=L+pw*(Vb/Vmax), cy=T+ph*(1-Math.max(0,Math.min(14,pH))/14);
+  ctx.fillStyle='#fff'; ctx.strokeStyle='#d64545'; ctx.lineWidth=3; ctx.beginPath(); ctx.arc(cx,cy,6,0,Math.PI*2); ctx.fill(); ctx.stroke();
+}
+function stopAuto(){ if(timer){clearInterval(timer);timer=null;} el('auto').textContent='▶ Tự động'; }
+['acid','Ca','Va','Cb','ind'].forEach(function(id){el(id).addEventListener('input',function(){stopAuto();draw();});});
+el('Vb').addEventListener('input',function(){stopAuto();draw();});
+el('drop').addEventListener('click',function(){
+  stopAuto(); var s=el('Vb'); s.value=Math.min(parseFloat(s.max),parseFloat(s.value)+0.5); draw();
+});
+el('reset').addEventListener('click',function(){stopAuto();el('Vb').value=0;draw();});
+el('auto').addEventListener('click',function(){
+  if(timer){stopAuto();return;}
+  var s=el('Vb'); if(parseFloat(s.value)>=parseFloat(s.max)) s.value=0;
+  el('auto').textContent='⏸ Dừng';
+  timer=setInterval(function(){
+    var max=parseFloat(s.max), step=max/160;
+    s.value=Math.min(max,parseFloat(s.value)+step); draw();
+    if(parseFloat(s.value)>=max) stopAuto();
+  },40);
+});
+window.addEventListener('resize',function(){resizeCanvas();draw();});
+resizeCanvas(); draw();
+</script>
+</body>
+</html>
