@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phản ứng &amp; tính toán – Subgeneric</title>
+<meta name="description" content="Cân bằng phương trình, khối lượng mol, tính toán theo phương trình, chất giới hạn và hiệu suất.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1a2b28; --muted:#5b726d; --line:#dbe7e4; --bg:#fff;
+  --accent:#0a7562; --accent-hover:#085c4d; --soft:#f6faf9; --code:#f4f7f6;
+  --warn:#8a6008; --warn-bg:#fff8e6; --err:#8a1f1f; --err-bg:#fff0f0;
+  --font:"Be Vietnam Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--font);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+}
+button,input,select,textarea{font-family:var(--font)}
+a{color:var(--accent)}
+.wrap{max-width:820px;margin:0 auto;padding:0 22px}
+
+header{border-bottom:1px solid var(--line);padding:16px 0}
+header .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
+header .name{font-weight:700;font-size:18px;letter-spacing:-.01em;text-decoration:none;color:var(--ink)}
+header nav a{color:var(--muted);text-decoration:none;margin-left:18px;font-size:15px;font-weight:500}
+header nav a:hover,header nav a[aria-current]{color:var(--ink);text-decoration:underline}
+
+h1{font-size:28px;line-height:1.25;margin:36px 0 8px;font-weight:700;letter-spacing:-.015em}
+h2{font-size:22px;margin:0 0 10px;font-weight:700;letter-spacing:-.01em}
+h3{font-size:17px;margin:22px 0 8px;font-weight:700}
+p{margin:0 0 14px}
+.intro{color:var(--muted);margin-bottom:24px}
+
+.tool{border:1px solid var(--line);border-radius:6px;padding:22px;margin:18px 0;scroll-margin-top:20px}
+.tool h3{margin-top:0}
+.hint{color:var(--muted);font-size:14px;margin:0 0 14px}
+code{background:var(--code);padding:1px 6px;border-radius:3px;font-size:14px}
+
+label{display:block;font-size:13px;color:var(--muted);margin-bottom:4px;font-weight:500}
+input[type=text],input[type=number],select{
+  font:inherit;font-size:15px;padding:8px 10px;border:1px solid var(--line);
+  border-radius:4px;background:#fff;color:var(--ink);width:100%;
+}
+input:focus,select:focus{outline:2px solid #b8e0d6;border-color:var(--accent)}
+
+button{
+  font:inherit;font-size:15px;font-weight:600;padding:8px 16px;
+  border:1px solid var(--accent);background:var(--accent);color:#fff;
+  border-radius:4px;cursor:pointer;
+}
+button:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
+
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row>*{flex:1 1 auto}
+.row>button{flex:0 0 auto}
+
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chip{
+  font:inherit;font-size:13px;font-weight:500;
+  padding:3px 10px;border:1px solid var(--line);background:#fafbfa;
+  border-radius:3px;cursor:pointer;color:var(--ink);
+}
+.chip:hover{background:#eef3f1}
+
+.result{
+  margin-top:14px;padding:14px 16px;background:var(--code);
+  border-radius:4px;font-size:16px;overflow-x:auto;word-break:break-word;
+  line-height:1.7;
+}
+.result.err{background:var(--err-bg);color:var(--err)}
+.result sub{font-size:.72em}
+.result sup{font-size:.72em}
+.coef{color:var(--accent);font-weight:700}
+
+table{border-collapse:collapse;width:100%;font-size:15px;margin-top:10px}
+th,td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left}
+th{color:var(--muted);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+table.atoms{max-width:420px;margin-top:12px;font-size:14px}
+table.atoms th,table.atoms td{text-align:center;padding:5px 8px}
+table.atoms th{text-transform:none;letter-spacing:0;font-size:12px}
+table.data{max-width:640px;font-size:14px}
+table.data th,table.data td{padding:6px 10px}
+table.data td.num{text-align:right;font-variant-numeric:tabular-nums}
+table.data tr.lim td{background:var(--warn-bg)}
+table.data tr.lim td:first-child::before{content:"★ ";color:var(--warn)}
+.ok{color:var(--accent);font-weight:700}
+
+details.species{margin-top:12px}
+details.species summary{
+  cursor:pointer;font-size:14px;color:var(--muted);
+  padding:6px 0;user-select:none;
+}
+details.species summary:hover{color:var(--ink)}
+details.species table{margin-top:6px}
+
+.inline-form{display:grid;gap:10px;margin-top:12px}
+.inline-form .cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.inline-form .cols-3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+@media(max-width:620px){.inline-form .cols,.inline-form .cols-3{grid-template-columns:1fr}}
+
+.nav-tools{
+  display:flex;gap:6px;flex-wrap:wrap;margin:18px 0 6px;font-size:14px;
+}
+.nav-tools a{
+  padding:4px 10px;border:1px solid var(--line);border-radius:3px;
+  text-decoration:none;color:var(--muted);
+}
+.nav-tools a:hover{color:var(--ink);border-color:var(--accent)}
+
+footer{
+  border-top:1px solid var(--line);margin-top:50px;padding:22px 0 40px;
+  color:var(--muted);font-size:14px;
+}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="name" href="index.html">Subgeneric</a>
+    <nav>
+      <a href="reactions.html" aria-current="page">Phản ứng</a>
+      <a href="titration.html">Chuẩn độ</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <h1>Phản ứng &amp; tính toán</h1>
+  <p class="intro">
+    Bốn công cụ dùng chung một engine cân bằng phương trình. Nhập phương trình,
+    công cụ tự cân bằng rồi tính khối lượng mol, số mol, khối lượng và thể tích khí.
+  </p>
+
+  <nav class="nav-tools" aria-label="Mục lục công cụ">
+    <a href="#tool1">1. Cân bằng</a>
+    <a href="#tool2">2. Khối lượng mol</a>
+    <a href="#tool3">3. Tính theo phương trình</a>
+    <a href="#tool4">4. Chất giới hạn &amp; hiệu suất</a>
+  </nav>
+
+  <!-- ============ 1. CÂN BẰNG ============ -->
+  <section class="tool" id="tool1">
+    <h3>1. Cân bằng phương trình hóa học</h3>
+    <p class="hint">
+      Nhập phương trình với dấu <code>-&gt;</code> hoặc <code>=</code> giữa hai vế.
+      Hỗ trợ hợp chất hữu cơ, ion và phức chất có ngoặc lồng nhau.
+    </p>
+    <div class="row">
+      <input type="text" id="eq" value="[Cr(N2H4CO)6]4[Cr(CN)6]3 + KMnO4 + H2SO4 -> K2Cr2O7 + MnSO4 + CO2 + KNO3 + K2SO4 + H2O" autocomplete="off" spellcheck="false">
+      <button id="eqBtn">Cân bằng</button>
+    </div>
+    <div class="chips" id="eqChips"></div>
+    <div id="eqOut" class="result" aria-live="polite"></div>
+  </section>
+
+  <!-- ============ 2. KHỐI LƯỢNG MOL ============ -->
+  <section class="tool" id="tool2">
+    <h3>2. Khối lượng mol &amp; phần trăm khối lượng</h3>
+    <p class="hint">
+      Nhập công thức hóa học (hỗ trợ ion, ngoặc, và tinh thể ngậm nước như
+      <code>CuSO4.5H2O</code>). Kết quả là khối lượng mol và % khối lượng từng nguyên tố.
+    </p>
+    <div class="row">
+      <input type="text" id="mmIn" value="CuSO4.5H2O" autocomplete="off" spellcheck="false">
+      <button id="mmBtn">Tính</button>
+    </div>
+    <div class="chips" id="mmChips"></div>
+    <div id="mmOut" class="result" aria-live="polite"></div>
+  </section>
+
+  <!-- ============ 3. TÍNH THEO PHƯƠNG TRÌNH ============ -->
+  <section class="tool" id="tool3">
+    <h3>3. Tính toán theo phương trình hóa học</h3>
+    <p class="hint">
+      Nhập phương trình (đã cân bằng hoặc chưa — công cụ sẽ tự cân bằng),
+      chọn chất đã biết và lượng của nó, rồi xem khối lượng và số mol của
+      tất cả các chất còn lại.
+    </p>
+    <div class="inline-form">
+      <div>
+        <label for="stEq">Phương trình hóa học</label>
+        <input type="text" id="stEq" value="Fe + 2HCl -> FeCl2 + H2" autocomplete="off" spellcheck="false">
+      </div>
+      <div class="cols-3">
+        <div>
+          <label for="stKnown">Chất đã biết</label>
+          <select id="stKnown"></select>
+        </div>
+        <div>
+          <label for="stAmt">Lượng</label>
+          <input type="number" id="stAmt" value="5.6" min="0" step="any">
+        </div>
+        <div>
+          <label for="stUnit">Đơn vị</label>
+          <select id="stUnit">
+            <option value="g">gam (g)</option>
+            <option value="mol">mol</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <button id="stBtn">Tính toán</button>
+      </div>
+    </div>
+    <div class="chips" id="stChips"></div>
+    <div id="stOut" class="result" aria-live="polite"></div>
+  </section>
+
+  <!-- ============ 4. CHẤT GIỚI HẠN & HIỆU SUẤT ============ -->
+  <section class="tool" id="tool4">
+    <h3>4. Chất giới hạn &amp; hiệu suất phản ứng</h3>
+    <p class="hint">
+      Nhập phương trình, nhập lượng của <em>tất cả</em> các chất tham gia.
+      Công cụ sẽ tìm chất giới hạn, tính khối lượng lý thuyết của sản phẩm
+      và hiệu suất nếu bạn biết khối lượng thực tế thu được.
+    </p>
+    <div class="inline-form">
+      <div>
+        <label for="lrEq">Phương trình hóa học</label>
+        <input type="text" id="lrEq" value="N2 + 3H2 -> 2NH3" autocomplete="off" spellcheck="false">
+      </div>
+      <div id="lrInputs" class="cols"></div>
+      <div class="cols">
+        <div>
+          <label for="lrProduct">Sản phẩm cần tính</label>
+          <select id="lrProduct"></select>
+        </div>
+        <div>
+          <label for="lrActual">Khối lượng thực tế thu được (g, tùy chọn)</label>
+          <input type="number" id="lrActual" min="0" step="any" placeholder="ví dụ 12.5">
+        </div>
+      </div>
+      <div class="row">
+        <button id="lrBtn">Tính toán</button>
+      </div>
+    </div>
+    <div class="chips" id="lrChips"></div>
+    <div id="lrOut" class="result" aria-live="polite"></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>Subgeneric · Mô phỏng phục vụ học tập, không thay thế thí nghiệm thực tế.</div>
+    <div>Trường THCS và THPT Trần Đại Nghĩa</div>
+  </div>
+</footer>
+
+<script>
+/* ===== TIỆN ÍCH SỐ HỌC ===== */
+function abs(n){return n<0n?-n:n}
+function gcd(a,b){a=abs(a);b=abs(b);while(b!==0n){var t=b;b=a%b;a=t}return a===0n?1n:a}
+function lcm(a,b){return (a*b)/gcd(a,b)}
+function frac(n,d){
+  if(d===undefined)d=1n;else if(typeof d==='number')d=BigInt(d);
+  if(typeof n==='number')n=BigInt(n);
+  if(d===0n)throw new Error('Chia cho 0');
+  if(d<0n){n=-n;d=-d}
+  var g=gcd(n,d);return [n/g,d/g];
+}
+function fadd(a,b){return frac(a[0]*b[1]+b[0]*a[1],a[1]*b[1])}
+function fsub(a,b){return frac(a[0]*b[1]-b[0]*a[1],a[1]*b[1])}
+function fmul(a,b){return frac(a[0]*b[0],a[1]*b[1])}
+function fdiv(a,b){return frac(a[0]*b[1],a[1]*b[0])}
+
+/* ===== KHỐI LƯỢNG NGUYÊN TỬ ===== */
+var AW = {
+  H:1.008, He:4.003, Li:6.94, Be:9.012, B:10.81, C:12.011, N:14.007, O:15.999,
+  F:18.998, Ne:20.180, Na:22.990, Mg:24.305, Al:26.982, Si:28.085, P:30.974,
+  S:32.06, Cl:35.45, Ar:39.948, K:39.098, Ca:40.078, Sc:44.956, Ti:47.867,
+  V:50.942, Cr:51.996, Mn:54.938, Fe:55.845, Co:58.933, Ni:58.693, Cu:63.546,
+  Zn:65.38, Ga:69.723, Ge:72.630, As:74.922, Se:78.971, Br:79.904, Kr:83.798,
+  Rb:85.468, Sr:87.62, Y:88.906, Zr:91.224, Nb:92.906, Mo:95.95, Tc:98.0,
+  Ru:101.07, Rh:102.906, Pd:106.42, Ag:107.868, Cd:112.414, In:114.818,
+  Sn:118.710, Sb:121.760, Te:127.60, I:126.904, Xe:131.293, Cs:132.905,
+  Ba:137.327, La:138.905, Ce:140.116, Pr:140.908, Nd:144.242, Pm:145.0,
+  Sm:150.36, Eu:151.964, Gd:157.25, Tb:158.925, Dy:162.500, Ho:164.930,
+  Er:167.259, Tm:168.934, Yb:173.045, Lu:174.967, Hf:178.49, Ta:180.948,
+  W:183.84, Re:186.207, Os:190.23, Ir:192.217, Pt:195.084, Au:196.967,
+  Hg:200.592, Tl:204.38, Pb:207.2, Bi:208.980, Po:209.0, At:210.0, Rn:222.0,
+  Fr:223.0, Ra:226.0, Ac:227.0, Th:232.038, Pa:231.036, U:238.029, Np:237.0,
+  Pu:244.0, Am:243.0, Cm:247.0, Bk:247.0, Cf:251.0, Es:252.0, Fm:257.0,
+  Md:258.0, No:259.0, Lr:266.0, Rf:267.0, Db:268.0, Sg:269.0, Bh:270.0,
+  Hs:277.0, Mt:278.0, Ds:281.0, Rg:282.0, Cn:285.0, Nh:286.0, Fl:289.0,
+  Mc:290.0, Lv:293.0, Ts:293.0, Og:294.0
+};
+
+/* ===== PARSE CÔNG THỨC ===== */
+function parseFormula(str){
+  str=str.trim();
+  if(!str)throw new Error('Công thức rỗng');
+
+  if(str.indexOf('.')>=0){
+    var parts=str.split('.');
+    var total={};
+    for(var p=0;p<parts.length;p++){
+      var seg=parts[p];
+      var mult=1n;
+      var m=seg.match(/^([0-9]+)(.*)$/);
+      if(m){mult=BigInt(m[1]);seg=m[2];}
+      var sub=parseFormula(seg);
+      for(var k in sub.counts){
+        total[k]=(total[k]||0n)+sub.counts[k]*mult;
+      }
+      if(sub.charge!==0n){
+        total['e']=(total['e']||0n)-sub.charge;
+      }
+    }
+    return {counts:total, charge:(total['e']? -total['e']: 0n)};
+  }
+
+  var charge=0n;
+  var chargeMatch=str.match(/([+-])([0-9]*)$/) || str.match(/([0-9]+)([+-])$/);
+  if(chargeMatch){
+    var chStr=chargeMatch[0];
+    str=str.substring(0,str.length-chStr.length);
+    if(chStr==='+')charge=1n;
+    else if(chStr==='-')charge=-1n;
+    else{
+      var mm=chStr.match(/^([0-9]*)([+-])$/);
+      var num=mm[1]?BigInt(mm[1]):1n;
+      charge=(mm[2]==='+')?num:-num;
+    }
+  }
+
+  var i=0;
+  function readNum(){
+    var s='';
+    while(i<str.length && /[0-9]/.test(str[i])){s+=str[i++];}
+    return s?BigInt(s):1n;
+  }
+  function group(depth){
+    var counts={};
+    while(i<str.length){
+      var c=str[i];
+      if(c==='('||c==='['||c==='{'){
+        i++;
+        var inner=group(depth+1);
+        var n=readNum();
+        for(var k in inner){counts[k]=(counts[k]||0n)+inner[k]*n;}
+      }
+      else if(c===')'||c===']'||c==='}'){
+        if(depth===0)throw new Error('Dấu ngoặc đóng thừa trong "'+str+'"');
+        i++;
+        return counts;
+      }
+      else if(/[A-Z]/.test(c)){
+        var el=c;i++;
+        while(i<str.length && /[a-z]/.test(str[i])){el+=str[i++];}
+        var n2=readNum();
+        counts[el]=(counts[el]||0n)+n2;
+      }
+      else if(/[a-z]/.test(c)){
+        throw new Error('Ký hiệu nguyên tố không hợp lệ gần "'+str.substring(i)+'"');
+      }
+      else if(/[0-9]/.test(c)){
+        throw new Error('Số không mong đợi trong "'+str+'"');
+      }
+      else{i++;}
+    }
+    if(depth>0)throw new Error('Thiếu dấu ngoặc đóng trong "'+str+'"');
+    return counts;
+  }
+  var r=group(0);
+  if(!Object.keys(r).length)throw new Error('Công thức rỗng');
+  if(charge!==0n)r['e']=-charge;
+  return {counts:r, charge:charge};
+}
+
+/* ===== KHỐI LƯỢNG MOL ===== */
+function molarMass(formula){
+  var parsed=parseFormula(formula);
+  var total=0, breakdown=[];
+  for(var el in parsed.counts){
+    if(el==='e')continue;
+    var n=Number(parsed.counts[el]);
+    if(!(el in AW))throw new Error('Chưa có khối lượng nguyên tử cho nguyên tố "'+el+'"');
+    var m=n*AW[el];
+    total+=m;
+    breakdown.push({el:el,n:n,mass:m,pct:0});
+  }
+  breakdown.forEach(function(b){b.pct=b.mass/total*100});
+  breakdown.sort(function(a,b){return b.mass-a.mass});
+  return {M:total, breakdown:breakdown, charge:parsed.charge, formula:formula};
+}
+
+/* ===== CÂN BẰNG ===== */
+function balance(eq){
+  var parts=eq.replace(/\s+/g,'').split(/->|=>|→|=/);
+  if(parts.length!==2||!parts[0]||!parts[1])
+    throw new Error('Cần đúng một mũi tên (->) hoặc dấu = giữa vế trái và vế phải.');
+  function clean(s){
+    return s.split('+').filter(function(x){return x!==''}).map(function(x){
+      return x.replace(/^[0-9]+/,'');
+    });
+  }
+  var L=clean(parts[0]),R=clean(parts[1]);
+  if(!L.length||!R.length)throw new Error('Mỗi vế cần ít nhất một chất.');
+  var species=L.concat(R);
+  var comps=species.map(parseFormula);
+  var set={};
+  comps.forEach(function(c){Object.keys(c.counts).forEach(function(k){set[k]=1})});
+  var els=Object.keys(set);
+  var m=els.map(function(el){
+    return species.map(function(_,j){
+      return frac((comps[j].counts[el]||0n)*(j<L.length?1n:-1n));
+    });
+  });
+  var rows=m.length, cols=species.length, r=0, pivots=[];
+  for(var c=0;c<cols&&r<rows;c++){
+    var p=-1;
+    for(var k=r;k<rows;k++){if(m[k][c][0]!==0n){p=k;break}}
+    if(p<0)continue;
+    var tmp=m[r];m[r]=m[p];m[p]=tmp;
+    var piv=m[r][c];
+    m[r]=m[r].map(function(x){return fdiv(x,piv)});
+    for(var k2=0;k2<rows;k2++){
+      if(k2!==r&&m[k2][c][0]!==0n){
+        var f=m[k2][c];
+        m[k2]=m[k2].map(function(x,jj){return fsub(x,fmul(f,m[r][jj]))});
+      }
+    }
+    pivots.push(c);r++;
+  }
+  var free=[];
+  for(var cc=0;cc<cols;cc++){if(pivots.indexOf(cc)<0)free.push(cc)}
+  if(free.length===0)throw new Error('Không thể cân bằng. Hãy kiểm tra lại công thức các chất.');
+  if(free.length>1)throw new Error('Phương trình có nhiều cách cân bằng khác nhau. Hãy tách thành từng phản ứng riêng.');
+  var fcol=free[0];
+  var x=new Array(cols).fill(null).map(function(){return [0n,1n]});
+  x[fcol]=[1n,1n];
+  pivots.forEach(function(pc,i){x[pc]=fsub([0n,1n],m[i][fcol])});
+  var L2=1n;x.forEach(function(v){L2=lcm(L2,v[1])});
+  var ints=x.map(function(v){return v[0]*(L2/v[1])});
+  var g=0n;ints.forEach(function(v){g=gcd(g,v)});ints=ints.map(function(v){return v/g});
+  if(ints.every(function(v){return v<0n}))ints=ints.map(function(v){return -v});
+  if(!ints.every(function(v){return v>0n}))
+    throw new Error('Không có nghiệm nguyên dương. Hãy kiểm tra lại công thức hoặc vế phản ứng.');
+  return {L:L,R:R,coef:ints,comps:comps,els:els};
+}
+
+/* ===== HIỂN THỊ ===== */
+function escapeHTML(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+          .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function fmtFormula(s){
+  var safe=escapeHTML(s);
+  safe=safe.replace(/([A-Za-z\)\]])([0-9]+)/g,'$1<sub>$2</sub>');
+  safe=safe.replace(/([0-9]*[+\-])$/,'<sup>$1</sup>');
+  return safe;
+}
+function fmtNum(x,digits){
+  if(!isFinite(x))return '–';
+  if(digits===undefined)digits=4;
+  if(x===0)return '0';
+  var ax=Math.abs(x);
+  if(ax>=1e5||ax<1e-3)return x.toExponential(3).replace('e','×10^');
+  return Number(x.toPrecision(digits)).toString();
+}
+function renderEquationLine(res){
+  function side(names,offset){
+    return names.map(function(n,i){
+      var c=res.coef[offset+i];
+      return (c>1n?'<span class="coef">'+c.toString()+'</span> ':'')+fmtFormula(n);
+    }).join(' + ');
+  }
+  return side(res.L,0)+' &rarr; '+side(res.R,res.L.length);
+}
+function speciesMasses(res){
+  return res.L.concat(res.R).map(function(name){
+    try{return molarMass(name).M;}catch(e){return null;}
+  });
+}
+function isGasSpecies(name){
+  var gases=['H2','O2','N2','Cl2','F2','O3','CO2','CO','SO2','SO3','NO','NO2','N2O','N2O3','N2O5','NH3','H2S','HCl','HBr','HI','CH4','C2H4','C2H2','C2H6','C3H8','HCHO','HCN','Cl2O','Br2'];
+  var stripped=name.replace(/^\d+/,'');
+  if(gases.indexOf(stripped)>=0)return true;
+  if(/^(F|Cl|Br|I)2$/.test(stripped))return true;
+  return false;
+}
+
+/* ===== TOOL 1 ===== */
+function renderBalanced(res){
+  var parts=function(names,offset){
+    return names.map(function(n,i){
+      var c=res.coef[offset+i];
+      return (c>1n?'<span class="coef">'+c.toString()+'</span> ':'')+fmtFormula(n);
+    }).join(' + ');
+  };
+  var html=parts(res.L,0)+' &rarr; '+parts(res.R,res.L.length);
+  var tbl='<table class="atoms"><tr><th>Nguyên tố</th><th>Trái</th><th>Phải</th><th></th></tr>';
+  res.els.forEach(function(el){
+    var dispName=el==='e'?'Điện tích':el;
+    var l=0n,r=0n;
+    res.comps.forEach(function(c,j){
+      var n=(c.counts[el]||0n)*res.coef[j];
+      if(j<res.L.length)l+=n;else r+=n;
+    });
+    tbl+='<tr><td>'+dispName+'</td><td>'+l.toString()+'</td><td>'+r.toString()+
+         '</td><td class="ok">'+(l===r?'đúng':'sai')+'</td></tr>';
+  });
+  return html+tbl+'</table>';
+}
+var eqIn=document.getElementById('eq'),eqOut=document.getElementById('eqOut');
+function runBalance(){
+  try{
+    var res=balance(eqIn.value);
+    eqOut.className='result';
+    eqOut.innerHTML=renderBalanced(res);
+  }catch(e){
+    eqOut.className='result err';
+    eqOut.textContent=e.message;
+  }
+}
+document.getElementById('eqBtn').addEventListener('click',runBalance);
+eqIn.addEventListener('keydown',function(e){if(e.key==='Enter')runBalance()});
+[
+  '[Cr(N2H4CO)6]4[Cr(CN)6]3 + KMnO4 + H2SO4 -> K2Cr2O7 + MnSO4 + CO2 + KNO3 + K2SO4 + H2O',
+  'C2H5OH + O2 -> CO2 + H2O',
+  'MnO4- + Fe2+ + H+ -> Mn2+ + Fe3+ + H2O',
+  'Cu + HNO3 -> Cu(NO3)2 + NO2 + H2O',
+  'Al + H2SO4 -> Al2(SO4)3 + H2'
+].forEach(function(ex){
+  var b=document.createElement('button');b.className='chip';b.type='button';
+  b.textContent=ex.replace('->','→');
+  b.addEventListener('click',function(){eqIn.value=ex;runBalance()});
+  document.getElementById('eqChips').appendChild(b);
+});
+runBalance();
+
+/* ===== TOOL 2 ===== */
+var mmIn=document.getElementById('mmIn'),mmOut=document.getElementById('mmOut');
+function runMolarMass(){
+  try{
+    var r=molarMass(mmIn.value);
+    var html='<div>Khối lượng mol của <strong>'+fmtFormula(r.formula)+
+             '</strong>: <strong>'+fmtNum(r.M,6)+' g/mol</strong>';
+    if(r.charge!==0n)html+=' · điện tích '+r.charge.toString();
+    html+='</div>';
+    html+='<table class="data"><tr><th>Nguyên tố</th><th>Số nguyên tử</th><th>Khối lượng (g/mol)</th><th>% khối lượng</th></tr>';
+    r.breakdown.forEach(function(b){
+      html+='<tr><td>'+b.el+'</td><td class="num">'+b.n+'</td><td class="num">'+
+            fmtNum(b.mass,5)+'</td><td class="num">'+b.pct.toFixed(2)+'%</td></tr>';
+    });
+    html+='</table>';
+    html+='<details class="species"><summary>Xem cách tính</summary>'+
+          '<div style="font-size:14px;color:var(--muted);margin-top:6px">'+
+          'M = '+r.breakdown.map(function(b){return b.n+'×'+AW[b.el];}).join(' + ')+
+          ' = '+fmtNum(r.M,6)+' g/mol</div></details>';
+    mmOut.className='result';
+    mmOut.innerHTML=html;
+  }catch(e){
+    mmOut.className='result err';
+    mmOut.textContent=e.message;
+  }
+}
+document.getElementById('mmBtn').addEventListener('click',runMolarMass);
+mmIn.addEventListener('keydown',function(e){if(e.key==='Enter')runMolarMass()});
+['H2O','CuSO4.5H2O','NaCl','CaCO3','C6H12O6','Fe2(SO4)3','KMnO4'].forEach(function(ex){
+  var b=document.createElement('button');b.className='chip';b.type='button';
+  b.textContent=ex;
+  b.addEventListener('click',function(){mmIn.value=ex;runMolarMass()});
+  document.getElementById('mmChips').appendChild(b);
+});
+runMolarMass();
+
+/* ===== TOOL 3 ===== */
+var stEq=document.getElementById('stEq'),
+    stKnown=document.getElementById('stKnown'),
+    stAmt=document.getElementById('stAmt'),
+    stUnit=document.getElementById('stUnit'),
+    stOut=document.getElementById('stOut');
+
+function refreshStKnown(){
+  var sel=stKnown;
+  var prev=sel.value;
+  try{
+    var res=balance(stEq.value);
+    var names=res.L.concat(res.R);
+    sel.innerHTML='';
+    names.forEach(function(n,i){
+      var o=document.createElement('option');
+      o.value=String(i);
+      o.textContent=n+(i<res.L.length?' (chất tham gia)':' (sản phẩm)');
+      sel.appendChild(o);
+    });
+    if(prev && names[parseInt(prev,10)]!==undefined) sel.value=prev;
+  }catch(e){
+    sel.innerHTML='<option value="">— nhập phương trình hợp lệ —</option>';
+  }
+}
+
+function runStoich(){
+  try{
+    var res=balance(stEq.value);
+    var names=res.L.concat(res.R);
+    var idx=parseInt(stKnown.value,10);
+    if(isNaN(idx))throw new Error('Hãy chọn chất đã biết.');
+    var amount=parseFloat(stAmt.value);
+    if(!isFinite(amount)||amount<=0)throw new Error('Lượng phải là số dương.');
+    var Mlist=speciesMasses(res);
+    var Mknown=Mlist[idx];
+    if(Mknown===null)throw new Error('Không tính được khối lượng mol của '+names[idx]);
+
+    var nKnown=(stUnit.value==='g')?amount/Mknown:amount;
+    var coefKnown=Number(res.coef[idx]);
+    var ratio=nKnown/coefKnown;
+
+    var html='<div>Phương trình: <strong>'+renderEquationLine(res)+'</strong></div>';
+    html+='<div style="margin-top:6px">Chất đã biết: <strong>'+fmtFormula(names[idx])+
+          '</strong> — '+fmtNum(nKnown,5)+' mol ('+fmtNum(nKnown*Mknown,5)+' g)</div>';
+    html+='<table class="data"><tr><th>Chất</th><th>Hệ số</th><th>Số mol</th><th>Khối lượng (g)</th><th>Thể tích khí ở đktc (L)</th></tr>';
+    names.forEach(function(n,i){
+      var coef=Number(res.coef[i]);
+      var mol=ratio*coef;
+      var mass=mol*Mlist[i];
+      var vol=isGasSpecies(n)?mol*22.4:null;
+      var cls=(i===idx)?' class="lim"':'';
+      html+='<tr'+cls+'><td>'+fmtFormula(n)+'</td>'+
+            '<td class="num">'+coef+'</td>'+
+            '<td class="num">'+fmtNum(mol,5)+'</td>'+
+            '<td class="num">'+fmtNum(mass,5)+'</td>'+
+            '<td class="num">'+(vol!==null?fmtNum(vol,5):'–')+'</td></tr>';
+    });
+    html+='</table>';
+    html+='<details class="species"><summary>Xem cách tính</summary>'+
+          '<div style="font-size:14px;color:var(--muted);margin-top:6px">'+
+          'n('+escapeHTML(names[idx])+') = '+(stUnit.value==='g'
+            ?fmtNum(amount,5)+' g ÷ '+fmtNum(Mknown,5)+' g/mol = '+fmtNum(nKnown,5)+' mol'
+            :fmtNum(amount,5)+' mol')+
+          '<br>Hệ số tỉ lệ = '+fmtNum(nKnown,5)+' ÷ '+coefKnown+' = '+fmtNum(ratio,5)+
+          '<br>Với mỗi chất: n = tỉ lệ × hệ số; m = n × M; V(khí, đktc) = n × 22,4 L/mol'+
+          '</div></details>';
+    stOut.className='result';
+    stOut.innerHTML=html;
+  }catch(e){
+    stOut.className='result err';
+    stOut.textContent=e.message;
+  }
+}
+
+document.getElementById('stBtn').addEventListener('click',runStoich);
+stEq.addEventListener('input',refreshStKnown);
+stKnown.addEventListener('change',runStoich);
+stAmt.addEventListener('input',runStoich);
+stUnit.addEventListener('change',runStoich);
+[
+  'Fe + 2HCl -> FeCl2 + H2',
+  '2Al + 3H2SO4 -> Al2(SO4)3 + 3H2',
+  'CaCO3 -> CaO + CO2',
+  'CH4 + 2O2 -> CO2 + 2H2O'
+].forEach(function(ex){
+  var b=document.createElement('button');b.className='chip';b.type='button';
+  b.textContent=ex.replace('->','→');
+  b.addEventListener('click',function(){stEq.value=ex;refreshStKnown();runStoich()});
+  document.getElementById('stChips').appendChild(b);
+});
+refreshStKnown();
+runStoich();
+
+/* ===== TOOL 4 ===== */
+var lrEq=document.getElementById('lrEq'),
+    lrInputs=document.getElementById('lrInputs'),
+    lrProduct=document.getElementById('lrProduct'),
+    lrActual=document.getElementById('lrActual'),
+    lrOut=document.getElementById('lrOut');
+
+function refreshLRInputs(){
+  var container=lrInputs;
+  var oldVals={};
+  container.querySelectorAll('input[data-sp]').forEach(function(inp){
+    oldVals[inp.getAttribute('data-sp')]=inp.value;
+  });
+  container.innerHTML='';
+  try{
+    var res=balance(lrEq.value);
+    var names=res.L;
+    if(!names.length)throw new Error('Không có chất tham gia.');
+    names.forEach(function(n,i){
+      var wrap=document.createElement('div');
+      var lab=document.createElement('label');
+      lab.setAttribute('for','lr_in_'+i);
+      lab.innerHTML='Lượng '+fmtFormula(n)+' (g)';
+      var inp=document.createElement('input');
+      inp.type='number';
+      inp.id='lr_in_'+i;
+      inp.min='0';
+      inp.step='any';
+      inp.setAttribute('data-sp',n);
+      inp.value=oldVals[n]!==undefined?oldVals[n]:(i===0?'28':'6');
+      inp.addEventListener('input',runLimiting);
+      wrap.appendChild(lab);
+      wrap.appendChild(inp);
+      container.appendChild(wrap);
+    });
+    var prev=lrProduct.value;
+    lrProduct.innerHTML='';
+    res.R.forEach(function(n){
+      var o=document.createElement('option');
+      o.value=n;
+      o.textContent=n;
+      lrProduct.appendChild(o);
+    });
+    if(prev)lrProduct.value=prev;
+  }catch(e){
+    container.innerHTML='<div style="color:var(--muted);font-size:14px">Nhập phương trình hợp lệ để bắt đầu.</div>';
+    lrProduct.innerHTML='';
+  }
+}
+
+function runLimiting(){
+  try{
+    var res=balance(lrEq.value);
+    var reactants=res.L;
+    var products=res.R;
+    if(!reactants.length)throw new Error('Không có chất tham gia.');
+    if(!products.length)throw new Error('Không có sản phẩm.');
+
+    var Mlist=speciesMasses(res);
+    var amounts=[];
+    for(var i=0;i<reactants.length;i++){
+      var inp=document.getElementById('lr_in_'+i);
+      if(!inp)throw new Error('Thiếu ô nhập cho '+reactants[i]);
+      var v=parseFloat(inp.value);
+      if(!isFinite(v)||v<0)throw new Error('Lượng của '+reactants[i]+' không hợp lệ.');
+      var M=Mlist[i];
+      if(M===null)throw new Error('Không tính được khối lượng mol của '+reactants[i]);
+      amounts.push({name:reactants[i],g:v,M:M,mol:v/M,coef:Number(res.coef[i])});
+    }
+
+    var lim=null,limRatio=Infinity;
+    amounts.forEach(function(a){
+      var r=a.mol/a.coef;
+      if(r<limRatio){limRatio=r;lim=a;}
+    });
+    if(!lim||limRatio<=0)throw new Error('Cần nhập lượng dương cho ít nhất một chất.');
+
+    var prodName=lrProduct.value;
+    var prodIdx=products.indexOf(prodName);
+    if(prodIdx<0)throw new Error('Hãy chọn sản phẩm cần tính.');
+    var prodCoef=Number(res.coef[res.L.length+prodIdx]);
+    var prodM=Mlist[res.L.length+prodIdx];
+
+    var molTheoLT=limRatio*prodCoef;
+    var massTheoLT=molTheoLT*prodM;
+
+    var actual=parseFloat(lrActual.value);
+    var haveActual=isFinite(actual)&&actual>0;
+    var H=haveActual?actual/massTheoLT*100:null;
+
+    var html='<div>Phương trình: <strong>'+renderEquationLine(res)+'</strong></div>';
+    html+='<table class="data"><tr><th>Chất tham gia</th><th>m (g)</th><th>M (g/mol)</th><th>n (mol)</th><th>n / hệ số</th></tr>';
+    amounts.forEach(function(a){
+      var isLim=(a===lim);
+      html+='<tr'+(isLim?' class="lim"':'')+'><td>'+fmtFormula(a.name)+
+            (isLim?' <strong>(giới hạn)</strong>':'')+'</td>'+
+            '<td class="num">'+fmtNum(a.g,5)+'</td>'+
+            '<td class="num">'+fmtNum(a.M,5)+'</td>'+
+            '<td class="num">'+fmtNum(a.mol,5)+'</td>'+
+            '<td class="num">'+fmtNum(a.mol/a.coef,5)+'</td></tr>';
+    });
+    html+='</table>';
+
+    var duList=amounts.filter(function(a){return a!==lim});
+    if(duList.length){
+      html+='<div style="margin-top:10px">Sau phản ứng, các chất còn dư:</div>';
+      html+='<table class="data"><tr><th>Chất dư</th><th>n ban đầu (mol)</th><th>n phản ứng (mol)</th><th>n dư (mol)</th><th>m dư (g)</th></tr>';
+      duList.forEach(function(a){
+        var nPU=limRatio*a.coef;
+        var nDu=a.mol-nPU;
+        html+='<tr><td>'+fmtFormula(a.name)+'</td>'+
+              '<td class="num">'+fmtNum(a.mol,5)+'</td>'+
+              '<td class="num">'+fmtNum(nPU,5)+'</td>'+
+              '<td class="num">'+fmtNum(nDu,5)+'</td>'+
+              '<td class="num">'+fmtNum(nDu*a.M,5)+'</td></tr>';
+      });
+      html+='</table>';
+    }
+
+    html+='<div style="margin-top:12px">Sản phẩm <strong>'+fmtFormula(prodName)+
+          '</strong> theo lý thuyết: <strong>'+fmtNum(massTheoLT,5)+' g</strong> ('+
+          fmtNum(molTheoLT,5)+' mol)</div>';
+
+    if(haveActual){
+      html+='<div>Khối lượng thực tế: <strong>'+fmtNum(actual,5)+' g</strong></div>';
+      html+='<div>Hiệu suất phản ứng: <strong>'+H.toFixed(2)+'%</strong></div>';
+    }else{
+      html+='<div style="color:var(--muted);font-size:14px">Nhập khối lượng thực tế để tính hiệu suất.</div>';
+    }
+
+    html+='<details class="species"><summary>Xem cách tính</summary>'+
+          '<div style="font-size:14px;color:var(--muted);margin-top:6px">'+
+          '1) Đổi khối lượng mỗi chất tham gia sang mol: n = m / M.<br>'+
+          '2) Chia n cho hệ số tương ứng. Chất có tỉ lệ nhỏ nhất là chất giới hạn.<br>'+
+          '3) Số mol sản phẩm = tỉ lệ nhỏ nhất × hệ số sản phẩm. Khối lượng lý thuyết = n × M.<br>'+
+          '4) Hiệu suất H% = (m thực tế / m lý thuyết) × 100%.'+
+          '</div></details>';
+
+    lrOut.className='result';
+    lrOut.innerHTML=html;
+  }catch(e){
+    lrOut.className='result err';
+    lrOut.textContent=e.message;
+  }
+}
+
+document.getElementById('lrBtn').addEventListener('click',runLimiting);
+lrEq.addEventListener('input',function(){refreshLRInputs();runLimiting()});
+lrProduct.addEventListener('change',runLimiting);
+lrActual.addEventListener('input',runLimiting);
+[
+  'N2 + 3H2 -> 2NH3',
+  'Fe + 2HCl -> FeCl2 + H2',
+  'CaCO3 -> CaO + CO2',
+  '2Al + 6HCl -> 2AlCl3 + 3H2'
+].forEach(function(ex){
+  var b=document.createElement('button');b.className='chip';b.type='button';
+  b.textContent=ex.replace('->','→');
+  b.addEventListener('click',function(){lrEq.value=ex;refreshLRInputs();runLimiting()});
+  document.getElementById('lrChips').appendChild(b);
+});
+refreshLRInputs();
+runLimiting();
+</script>
+</body>
+</html>
