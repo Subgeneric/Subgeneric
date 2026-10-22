@@ -642,8 +642,9 @@ function runStoich(){
     var amount=parseFloat(stAmt.value);
     if(!isFinite(amount)||amount<=0)throw new Error('Lượng phải là số dương.');
     var Mlist=speciesMasses(res);
+    var invalidMassIndex=Mlist.findIndex(function(m){return m===null;});
+    if(invalidMassIndex>=0)throw new Error('Không tính được khối lượng mol của '+names[invalidMassIndex]);
     var Mknown=Mlist[idx];
-    if(Mknown===null)throw new Error('Không tính được khối lượng mol của '+names[idx]);
 
     var nKnown=(stUnit.value==='g')?amount/Mknown:amount;
     var coefKnown=Number(res.coef[idx]);
@@ -652,7 +653,7 @@ function runStoich(){
     var html='<div>Phương trình: <strong>'+renderEquationLine(res)+'</strong></div>';
     html+='<div style="margin-top:6px">Chất đã biết: <strong>'+fmtFormula(names[idx])+
           '</strong> — '+fmtNum(nKnown,5)+' mol ('+fmtNum(nKnown*Mknown,5)+' g)</div>';
-    html+='<table class="data"><tr><th>Chất</th><th>Hệ số</th><th>Số mol</th><th>Khối lượng (g)</th><th>Thể tích khí ở đktc (L)</th></tr>';
+    html+='<table class="data"><tr><th>Chất</th><th>Hệ số</th><th>Số mol</th><th>Khối lượng (g)</th><th>Thể tích khí (0 °C, 1 atm; L)</th></tr>';
     names.forEach(function(n,i){
       var coef=Number(res.coef[i]);
       var mol=ratio*coef;
@@ -672,7 +673,7 @@ function runStoich(){
             ?fmtNum(amount,5)+' g ÷ '+fmtNum(Mknown,5)+' g/mol = '+fmtNum(nKnown,5)+' mol'
             :fmtNum(amount,5)+' mol')+
           '<br>Hệ số tỉ lệ = '+fmtNum(nKnown,5)+' ÷ '+coefKnown+' = '+fmtNum(ratio,5)+
-          '<br>Với mỗi chất: n = tỉ lệ × hệ số; m = n × M; V(khí, đktc) = n × 22,4 L/mol'+
+          '<br>Với mỗi chất: n = tỉ lệ × hệ số; m = n × M; V(khí, 0 °C và 1 atm) = n × 22,4 L/mol'+
           '</div></details>';
     stOut.className='result';
     stOut.innerHTML=html;
@@ -783,6 +784,7 @@ function runLimiting(){
     if(prodIdx<0)throw new Error('Hãy chọn sản phẩm cần tính.');
     var prodCoef=Number(res.coef[res.L.length+prodIdx]);
     var prodM=Mlist[res.L.length+prodIdx];
+    if(prodM===null)throw new Error('Không tính được khối lượng mol của '+prodName);
 
     var molTheoLT=limRatio*prodCoef;
     var massTheoLT=molTheoLT*prodM;
