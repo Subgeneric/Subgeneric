@@ -327,6 +327,11 @@ function parseFormula(str){
     charge=caretCharge[2]==='+'?magnitude:-magnitude;
     str=str.slice(0,-caretCharge[0].length);
   }else{
+    var complexCharge=str.match(/^(.+[\)\]\}])(\d+)([+-])$/);
+    if(complexCharge){
+      charge=complexCharge[3]==='+'?BigInt(complexCharge[2]):-BigInt(complexCharge[2]);
+      str=complexCharge[1];
+    }else{
     // Fe2+ / Ca2+ are monatomic ions; keep the subscript in NH4+ and MnO4-.
     var monoCharge=str.match(/^([A-Z][a-z]?)(\d+)([+-])$/);
     if(monoCharge){
@@ -335,6 +340,7 @@ function parseFormula(str){
     }else if(/[+-]$/.test(str)){
       charge=str.slice(-1)==='+'?1n:-1n;
       str=str.slice(0,-1);
+    }
     }
   }
   var bracketStack=[];
@@ -476,12 +482,15 @@ function escapeHTML(s){
 }
 function fmtFormula(s){
   var safe=escapeHTML(s);
-  var caret=safe.match(/\^([0-9]*[+-])$/);
-  if(caret)return safe.slice(0,-caret[0].length)+'<sup>'+caret[1]+'</sup>';
+  var sub=function(value){return value.replace(/([A-Za-z\)\]])([0-9]+)/g,'$1<sub>$2</sub>')};
+  var caret=safe.match(/^(.*)\^([0-9]*[+-])$/);
+  if(caret)return sub(caret[1])+'<sup>'+caret[2]+'</sup>';
+  var complex=safe.match(/^(.*[\)\]\}])([0-9]+)([+-])$/);
+  if(complex)return sub(complex[1])+'<sup>'+complex[2]+complex[3]+'</sup>';
   var mono=safe.match(/^([A-Z][a-z]?)([0-9]+)([+-])$/);
   if(mono)return mono[1]+'<sup>'+mono[2]+mono[3]+'</sup>';
   safe=safe.replace(/([+-])$/,'<sup>$1</sup>');
-  return safe.replace(/([A-Za-z\)\]])([0-9]+)/g,'$1<sub>$2</sub>')
+  return sub(safe)
 }
 function fmtNum(x,digits){
   if(!isFinite(x))return '–';
