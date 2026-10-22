@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#f5faf8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>Subgeneric — Học Hóa bằng công cụ tương tác</title>
 <meta name="description" content="Subgeneric là bộ công cụ Hóa học tương tác bằng tiếng Việt cho học sinh Việt Nam: cân bằng phương trình, tính toán phản ứng và mô phỏng chuẩn độ.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +20,8 @@ a{color:inherit}
 header{position:sticky;top:0;z-index:5;background:rgba(245,250,248,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(220,233,228,.9)}
 .nav{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-size:19px;font-weight:800;letter-spacing:-.04em}
-.brand-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:12px;background:var(--accent);color:white;font-size:19px;box-shadow:0 5px 12px rgba(8,116,95,.2)}
+.brand-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--accent);color:white;box-shadow:0 3px 8px rgba(8,116,95,.13)}
+.brand-mark svg{width:31px;height:31px}
 nav{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
 nav a{color:var(--muted);font-size:14px;font-weight:600;text-decoration:none}
 nav a:hover,nav a[aria-current=page]{color:var(--accent)}
@@ -69,6 +71,10 @@ h2{font-size:clamp(27px,3.3vw,38px);line-height:1.2;letter-spacing:-.04em;margin
 .band{padding:0 0 76px}
 .band-inner{display:grid;grid-template-columns:1fr 1fr;gap:30px;padding:34px;border:1px solid #d5e9df;border-radius:20px;background:linear-gradient(120deg,#e9f7ef,#f8fcfa 70%)}
 .band h2{font-size:27px;margin-top:0}.band p{margin:0;color:var(--muted);font-size:14px}
+.team-panel{display:grid;grid-template-columns:76px minmax(0,1fr);gap:24px;align-items:start;padding:30px;border:1px solid var(--line);border-radius:18px;background:#fff}
+.team-mark{width:64px;height:64px;border-radius:16px;background:var(--mint);color:var(--accent);display:grid;place-items:center}.team-mark svg{width:42px;height:42px}
+.team-panel h2{margin-top:8px}.team-panel p{max-width:700px;color:var(--muted);font-size:14px}
+@media(max-width:600px){.team-panel{grid-template-columns:1fr;padding:22px;gap:12px}}
 .steps{display:grid;gap:14px}
 .step{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:#46645a}
 .step-num{flex:0 0 27px;height:27px;display:grid;place-items:center;border-radius:9px;background:#fff;color:var(--accent);font-weight:800;border:1px solid #d8e9df}
@@ -83,12 +89,12 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
 <body>
 <header>
   <div class="wrap nav">
-    <a class="brand" href="index.html" aria-label="Subgeneric — trang chủ"><span class="brand-mark" aria-hidden="true">S</span>Subgeneric</a>
+    <a class="brand" href="index.html" aria-label="Subgeneric — trang chủ"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40" focusable="false"><path d="M13 8h14M16 8v9l-7 13a3 3 0 0 0 3 4h16a3 3 0 0 0 3-4l-7-13V8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 27h16l3 5a1.5 1.5 0 0 1-1.5 2h-19a1.5 1.5 0 0 1-1.5-2z" fill="#9fe2c7"/><circle cx="18" cy="24" r="1.6" fill="#fff"/><circle cx="23" cy="21" r="1.2" fill="#fff"/></svg></span>Subgeneric</a>
     <nav aria-label="Điều hướng chính">
       <a href="index.html" aria-current="page">Trang chủ</a>
       <a href="#tools">Công cụ</a>
-      <a href="#how">Cách sử dụng</a>
-      <a class="nav-cta" href="#about">Về dự án</a>
+      <a href="#why">Điểm khác biệt</a>
+      <a class="nav-cta" href="#team">Đội ngũ</a>
     </nav>
   </div>
 </header>
@@ -97,11 +103,11 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
     <div class="wrap hero-grid">
       <div>
         <div class="eyebrow"><span class="eyebrow-dot"></span> HÓA HỌC TƯƠNG TÁC · TIẾNG VIỆT</div>
-        <h1>Học Hóa dễ hiểu hơn, <span>từng phản ứng một.</span></h1>
-        <p class="hero-copy">Công cụ và mô phỏng Hóa học được xây dựng cho học sinh Việt Nam — giúp bạn thử nghiệm, quan sát kết quả và hiểu vì sao phản ứng xảy ra, không chỉ học thuộc công thức.</p>
+        <h1>Hiểu Hóa bằng cách <span>tự tay thử.</span></h1>
+        <p class="hero-copy">Một bộ công cụ Hóa học bằng tiếng Việt để bạn tự cân bằng phương trình, thử các phép tính và theo dõi chuẩn độ thay đổi theo từng giọt.</p>
         <div class="actions">
           <a class="btn btn-primary" href="#tools">Khám phá công cụ <span aria-hidden="true">↘</span></a>
-          <a class="btn btn-secondary" href="reactions.html">Bắt đầu với phản ứng <span aria-hidden="true">→</span></a>
+          <a class="btn btn-secondary" href="titration.html">Thử mô phỏng chuẩn độ <span aria-hidden="true">→</span></a>
         </div>
       </div>
       <div class="hero-art" aria-label="Minh họa mô hình phân tử và dữ liệu hóa học">
@@ -131,9 +137,9 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
   <section class="section" id="tools">
     <div class="wrap">
       <div class="section-head">
-        <div class="kicker">Bộ công cụ</div>
-        <h2>Chọn công cụ bạn cần</h2>
-        <p>Mỗi công cụ tập trung vào một việc cụ thể. Mở công cụ để nhập dữ liệu, xem kết quả và tìm hiểu cách tính.</p>
+        <div class="kicker">Công cụ học tập</div>
+        <h2>Bạn đang học phần nào?</h2>
+        <p>Chọn một công cụ và bắt đầu từ bài tập của mình.</p>
       </div>
       <div class="tools">
         <a class="tool-card" href="reactions.html">
@@ -153,37 +159,35 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
       </div>
     </div>
   </section>
-  <section class="band" id="how">
+  <section class="band" id="why">
     <div class="wrap band-inner">
       <div>
-        <div class="kicker">Học bằng cách thử</div>
-        <h2>Không chỉ xem đáp án — hãy khám phá cách ra đáp án.</h2>
-        <p>Subgeneric hướng tới một thư viện công cụ và mô phỏng Hóa học dễ tiếp cận, phù hợp với việc học trên lớp và tự ôn tập tại nhà.</p>
+        <div class="kicker">Điểm khác biệt</div>
+        <h2>Từ công thức trên giấy đến thứ bạn có thể nhìn thấy.</h2>
+        <p>Thay vì chỉ hiện đáp số, Subgeneric cho bạn thay đổi dữ liệu và quan sát điều gì thay đổi theo. Mục tiêu là giúp những phần Hóa học khó hình dung trở nên dễ thử, dễ kiểm tra và gần với chương trình học ở Việt Nam hơn.</p>
       </div>
       <div class="steps">
-        <div class="step"><span class="step-num">1</span><span><strong>Chọn chủ đề.</strong> Mở công cụ tương ứng với bài đang học.</span></div>
-        <div class="step"><span class="step-num">2</span><span><strong>Thử dữ liệu của bạn.</strong> Nhập phương trình hoặc điều chỉnh thông số mô phỏng.</span></div>
-        <div class="step"><span class="step-num">3</span><span><strong>Đối chiếu và tìm hiểu.</strong> Đọc kết quả, bảng kiểm tra và phần giải thích để hiểu quy trình.</span></div>
+        <div class="step"><span class="step-num">1</span><span><strong>Nhập dữ liệu.</strong> Dùng phương trình hoặc thông số của bài tập.</span></div>
+        <div class="step"><span class="step-num">2</span><span><strong>Thay đổi và quan sát.</strong> Thử giá trị khác để xem kết quả biến đổi ra sao.</span></div>
+        <div class="step"><span class="step-num">3</span><span><strong>Kiểm tra lại.</strong> Dùng kết quả để đối chiếu với cách giải của bạn.</span></div>
       </div>
     </div>
   </section>
-  <section class="section" id="about">
-    <div class="wrap">
-      <div class="section-head">
-        <div class="kicker">Về Subgeneric</div>
-        <h2>Xây dựng cho việc học Hóa học tại Việt Nam.</h2>
-        <p>Đây là dự án thử nghiệm do học sinh thực hiện, bắt đầu từ các công cụ tính toán và mô phỏng có thể dùng trực tiếp trên trình duyệt. Dự án sẽ tiếp tục được cải thiện dựa trên phản hồi và kiểm tra tính chính xác của nội dung.</p>
-      </div>
-      <div class="actions">
-        <a class="btn btn-primary" href="reactions.html">Thử công cụ phản ứng <span aria-hidden="true">→</span></a>
-        <a class="btn btn-secondary" href="titration.html">Thử mô phỏng chuẩn độ <span aria-hidden="true">→</span></a>
+  <section class="section" id="team">
+    <div class="wrap team-panel">
+      <div class="team-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M7 18 24 8l17 10-17 10L7 18Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M14 23v10c6 5 14 5 20 0V23M41 18v13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="41" cy="34" r="2.5" fill="currentColor"/></svg></div>
+      <div>
+        <div class="kicker">Người đứng sau dự án</div>
+        <h2>Được làm bởi học sinh Trần Đại Nghĩa.</h2>
+        <p>Chúng mình là một nhóm học sinh đến từ THCS và THPT Trần Đại Nghĩa. Subgeneric bắt đầu từ một ý tưởng đơn giản: nếu có thể tự thay đổi số liệu và nhìn thấy kết quả ngay, Hóa học sẽ bớt trừu tượng hơn.</p>
+        <p>Dự án vẫn đang được phát triển. Chúng mình muốn tiếp tục hoàn thiện công cụ dựa trên việc học thực tế và góp ý từ những bạn sử dụng.</p>
       </div>
     </div>
   </section>
 </main>
 <footer>
   <div class="wrap footer-row">
-    <span>© Subgeneric · Công cụ Hóa học tương tác bằng tiếng Việt</span>
+    <span>Subgeneric · Dự án học sinh Trần Đại Nghĩa</span>
     <div class="footer-links"><a href="index.html">Trang chủ</a><a href="reactions.html">Phản ứng &amp; tính toán</a><a href="titration.html">Mô phỏng chuẩn độ</a></div>
   </div>
 </footer>
