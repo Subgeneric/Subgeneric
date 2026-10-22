@@ -156,7 +156,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       Hỗ trợ hợp chất hữu cơ, ion và phức chất có ngoặc lồng nhau.
     </p>
     <div class="row">
-      <input type="text" id="eq" value="[Cr(N2H4CO)6]4[Cr(CN)6]3 + KMnO4 + H2SO4 -> K2Cr2O7 + MnSO4 + CO2 + KNO3 + K2SO4 + H2O" autocomplete="off" spellcheck="false">
+      <input type="text" id="eq" value="N2 + H2 = NH3" autocomplete="off" spellcheck="false">
       <button id="eqBtn">Cân bằng</button>
     </div>
     <div class="chips" id="eqChips"></div>
@@ -321,24 +321,40 @@ function parseFormula(str){
   }
 
   var charge=0n;
-  var chargeMatch=str.match(/([+-])([0-9]*)$/) || str.match(/([0-9]+)([+-])$/);
-  if(chargeMatch){
-    var chStr=chargeMatch[0];
-    str=str.substring(0,str.length-chStr.length);
-    if(chStr==='+')charge=1n;
-    else if(chStr==='-')charge=-1n;
-    else{
-      var mm=chStr.match(/^([0-9]*)([+-])$/);
-      var num=mm[1]?BigInt(mm[1]):1n;
-      charge=(mm[2]==='+')?num:-num;
+  var caretCharge=str.match(/\^(\d*)([+-])$/);
+  if(caretCharge){
+    var magnitude=caretCharge[1]?BigInt(caretCharge[1]):1n;
+    charge=caretCharge[2]==='+'?magnitude:-magnitude;
+    str=str.slice(0,-caretCharge[0].length);
+  }else{
+    // Fe2+ / Ca2+ are monatomic ions; keep the subscript in NH4+ and MnO4-.
+    var monoCharge=str.match(/^([A-Z][a-z]?)(\d+)([+-])$/);
+    if(monoCharge){
+      charge=monoCharge[3]==='+'?BigInt(monoCharge[2]):-BigInt(monoCharge[2]);
+      str=monoCharge[1];
+    }else if(/[+-]$/.test(str)){
+      charge=str.slice(-1)==='+'?1n:-1n;
+      str=str.slice(0,-1);
     }
   }
+  var bracketStack=[];
+  for(var bi=0;bi<str.length;bi++){
+    var bc=str[bi];
+    if(bc==='('||bc==='['||bc==='{')bracketStack.push(bc);
+    else if(bc===')'||bc===']'||bc==='}'){
+      var expected=bc===')'?'(':bc===']'?'[':'{';
+      if(bracketStack.pop()!==expected)throw new Error('Dấu ngoặc không khớp trong "'+str+'"');
+    }
+  }
+  if(bracketStack.length)throw new Error('Thiếu dấu ngoặc đóng trong "'+str+'"');
 
   var i=0;
   function readNum(){
     var s='';
     while(i<str.length && /[0-9]/.test(str[i])){s+=str[i++];}
-    return s?BigInt(s):1n;
+    var n=s?BigInt(s):1n;
+    if(n===0n)throw new Error('Chỉ số nguyên tử phải lớn hơn 0');
+    return n;
   }
   function group(depth){
     var counts={};
@@ -367,7 +383,9 @@ function parseFormula(str){
       else if(/[0-9]/.test(c)){
         throw new Error('Số không mong đợi trong "'+str+'"');
       }
-      else{i++;}
+      else{
+        throw new Error('Ký tự không hợp lệ trong công thức "'+str+'" tại vị trí '+(i+1)+'.');
+      }
     }
     if(depth>0)throw new Error('Thiếu dấu ngoặc đóng trong "'+str+'"');
     return counts;
@@ -397,13 +415,14 @@ function molarMass(formula){
 
 /* ===== CÂN BẰNG ===== */
 function balance(eq){
-  var parts=eq.replace(/\s+/g,'').split(/->|=>|→|=/);
+  var parts=eq.trim().split(/\s*(?:->|=>|→|=)\s*/);
   if(parts.length!==2||!parts[0]||!parts[1])
     throw new Error('Cần đúng một mũi tên (->) hoặc dấu = giữa vế trái và vế phải.');
   function clean(s){
-    return s.split('+').filter(function(x){return x!==''}).map(function(x){
-      return x.replace(/^[0-9]+/,'');
-    });
+    // Only a plus surrounded by whitespace separates species; the plus in Fe2+ or H+ is charge.
+    return s.split(/\s+\+\s+/).map(function(x){
+      return x.trim().replace(/^[0-9]+\s*/, '');
+    }).filter(function(x){return x!=='';});
   }
   var L=clean(parts[0]),R=clean(parts[1]);
   if(!L.length||!R.length)throw new Error('Mỗi vế cần ít nhất một chất.');
@@ -457,9 +476,12 @@ function escapeHTML(s){
 }
 function fmtFormula(s){
   var safe=escapeHTML(s);
-  safe=safe.replace(/([A-Za-z\)\]])([0-9]+)/g,'$1<sub>$2</sub>');
-  safe=safe.replace(/([0-9]*[+\-])$/,'<sup>$1</sup>');
-  return safe;
+  var caret=safe.match(/\^([0-9]*[+-])$/);
+  if(caret)return safe.slice(0,-caret[0].length)+'<sup>'+caret[1]+'</sup>';
+  var mono=safe.match(/^([A-Z][a-z]?)([0-9]+)([+-])$/);
+  if(mono)return mono[1]+'<sup>'+mono[2]+mono[3]+'</sup>';
+  safe=safe.replace(/([+-])$/,'<sup>$1</sup>');
+  return safe.replace(/([A-Za-z\)\]])([0-9]+)/g,'$1<sub>$2</sub>')
 }
 function fmtNum(x,digits){
   if(!isFinite(x))return '–';
