@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>Phản ứng &amp; tính toán – Subgeneric</title>
 <meta name="description" content="Cân bằng phương trình, khối lượng mol, tính toán theo phương trình, chất giới hạn và hiệu suất.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,6 +30,7 @@ a{color:var(--accent)}
 header{border-bottom:1px solid var(--line);padding:16px 0}
 header .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
 header .name{font-weight:700;font-size:18px;letter-spacing:-.01em;text-decoration:none;color:var(--ink)}
+.brand-symbol{display:inline-grid;place-items:center;width:30px;height:30px;margin-right:6px;border-radius:9px;background:#e3f3ec;color:#0a7562;font-size:19px;vertical-align:middle}
 header nav a{color:var(--muted);text-decoration:none;margin-left:18px;font-size:15px;font-weight:500}
 header nav a:hover,header nav a[aria-current]{color:var(--ink);text-decoration:underline}
 
@@ -125,7 +127,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 <header>
   <div class="wrap">
-    <a class="name" href="index.html" aria-label="Subgeneric — trang chủ">Subgeneric</a>
+    <a class="name" href="index.html" aria-label="Subgeneric — trang chủ"><span class="brand-symbol" aria-hidden="true">⚗</span> Subgeneric</a>
     <nav aria-label="Điều hướng chính">
       <a href="index.html">Trang chủ</a>
       <a href="reactions.html" aria-current="page">Phản ứng &amp; tính toán</a>
