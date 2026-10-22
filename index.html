@@ -334,16 +334,50 @@ function balance(eq){
     pivots.push(c);r++}
   var free=[];for(var cc=0;cc<cols;cc++){if(pivots.indexOf(cc)<0)free.push(cc)}
   if(free.length===0)throw new Error('Không thể cân bằng. Hãy kiểm tra lại công thức các chất.');
-  if(free.length>1)throw new Error('Phương trình có nhiều cách cân bằng khác nhau. Hãy tách thành từng phản ứng riêng.');
-  var fcol=free[0];
-  var x=new Array(cols).fill(null).map(function(){return [0n,1n]});
-  x[fcol]=[1n,1n];
-  pivots.forEach(function(pc,i){x[pc]=fsub([0n,1n],m[i][fcol])});
-  var L2=1n;x.forEach(function(v){L2=lcm(L2,v[1])});
-  var ints=x.map(function(v){return v[0]*(L2/v[1])});
-  var g=0n;ints.forEach(function(v){g=gcd(g,v)});ints=ints.map(function(v){return v/g});
-  if(ints.every(function(v){return v<0n}))ints=ints.map(function(v){return -v});
-  if(!ints.every(function(v){return v>0n}))throw new Error('Không có nghiệm nguyên dương. Hãy kiểm tra lại công thức hoặc vế phản ứng.');
+  function positiveIntegerCoefficients(values){
+    var x=new Array(cols).fill(null).map(function(){return [0n,1n]});
+    free.forEach(function(fc,j){x[fc]=[BigInt(values[j]),1n]});
+    pivots.forEach(function(pc,i){
+      var total=[0n,1n];
+      free.forEach(function(fc){total=fadd(total,fmul(m[i][fc],x[fc]))});
+      x[pc]=fsub([0n,1n],total);
+    });
+    var denominator=1n;
+    x.forEach(function(v){denominator=lcm(denominator,v[1])});
+    var ints=x.map(function(v){return v[0]*(denominator/v[1])});
+    var common=0n;
+    ints.forEach(function(v){common=gcd(common,v)});
+    if(common===0n)return null;
+    ints=ints.map(function(v){return v/common});
+    if(ints.every(function(v){return v>0n}))return ints;
+    if(ints.every(function(v){return v<0n})){
+      ints=ints.map(function(v){return -v});
+      if(ints.every(function(v){return v>0n}))return ints;
+    }
+    return null;
+  }
+  var ints=null;
+  if(free.length===1){
+    ints=positiveIntegerCoefficients([1]);
+  }else{
+    if(free.length>3)throw new Error('Phương trình có quá nhiều ẩn tự do. Hãy tách thành từng phản ứng riêng.');
+    var limit=24,attempts=0,maxAttempts=15000,values=new Array(free.length);
+    function searchPositive(depth){
+      if(ints||attempts>=maxAttempts)return;
+      if(depth===free.length){
+        attempts++;
+        ints=positiveIntegerCoefficients(values);
+        return;
+      }
+      for(var value=1;value<=limit;value++){
+        values[depth]=value;
+        searchPositive(depth+1);
+        if(ints||attempts>=maxAttempts)return;
+      }
+    }
+    searchPositive(0);
+  }
+  if(!ints)throw new Error('Không tìm được bộ hệ số nguyên dương phù hợp. Hãy kiểm tra công thức hoặc tách thành phản ứng riêng.');
   return {L:L,R:R,coef:ints,comps:comps,els:els}
 }
 
