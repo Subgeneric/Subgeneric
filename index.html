@@ -362,20 +362,26 @@ function balance(eq){
   }else{
     if(free.length>3)throw new Error('Phương trình có quá nhiều ẩn tự do. Hãy tách thành từng phản ứng riêng.');
     var limit=24,attempts=0,maxAttempts=15000,values=new Array(free.length);
+    var best=null,bestScore=null;
     function searchPositive(depth){
-      if(ints||attempts>=maxAttempts)return;
+      if(attempts>=maxAttempts)return;
       if(depth===free.length){
         attempts++;
-        ints=positiveIntegerCoefficients(values);
+        var candidate=positiveIntegerCoefficients(values);
+        if(candidate){
+          var score=candidate.reduce(function(total,value){return total+value},0n);
+          if(bestScore===null||score<bestScore){best=candidate;bestScore=score;}
+        }
         return;
       }
       for(var value=1;value<=limit;value++){
         values[depth]=value;
         searchPositive(depth+1);
-        if(ints||attempts>=maxAttempts)return;
+        if(attempts>=maxAttempts)return;
       }
     }
     searchPositive(0);
+    ints=best;
   }
   if(!ints)throw new Error('Không tìm được bộ hệ số nguyên dương phù hợp. Hãy kiểm tra công thức hoặc tách thành phản ứng riêng.');
   return {L:L,R:R,coef:ints,comps:comps,els:els}
