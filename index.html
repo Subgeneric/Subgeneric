@@ -310,7 +310,7 @@ function parseFormula(str){
 function balance(eq){
   var parts=eq.trim().split(/\s*(?:->|=>|→|=)\s*/);
   if(parts.length!==2||!parts[0]||!parts[1])throw new Error('Cần đúng một mũi tên (->) hoặc dấu = giữa vế trái và vế phải.');
-  function clean(s){return s.split(/\s+\+\s+/).map(function(x){return x.trim().replace(/^[0-9]+\s*/, '')}).filter(function(x){return x!==''})}
+  function clean(s){return s.split(/\+(?=\s*\d*\s*(?:[A-Z]|\[|\(|\{))/).map(function(x){return x.trim().replace(/^[0-9]+\s*/, '')}).filter(function(x){return x!==''})}
   var L=clean(parts[0]),R=clean(parts[1]);
   if(!L.length||!R.length)throw new Error('Mỗi vế cần ít nhất một chất.');
   var species=L.concat(R),comps=species.map(parseFormula);
