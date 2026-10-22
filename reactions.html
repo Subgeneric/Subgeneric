@@ -156,7 +156,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       Hỗ trợ hợp chất hữu cơ, ion và phức chất có ngoặc lồng nhau.
     </p>
     <div class="row">
-      <input type="text" id="eq" value="[Cr(N2H4CO)6]4[Cr(CN)6]3 + KMnO4 + H2SO4 -> K2Cr2O7 + MnSO4 + CO2 + KNO3 + K2SO4 + H2O" autocomplete="off" spellcheck="false">
+      <input type="text" id="eq" value="N2 + H2 = NH3" autocomplete="off" spellcheck="false">
       <button id="eqBtn">Cân bằng</button>
     </div>
     <div class="chips" id="eqChips"></div>
@@ -321,24 +321,46 @@ function parseFormula(str){
   }
 
   var charge=0n;
-  var chargeMatch=str.match(/([+-])([0-9]*)$/) || str.match(/([0-9]+)([+-])$/);
-  if(chargeMatch){
-    var chStr=chargeMatch[0];
-    str=str.substring(0,str.length-chStr.length);
-    if(chStr==='+')charge=1n;
-    else if(chStr==='-')charge=-1n;
-    else{
-      var mm=chStr.match(/^([0-9]*)([+-])$/);
-      var num=mm[1]?BigInt(mm[1]):1n;
-      charge=(mm[2]==='+')?num:-num;
+  var caretCharge=str.match(/\^(\d*)([+-])$/);
+  if(caretCharge){
+    var magnitude=caretCharge[1]?BigInt(caretCharge[1]):1n;
+    charge=caretCharge[2]==='+'?magnitude:-magnitude;
+    str=str.slice(0,-caretCharge[0].length);
+  }else{
+    var complexCharge=str.match(/^(.+\])(\d+)([+-])$/);
+    if(complexCharge){
+      charge=complexCharge[3]==='+'?BigInt(complexCharge[2]):-BigInt(complexCharge[2]);
+      str=complexCharge[1];
+    }else{
+    // Fe2+ / Ca2+ are monatomic ions; keep the subscript in NH4+ and MnO4-.
+    var monoCharge=str.match(/^([A-Z][a-z]?)(\d+)([+-])$/);
+    if(monoCharge){
+      charge=monoCharge[3]==='+'?BigInt(monoCharge[2]):-BigInt(monoCharge[2]);
+      str=monoCharge[1];
+    }else if(/[+-]$/.test(str)){
+      charge=str.slice(-1)==='+'?1n:-1n;
+      str=str.slice(0,-1);
+    }
     }
   }
+  var bracketStack=[];
+  for(var bi=0;bi<str.length;bi++){
+    var bc=str[bi];
+    if(bc==='('||bc==='['||bc==='{')bracketStack.push(bc);
+    else if(bc===')'||bc===']'||bc==='}'){
+      var expected=bc===')'?'(':bc===']'?'[':'{';
+      if(bracketStack.pop()!==expected)throw new Error('Dấu ngoặc không khớp trong "'+str+'"');
+    }
+  }
+  if(bracketStack.length)throw new Error('Thiếu dấu ngoặc đóng trong "'+str+'"');
 
   var i=0;
   function readNum(){
     var s='';
     while(i<str.length && /[0-9]/.test(str[i])){s+=str[i++];}
-    return s?BigInt(s):1n;
+    var n=s?BigInt(s):1n;
+    if(n===0n)throw new Error('Chỉ số nguyên tử phải lớn hơn 0');
+    return n;
   }
   function group(depth){
     var counts={};
@@ -367,7 +389,9 @@ function parseFormula(str){
       else if(/[0-9]/.test(c)){
         throw new Error('Số không mong đợi trong "'+str+'"');
       }
-      else{i++;}
+      else{
+        throw new Error('Ký tự không hợp lệ trong công thức "'+str+'" tại vị trí '+(i+1)+'.');
+      }
     }
     if(depth>0)throw new Error('Thiếu dấu ngoặc đóng trong "'+str+'"');
     return counts;
@@ -397,13 +421,14 @@ function molarMass(formula){
 
 /* ===== CÂN BẰNG ===== */
 function balance(eq){
-  var parts=eq.replace(/\s+/g,'').split(/->|=>|→|=/);
+  var parts=eq.trim().split(/\s*(?:->|=>|→|=)\s*/);
   if(parts.length!==2||!parts[0]||!parts[1])
     throw new Error('Cần đúng một mũi tên (->) hoặc dấu = giữa vế trái và vế phải.');
   function clean(s){
-    return s.split('+').filter(function(x){return x!==''}).map(function(x){
-      return x.replace(/^[0-9]+/,'');
-    });
+    // Split at a plus only when a new formula follows; keep the plus in Fe2+, H+, etc.
+    return s.split(/\+(?=\s*\d*\s*(?:[A-Z]|\[|\(|\{))/).map(function(x){
+      return x.trim().replace(/^[0-9]+\s*/, '');
+    }).filter(function(x){return x!=='';});
   }
   var L=clean(parts[0]),R=clean(parts[1]);
   if(!L.length||!R.length)throw new Error('Mỗi vế cần ít nhất một chất.');
@@ -436,17 +461,56 @@ function balance(eq){
   var free=[];
   for(var cc=0;cc<cols;cc++){if(pivots.indexOf(cc)<0)free.push(cc)}
   if(free.length===0)throw new Error('Không thể cân bằng. Hãy kiểm tra lại công thức các chất.');
-  if(free.length>1)throw new Error('Phương trình có nhiều cách cân bằng khác nhau. Hãy tách thành từng phản ứng riêng.');
-  var fcol=free[0];
-  var x=new Array(cols).fill(null).map(function(){return [0n,1n]});
-  x[fcol]=[1n,1n];
-  pivots.forEach(function(pc,i){x[pc]=fsub([0n,1n],m[i][fcol])});
-  var L2=1n;x.forEach(function(v){L2=lcm(L2,v[1])});
-  var ints=x.map(function(v){return v[0]*(L2/v[1])});
-  var g=0n;ints.forEach(function(v){g=gcd(g,v)});ints=ints.map(function(v){return v/g});
-  if(ints.every(function(v){return v<0n}))ints=ints.map(function(v){return -v});
-  if(!ints.every(function(v){return v>0n}))
-    throw new Error('Không có nghiệm nguyên dương. Hãy kiểm tra lại công thức hoặc vế phản ứng.');
+  function positiveIntegerCoefficients(values){
+    var x=new Array(cols).fill(null).map(function(){return [0n,1n]});
+    free.forEach(function(fc,j){x[fc]=[BigInt(values[j]),1n]});
+    pivots.forEach(function(pc,i){
+      var total=[0n,1n];
+      free.forEach(function(fc){total=fadd(total,fmul(m[i][fc],x[fc]))});
+      x[pc]=fsub([0n,1n],total);
+    });
+    var denominator=1n;
+    x.forEach(function(v){denominator=lcm(denominator,v[1])});
+    var ints=x.map(function(v){return v[0]*(denominator/v[1])});
+    var common=0n;
+    ints.forEach(function(v){common=gcd(common,v)});
+    if(common===0n)return null;
+    ints=ints.map(function(v){return v/common});
+    if(ints.every(function(v){return v>0n}))return ints;
+    if(ints.every(function(v){return v<0n})){
+      ints=ints.map(function(v){return -v});
+      if(ints.every(function(v){return v>0n}))return ints;
+    }
+    return null;
+  }
+  var ints=null;
+  if(free.length===1){
+    ints=positiveIntegerCoefficients([1]);
+  }else{
+    if(free.length>3)throw new Error('Phương trình có quá nhiều ẩn tự do. Hãy tách thành từng phản ứng riêng.');
+    var limit=24,attempts=0,maxAttempts=15000,values=new Array(free.length);
+    var best=null,bestScore=null;
+    function searchPositive(depth){
+      if(attempts>=maxAttempts)return;
+      if(depth===free.length){
+        attempts++;
+        var candidate=positiveIntegerCoefficients(values);
+        if(candidate){
+          var score=candidate.reduce(function(total,value){return total+value},0n);
+          if(bestScore===null||score<bestScore){best=candidate;bestScore=score;}
+        }
+        return;
+      }
+      for(var value=1;value<=limit;value++){
+        values[depth]=value;
+        searchPositive(depth+1);
+        if(attempts>=maxAttempts)return;
+      }
+    }
+    searchPositive(0);
+    ints=best;
+  }
+  if(!ints)throw new Error('Không tìm được bộ hệ số nguyên dương phù hợp. Hãy kiểm tra công thức hoặc tách thành phản ứng riêng.');
   return {L:L,R:R,coef:ints,comps:comps,els:els};
 }
 
@@ -457,9 +521,15 @@ function escapeHTML(s){
 }
 function fmtFormula(s){
   var safe=escapeHTML(s);
-  safe=safe.replace(/([A-Za-z\)\]])([0-9]+)/g,'$1<sub>$2</sub>');
-  safe=safe.replace(/([0-9]*[+\-])$/,'<sup>$1</sup>');
-  return safe;
+  var sub=function(value){return value.replace(/([A-Za-z\)\]])([0-9]+)/g,'$1<sub>$2</sub>')};
+  var caret=safe.match(/^(.*)\^([0-9]*[+-])$/);
+  if(caret)return sub(caret[1])+'<sup>'+caret[2]+'</sup>';
+  var complex=safe.match(/^(.*\])([0-9]+)([+-])$/);
+  if(complex)return sub(complex[1])+'<sup>'+complex[2]+complex[3]+'</sup>';
+  var mono=safe.match(/^([A-Z][a-z]?)([0-9]+)([+-])$/);
+  if(mono)return mono[1]+'<sup>'+mono[2]+mono[3]+'</sup>';
+  safe=safe.replace(/([+-])$/,'<sup>$1</sup>');
+  return sub(safe)
 }
 function fmtNum(x,digits){
   if(!isFinite(x))return '–';
@@ -611,8 +681,9 @@ function runStoich(){
     var amount=parseFloat(stAmt.value);
     if(!isFinite(amount)||amount<=0)throw new Error('Lượng phải là số dương.');
     var Mlist=speciesMasses(res);
+    var invalidMassIndex=Mlist.findIndex(function(m){return m===null;});
+    if(invalidMassIndex>=0)throw new Error('Không tính được khối lượng mol của '+names[invalidMassIndex]);
     var Mknown=Mlist[idx];
-    if(Mknown===null)throw new Error('Không tính được khối lượng mol của '+names[idx]);
 
     var nKnown=(stUnit.value==='g')?amount/Mknown:amount;
     var coefKnown=Number(res.coef[idx]);
@@ -621,7 +692,7 @@ function runStoich(){
     var html='<div>Phương trình: <strong>'+renderEquationLine(res)+'</strong></div>';
     html+='<div style="margin-top:6px">Chất đã biết: <strong>'+fmtFormula(names[idx])+
           '</strong> — '+fmtNum(nKnown,5)+' mol ('+fmtNum(nKnown*Mknown,5)+' g)</div>';
-    html+='<table class="data"><tr><th>Chất</th><th>Hệ số</th><th>Số mol</th><th>Khối lượng (g)</th><th>Thể tích khí ở đktc (L)</th></tr>';
+    html+='<table class="data"><tr><th>Chất</th><th>Hệ số</th><th>Số mol</th><th>Khối lượng (g)</th><th>Thể tích khí (0 °C, 1 atm; L)</th></tr>';
     names.forEach(function(n,i){
       var coef=Number(res.coef[i]);
       var mol=ratio*coef;
@@ -641,7 +712,7 @@ function runStoich(){
             ?fmtNum(amount,5)+' g ÷ '+fmtNum(Mknown,5)+' g/mol = '+fmtNum(nKnown,5)+' mol'
             :fmtNum(amount,5)+' mol')+
           '<br>Hệ số tỉ lệ = '+fmtNum(nKnown,5)+' ÷ '+coefKnown+' = '+fmtNum(ratio,5)+
-          '<br>Với mỗi chất: n = tỉ lệ × hệ số; m = n × M; V(khí, đktc) = n × 22,4 L/mol'+
+          '<br>Với mỗi chất: n = tỉ lệ × hệ số; m = n × M; V(khí, 0 °C và 1 atm) = n × 22,4 L/mol'+
           '</div></details>';
     stOut.className='result';
     stOut.innerHTML=html;
@@ -752,6 +823,7 @@ function runLimiting(){
     if(prodIdx<0)throw new Error('Hãy chọn sản phẩm cần tính.');
     var prodCoef=Number(res.coef[res.L.length+prodIdx]);
     var prodM=Mlist[res.L.length+prodIdx];
+    if(prodM===null)throw new Error('Không tính được khối lượng mol của '+prodName);
 
     var molTheoLT=limRatio*prodCoef;
     var massTheoLT=molTheoLT*prodM;

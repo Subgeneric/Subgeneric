@@ -153,7 +153,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       Hỗ trợ hợp chất hữu cơ, ion và phức chất có ngoặc lồng nhau.
     </p>
     <div class="row">
-      <input type="text" id="eq" value="[Cr(N2H4CO)6]4[Cr(CN)6]3 + KMnO4 + H2SO4 -> K2Cr2O7 + MnSO4 + CO2 + KNO3 + K2SO4 + H2O" autocomplete="off" spellcheck="false">
+      <input type="text" id="eq" value="N2 + H2 = NH3" autocomplete="off" spellcheck="false">
       <button id="eqBtn">Cân bằng</button>
     </div>
     <div class="chips" id="eqChips"></div>
@@ -241,8 +241,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </footer>
 
 <script>
-var SURVEY_URL = "https://forms.gle/THAY_LINK_KHAO_SAT_CUA_BAN";
-document.getElementById('surveyLink').href = SURVEY_URL;
+var SURVEY_URL = "";
+var surveyLink = document.getElementById("surveyLink");
+if (SURVEY_URL) {
+  surveyLink.href = SURVEY_URL;
+} else {
+  surveyLink.removeAttribute("href");
+  surveyLink.removeAttribute("target");
+  surveyLink.textContent = "Khảo sát chưa được mở";
+  surveyLink.setAttribute("aria-disabled", "true");
+}
 
 // ====== Phần tính toán ======
 function abs(n){return n<0n?-n:n}
@@ -256,12 +264,39 @@ function fdiv(a,b){return frac(a[0]*b[1],a[1]*b[0])}
 
 function parseFormula(str){
   str=str.trim();var charge=0n;
-  var chargeMatch=str.match(/([+-]?[0-9]*[\+\-])$/);
-  if(chargeMatch){var chStr=chargeMatch[1];str=str.substring(0,str.length-chStr.length);
-    if(chStr==='+')charge=1n;else if(chStr==='-')charge=-1n;
-    else{var num=parseInt(chStr,10);charge=isNaN(num)?(chStr.endsWith('+')?1n:-1n):BigInt(num)}}
+  var caretCharge=str.match(/\^(\d*)([+-])$/);
+  if(caretCharge){
+    var magnitude=caretCharge[1]?BigInt(caretCharge[1]):1n;
+    charge=caretCharge[2]==='+'?magnitude:-magnitude;
+    str=str.slice(0,-caretCharge[0].length);
+  }else{
+    var complexCharge=str.match(/^(.+\])(\d+)([+-])$/);
+    if(complexCharge){
+      charge=complexCharge[3]==='+'?BigInt(complexCharge[2]):-BigInt(complexCharge[2]);
+      str=complexCharge[1];
+    }else{
+    var monoCharge=str.match(/^([A-Z][a-z]?)(\d+)([+-])$/);
+    if(monoCharge){
+      charge=monoCharge[3]==='+'?BigInt(monoCharge[2]):-BigInt(monoCharge[2]);
+      str=monoCharge[1];
+    }else if(/[+-]$/.test(str)){
+      charge=str.slice(-1)==='+'?1n:-1n;
+      str=str.slice(0,-1);
+    }
+    }
+  }
+  var bracketStack=[];
+  for(var bi=0;bi<str.length;bi++){
+    var bc=str[bi];
+    if(bc==='('||bc==='['||bc==='{')bracketStack.push(bc);
+    else if(bc===')'||bc===']'||bc==='}'){
+      var expected=bc===')'?'(':bc===']'?'[':'{';
+      if(bracketStack.pop()!==expected)throw new Error('Dấu ngoặc không khớp trong "'+str+'"');
+    }
+  }
+  if(bracketStack.length)throw new Error('Thiếu dấu ngoặc đóng trong "'+str+'"');
   var i=0;
-  function readNum(){var s='';while(i<str.length&&/[0-9]/.test(str[i])){s+=str[i++]}return s?BigInt(s):1n}
+  function readNum(){var s='';while(i<str.length&&/[0-9]/.test(str[i])){s+=str[i++]}var n=s?BigInt(s):1n;if(n===0n)throw new Error('Chỉ số nguyên tử phải lớn hơn 0');return n}
   function group(depth){var counts={};
     while(i<str.length){var c=str[i];
       if(c==='('||c==='['||c==='{'){i++;var inner=group(depth+1);var n=readNum();
@@ -269,7 +304,7 @@ function parseFormula(str){
       else if(c===')'||c===']'||c==='}'){if(depth===0)throw new Error('Dấu ngoặc đóng thừa trong "'+str+'"');i++;return counts}
       else if(/[A-Z]/.test(c)){var el=c;i++;while(i<str.length&&/[a-z]/.test(str[i])){el+=str[i++]}
         var n2=readNum();counts[el]=(counts[el]||0n)+n2}
-      else{i++}}
+      else{throw new Error('Ký tự không hợp lệ trong công thức "'+str+'" tại vị trí '+(i+1)+'.')}}
     if(depth>0)throw new Error('Thiếu dấu ngoặc đóng trong "'+str+'"');
     return counts}
   var r=group(0);
@@ -279,9 +314,9 @@ function parseFormula(str){
 }
 
 function balance(eq){
-  var parts=eq.replace(/\s+/g,'').split(/->|=>|→|=/);
+  var parts=eq.trim().split(/\s*(?:->|=>|→|=)\s*/);
   if(parts.length!==2||!parts[0]||!parts[1])throw new Error('Cần đúng một mũi tên (->) hoặc dấu = giữa vế trái và vế phải.');
-  function clean(s){return s.split('+').filter(function(x){return x!==''}).map(function(x){return x.replace(/^[0-9]+/,'')})}
+  function clean(s){return s.split(/\+(?=\s*\d*\s*(?:[A-Z]|\[|\(|\{))/).map(function(x){return x.trim().replace(/^[0-9]+\s*/, '')}).filter(function(x){return x!==''})}
   var L=clean(parts[0]),R=clean(parts[1]);
   if(!L.length||!R.length)throw new Error('Mỗi vế cần ít nhất một chất.');
   var species=L.concat(R),comps=species.map(parseFormula);
@@ -299,16 +334,56 @@ function balance(eq){
     pivots.push(c);r++}
   var free=[];for(var cc=0;cc<cols;cc++){if(pivots.indexOf(cc)<0)free.push(cc)}
   if(free.length===0)throw new Error('Không thể cân bằng. Hãy kiểm tra lại công thức các chất.');
-  if(free.length>1)throw new Error('Phương trình có nhiều cách cân bằng khác nhau. Hãy tách thành từng phản ứng riêng.');
-  var fcol=free[0];
-  var x=new Array(cols).fill(null).map(function(){return [0n,1n]});
-  x[fcol]=[1n,1n];
-  pivots.forEach(function(pc,i){x[pc]=fsub([0n,1n],m[i][fcol])});
-  var L2=1n;x.forEach(function(v){L2=lcm(L2,v[1])});
-  var ints=x.map(function(v){return v[0]*(L2/v[1])});
-  var g=0n;ints.forEach(function(v){g=gcd(g,v)});ints=ints.map(function(v){return v/g});
-  if(ints.every(function(v){return v<0n}))ints=ints.map(function(v){return -v});
-  if(!ints.every(function(v){return v>0n}))throw new Error('Không có nghiệm nguyên dương. Hãy kiểm tra lại công thức hoặc vế phản ứng.');
+  function positiveIntegerCoefficients(values){
+    var x=new Array(cols).fill(null).map(function(){return [0n,1n]});
+    free.forEach(function(fc,j){x[fc]=[BigInt(values[j]),1n]});
+    pivots.forEach(function(pc,i){
+      var total=[0n,1n];
+      free.forEach(function(fc){total=fadd(total,fmul(m[i][fc],x[fc]))});
+      x[pc]=fsub([0n,1n],total);
+    });
+    var denominator=1n;
+    x.forEach(function(v){denominator=lcm(denominator,v[1])});
+    var ints=x.map(function(v){return v[0]*(denominator/v[1])});
+    var common=0n;
+    ints.forEach(function(v){common=gcd(common,v)});
+    if(common===0n)return null;
+    ints=ints.map(function(v){return v/common});
+    if(ints.every(function(v){return v>0n}))return ints;
+    if(ints.every(function(v){return v<0n})){
+      ints=ints.map(function(v){return -v});
+      if(ints.every(function(v){return v>0n}))return ints;
+    }
+    return null;
+  }
+  var ints=null;
+  if(free.length===1){
+    ints=positiveIntegerCoefficients([1]);
+  }else{
+    if(free.length>3)throw new Error('Phương trình có quá nhiều ẩn tự do. Hãy tách thành từng phản ứng riêng.');
+    var limit=24,attempts=0,maxAttempts=15000,values=new Array(free.length);
+    var best=null,bestScore=null;
+    function searchPositive(depth){
+      if(attempts>=maxAttempts)return;
+      if(depth===free.length){
+        attempts++;
+        var candidate=positiveIntegerCoefficients(values);
+        if(candidate){
+          var score=candidate.reduce(function(total,value){return total+value},0n);
+          if(bestScore===null||score<bestScore){best=candidate;bestScore=score;}
+        }
+        return;
+      }
+      for(var value=1;value<=limit;value++){
+        values[depth]=value;
+        searchPositive(depth+1);
+        if(attempts>=maxAttempts)return;
+      }
+    }
+    searchPositive(0);
+    ints=best;
+  }
+  if(!ints)throw new Error('Không tìm được bộ hệ số nguyên dương phù hợp. Hãy kiểm tra công thức hoặc tách thành phản ứng riêng.');
   return {L:L,R:R,coef:ints,comps:comps,els:els}
 }
 
@@ -323,8 +398,18 @@ function titrationPH(Ca,Va,Cb,Vb,pKa){
 }
 
 // ====== Giao diện ======
+function escapeHTML(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 function fmtFormula(s){
-  return s.replace(/([A-Za-z\)\]])([0-9]+)/g,'$1<sub>$2</sub>').replace(/([0-9]*[\+\-])$/,'<sup>$1</sup>')
+  var safe=escapeHTML(s);
+  var sub=function(value){return value.replace(/([A-Za-z\)\]])([0-9]+)/g,'$1<sub>$2</sub>')};
+  var caret=safe.match(/^(.*)\^([0-9]*[+-])$/);
+  if(caret)return sub(caret[1])+'<sup>'+caret[2]+'</sup>';
+  var complex=safe.match(/^(.*\])([0-9]+)([+-])$/);
+  if(complex)return sub(complex[1])+'<sup>'+complex[2]+complex[3]+'</sup>';
+  var mono=safe.match(/^([A-Z][a-z]?)([0-9]+)([+-])$/);
+  if(mono)return mono[1]+'<sup>'+mono[2]+mono[3]+'</sup>';
+  safe=safe.replace(/([+-])$/,'<sup>$1</sup>');
+  return sub(safe)
 }
 function renderBalanced(res){
   var parts=function(names,offset){return names.map(function(n,i){
@@ -360,10 +445,17 @@ runBalance();
 
 var el=function(id){return document.getElementById(id)};
 var canvas=el('curve'),ctx=canvas.getContext('2d'),timer=null;
+function boundedInput(id,min,max,fallback){
+  var input=el(id),value=Number(input.value);
+  if(!Number.isFinite(value))value=fallback;
+  value=Math.max(min,Math.min(max,value));
+  input.value=String(value);
+  return value;
+}
 function params(){var pk=el('acid').value;return{
-  Ca:Math.max(0.001,parseFloat(el('Ca').value)||0.1),
-  Va:Math.max(1,parseFloat(el('Va').value)||25),
-  Cb:Math.max(0.001,parseFloat(el('Cb').value)||0.1),
+  Ca:boundedInput('Ca',0.001,2,0.1),
+  Va:boundedInput('Va',5,100,25),
+  Cb:boundedInput('Cb',0.001,2,0.1),
   pKa:pk===''?null:parseFloat(pk)}}
 function lerp(a,b,t){return a+(b-a)*t}
 function mix(c1,c2,t){t=Math.max(0,Math.min(1,t));return [lerp(c1[0],c2[0],t),lerp(c1[1],c2[1],t),lerp(c1[2],c2[2],t)]}
@@ -373,16 +465,17 @@ function indicatorColor(kind,pH){var c;
   else{var t=(pH-6.0)/(7.6-6.0);c=t<.5?mix([245,215,60],[110,180,90],t*2):mix([110,180,90],[50,110,210],(t-.5)*2)}
   return 'rgb('+c.map(Math.round).join(',')+')'}
 function resizeCanvas(){var dpr=window.devicePixelRatio||1,w=canvas.clientWidth,h=canvas.clientHeight;
+  if(!w||!h)return;
   canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}
 function draw(){
-  var p=params(),Veq=p.Ca*p.Va/p.Cb,Vmax=Veq*2;
-  var slider=el('Vb');slider.max=Vmax.toFixed(2);
+  var p=params(),Veq=p.Ca*p.Va/p.Cb,Vmax=Math.max(Veq*2,0.5);
+  var slider=el('Vb');slider.max=String(Vmax);slider.step=String(Math.min(0.05,Vmax/100));
   if(parseFloat(slider.value)>Vmax)slider.value=Vmax;
   var Vb=parseFloat(slider.value)||0;
   var pH=titrationPH(p.Ca,p.Va,p.Cb,Vb,p.pKa);
   el('VbLabel').textContent=Vb.toFixed(2);
   el('pH').textContent=pH.toFixed(2);
-  el('Veq').textContent=Veq.toFixed(2)+' mL';
+  el('Veq').textContent=(Veq<0.1?Veq.toPrecision(3):Veq.toFixed(2))+' mL';
   var st;
   if(Math.abs(Vb-Veq)<Veq*0.01)st='Gần điểm tương đương: pH thay đổi rất nhanh.';
   else if(Vb<Veq)st='Trước điểm tương đương: còn axit dư.';
@@ -398,7 +491,7 @@ function draw(){
   for(var i=0;i<=4;i++){var v=Vmax*i/4,px=L+pw*i/4;ctx.fillText(v.toFixed(1),px,H-14)}
   ctx.fillText('V NaOH (mL)',L+pw/2,H-1);
   ctx.save();ctx.translate(11,T+ph/2);ctx.rotate(-Math.PI/2);ctx.fillText('pH',0,0);ctx.restore();
-  var eqx=L+pw*0.5;ctx.setLineDash([5,4]);ctx.strokeStyle='#c98a0a';ctx.beginPath();ctx.moveTo(eqx,T);ctx.lineTo(eqx,T+ph);ctx.stroke();ctx.setLineDash([]);
+  var eqx=L+pw*(Veq/Vmax);ctx.setLineDash([5,4]);ctx.strokeStyle='#c98a0a';ctx.beginPath();ctx.moveTo(eqx,T);ctx.lineTo(eqx,T+ph);ctx.stroke();ctx.setLineDash([]);
   ctx.fillStyle='#8a6008';ctx.fillText('tương đương',eqx,T+11);
   ctx.strokeStyle='#0a7562';ctx.lineWidth=2.5;ctx.beginPath();
   var N=240;
@@ -407,7 +500,7 @@ function draw(){
     if(k===0)ctx.moveTo(x,yy);else ctx.lineTo(x,yy)}
   ctx.stroke();
   var cx=L+pw*(Vb/Vmax),cy=T+ph*(1-Math.max(0,Math.min(14,pH))/14);
-  ctx.fillStyle='#fff';ctx.strokeStyle='#c33';ctx.lineWidth=3;ctx.beginPath();ctx.arc(cx,cy,6,0,Math.PI*2);ctx.fill();ctx.stroke()
+  ctx.fillStyle=indicatorColor(el('ind').value,pH);ctx.strokeStyle='#c33';ctx.lineWidth=2;ctx.beginPath();ctx.arc(cx,cy,6,0,Math.PI*2);ctx.fill();ctx.stroke()
 }
 function stopAuto(){if(timer){clearInterval(timer);timer=null}el('auto').textContent='Tự động'}
 ['acid','Ca','Va','Cb','ind'].forEach(function(id){el(id).addEventListener('input',function(){stopAuto();draw()})});

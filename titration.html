@@ -184,12 +184,19 @@ function titrationPH(Ca,Va,Cb,Vb,pKa){
 }
 var el=function(id){return document.getElementById(id)};
 var canvas=el('curve'),ctx=canvas.getContext('2d'),timer=null;
+function boundedInput(id,min,max,fallback){
+  var input=el(id),value=Number(input.value);
+  if(!Number.isFinite(value))value=fallback;
+  value=Math.max(min,Math.min(max,value));
+  input.value=String(value);
+  return value;
+}
 function params(){
   var pk=el('acid').value;
   return {
-    Ca:Math.max(0.001,parseFloat(el('Ca').value)||0.1),
-    Va:Math.max(1,parseFloat(el('Va').value)||25),
-    Cb:Math.max(0.001,parseFloat(el('Cb').value)||0.1),
+    Ca:boundedInput('Ca',0.001,2,0.1),
+    Va:boundedInput('Va',5,100,25),
+    Cb:boundedInput('Cb',0.001,2,0.1),
     pKa:pk===''?null:parseFloat(pk)
   };
 }
@@ -198,7 +205,7 @@ function mix(c1,c2,t){t=Math.max(0,Math.min(1,t));
   return [lerp(c1[0],c2[0],t),lerp(c1[1],c2[1],t),lerp(c1[2],c2[2],t)]}
 function indicatorColor(kind,pH){
   var c;
-  if(kind==='pp')c=mix([226,240,246],[233,30,140],(pH-9.4)/(10.6-9.4));
+  if(kind==='pp')c=mix([226,240,246],[233,30,140],(pH-8.2)/(10-8.2));
   else if(kind==='mo')c=mix([230,60,50],[250,200,40],(pH-3.1)/(4.4-3.1));
   else{
     var t=(pH-6.0)/(7.6-6.0);
@@ -213,14 +220,14 @@ function resizeCanvas(){
   ctx.setTransform(dpr,0,0,dpr,0,0);
 }
 function draw(){
-  var p=params(),Veq=p.Ca*p.Va/p.Cb,Vmax=Veq*2;
-  var slider=el('Vb');slider.max=Vmax.toFixed(2);
+  var p=params(),Veq=p.Ca*p.Va/p.Cb,Vmax=Math.max(Veq*2,0.5);
+  var slider=el('Vb');slider.max=String(Vmax);slider.step=String(Math.min(0.05,Vmax/100));
   if(parseFloat(slider.value)>Vmax)slider.value=Vmax;
   var Vb=parseFloat(slider.value)||0;
   var pH=titrationPH(p.Ca,p.Va,p.Cb,Vb,p.pKa);
   el('VbLabel').textContent=Vb.toFixed(2);
   el('pH').textContent=pH.toFixed(2);
-  el('Veq').textContent=Veq.toFixed(2)+' mL';
+  el('Veq').textContent=(Veq<0.1?Veq.toPrecision(3):Veq.toFixed(2))+' mL';
   var st;
   if(Math.abs(Vb-Veq)<Veq*0.01)st='Gần điểm tương đương: pH thay đổi rất nhanh.';
   else if(Vb<Veq)st='Trước điểm tương đương: còn axit dư.';
@@ -243,7 +250,7 @@ function draw(){
   }
   ctx.fillText('V NaOH (mL)',L+pw/2,H-1);
   ctx.save();ctx.translate(11,T+ph/2);ctx.rotate(-Math.PI/2);ctx.fillText('pH',0,0);ctx.restore();
-  var eqx=L+pw*0.5;
+  var eqx=L+pw*(Veq/Vmax);
   ctx.setLineDash([5,4]);ctx.strokeStyle='#c98a0a';
   ctx.beginPath();ctx.moveTo(eqx,T);ctx.lineTo(eqx,T+ph);ctx.stroke();ctx.setLineDash([]);
   ctx.fillStyle='#8a6008';ctx.fillText('tương đương',eqx,T+11);
