@@ -419,8 +419,8 @@ function balance(eq){
   if(parts.length!==2||!parts[0]||!parts[1])
     throw new Error('Cần đúng một mũi tên (->) hoặc dấu = giữa vế trái và vế phải.');
   function clean(s){
-    // Only a plus surrounded by whitespace separates species; the plus in Fe2+ or H+ is charge.
-    return s.split(/\s+\+\s+/).map(function(x){
+    // Split at a plus only when a new formula follows; keep the plus in Fe2+, H+, etc.
+    return s.split(/\+(?=\s*\d*\s*(?:[A-Z]|\[|\(|\{))/).map(function(x){
       return x.trim().replace(/^[0-9]+\s*/, '');
     }).filter(function(x){return x!=='';});
   }
