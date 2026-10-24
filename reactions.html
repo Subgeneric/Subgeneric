@@ -211,13 +211,13 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
   <nav class="nav-tools" aria-label="Mục lục công cụ">
     <a href="#tool1">1. Cân bằng phương trình</a>
     <a href="#tool2">2. Khối lượng mol</a>
-    <a href="#tool3">3. Stoichiometry</a>
+    <a href="#tool3">3. Tính toán theo phương trình</a>
     <a href="#tool4">4. Chất giới hạn và hiệu suất phản ứng</a>
   </nav>
 
   <!-- ============ 1. CÂN BẰNG ============ -->
   <section class="tool" id="tool1">
-    <h3>1. Cân bằng phương trình chemical equations</h3>
+    <h3>1. Cân bằng phương trình hóa học</h3>
     <p class="hint">
       Nhập phương trình, dùng <code>-&gt;</code> hoặc <code>=</code> để ngăn cách hai vế. Hỗ trợ hợp chất hữu cơ, ion và phức chất có dấu ngoặc lồng nhau.
     </p>
@@ -256,17 +256,17 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
       </div>
       <div class="cols-3">
         <div>
-          <label for="stKnown">Known substance</label>
+          <label for="stKnown">Chất đã biết</label>
           <select id="stKnown"></select>
         </div>
         <div>
-          <label for="stAmt">Amount</label>
+          <label for="stAmt">Lượng chất</label>
           <input type="number" id="stAmt" value="5.6" min="0" step="any">
         </div>
         <div>
-          <label for="stUnit">Unit</label>
+          <label for="stUnit">Đơn vị</label>
           <select id="stUnit">
-            <option value="g">grams (g)</option>
+            <option value="g">gam (g)</option>
             <option value="mol">mol</option>
           </select>
         </div>
@@ -631,7 +631,7 @@ function renderBalanced(res){
     }).join(' + ');
   };
   var html=parts(res.L,0)+' &rarr; '+parts(res.R,res.L.length);
-  var tbl='<table class="atoms"><tr><th>Nguyên tố</th><th>Trái</th><th>Phải</th><th></th></tr>';
+  var tbl='<table class="atoms"><tr><th>Nguyên tố</th><th>Vế trái</th><th>Vế phải</th><th></th></tr>';
   res.els.forEach(function(el){
     var dispName=el==='e'?'Điện tích':el;
     var l=0n,r=0n;
@@ -751,7 +751,7 @@ function runStoich(){
     var ratio=nKnown/coefKnown;
 
     var html='<div>Phương trình hóa học: <strong>'+renderEquationLine(res)+'</strong></div>';
-    html+='<div style="margin-top:6px">Known substance: <strong>'+fmtFormula(names[idx])+
+    html+='<div style="margin-top:6px">Chất đã biết: <strong>'+fmtFormula(names[idx])+
           '</strong> — '+fmtNum(nKnown,5)+' mol ('+fmtNum(nKnown*Mknown,5)+' g)</div>';
     html+='<table class="data"><tr><th>Chất</th><th>Hệ số</th><th>Lượng chất (mol)</th><th>Khối lượng (g)</th><th>Thể tích khí (0 °C, 1 atm; L)</th></tr>';
     names.forEach(function(n,i){
@@ -847,7 +847,7 @@ function refreshLRInputs(){
     });
     if(prev)lrProduct.value=prev;
   }catch(e){
-    container.innerHTML='<div style="color:var(--muted);font-size:14px">Nhập equation hợp lệ để bắt đầu.</div>';
+    container.innerHTML='<div style="color:var(--muted);font-size:14px">Nhập phương trình hợp lệ để bắt đầu.</div>';
     lrProduct.innerHTML='';
   }
 }
@@ -908,7 +908,7 @@ function runLimiting(){
 
     var duList=amounts.filter(function(a){return a!==lim});
     if(duList.length){
-      html+='<div style="margin-top:10px">Sau reaction, các chất còn dư:</div>';
+      html+='<div style="margin-top:10px">Sau phản ứng, các chất còn dư:</div>';
       html+='<table class="data"><tr><th>Chất phản ứng dư</th><th>n ban đầu (mol)</th><th>n đã phản ứng (mol)</th><th>n còn dư (mol)</th><th>m còn dư (g)</th></tr>';
       duList.forEach(function(a){
         var nPU=limRatio*a.coef;
@@ -936,9 +936,9 @@ function runLimiting(){
     html+='<details class="species"><summary>Xem cách tính</summary>'+
           '<div style="font-size:14px;color:var(--muted);margin-top:6px">'+
           '1) Đổi khối lượng mỗi chất phản ứng sang mol: n = m / M.<br>'+
-          '2) Chia n cho corresponding coefficient. Chất có tỉ số nhỏ nhất là chất giới hạn.<br>'+
+          '2) Chia n cho hệ số tương ứng. Chất có tỉ số nhỏ nhất là chất giới hạn.<br>'+
           '3) Lượng sản phẩm (mol) = tỉ số nhỏ nhất × hệ số sản phẩm. Khối lượng lý thuyết = n × M.<br>'+
-          '4) Hiệu suất phản ứng H% = (m actual / m theoretical) × 100%.'+
+          '4) Hiệu suất phản ứng H% = (khối lượng thực tế / khối lượng lý thuyết) × 100%.'+
           '</div></details>';
 
     lrOut.className='result';
