@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>Reactions &amp; calculations – Subgeneric</title>
-<meta name="description" content="Equation balancing, khối lượng mol, stoichiometry, chất giới hạns, and hiệu suất phản ứng.">
+<title>Phản ứng và tính toán – Subgeneric</title>
+<meta name="description" content="Cân bằng phương trình hóa học, khối lượng mol, tính toán theo phương trình, chất giới hạn và hiệu suất phản ứng.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -194,36 +194,36 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
     <a class="name" href="index.html" aria-label="Subgeneric — trang chủ"><span class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 40 40" focusable="false"><path d="M13 8h14M16 8v9l-7 13a3 3 0 0 0 3 4h16a3 3 0 0 0 3-4l-7-13V8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 27h16l3 5a1.5 1.5 0 0 1-1.5 2h-19a1.5 1.5 0 0 1-1.5-2z" fill="#9fe2c7"/><circle cx="18" cy="24" r="1.6" fill="#fff"/><circle cx="23" cy="21" r="1.2" fill="#fff"/></svg></span> Subgeneric</a>
     <nav aria-label="Điều hướng chính">
       <a href="index.html">Trang chủ</a>
-      <a href="reactions.html" aria-current="page">Reactions &amp; calculations</a>
-      <a href="titration.html">Titration simulator</a>
-    <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">☾ Dark mode</button>
+      <a href="reactions.html" aria-current="page">Phản ứng và tính toán</a>
+      <a href="titration.html">Mô phỏng chuẩn độ</a>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">☾ Chế độ tối</button>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
 
-  <h1>Reactions &amp; calculations</h1>
+  <h1>Phản ứng và tính toán</h1>
   <p class="intro">
-    Four tools share one equation-balancing engine. Enter an equation and the tool balances it, then calculates khối lượng mol, amount of substance, mass, and gas volume.
+    Bốn công cụ sử dụng chung một bộ máy cân bằng phương trình. Nhập phương trình hóa học để cân bằng, sau đó tính khối lượng mol, lượng chất, khối lượng và thể tích khí.
   </p>
 
   <nav class="nav-tools" aria-label="Mục lục công cụ">
-    <a href="#tool1">1. Balance</a>
+    <a href="#tool1">1. Cân bằng phương trình</a>
     <a href="#tool2">2. Khối lượng mol</a>
     <a href="#tool3">3. Stoichiometry</a>
-    <a href="#tool4">4. Chất giới hạn &amp; hiệu suất phản ứng</a>
+    <a href="#tool4">4. Chất giới hạn và hiệu suất phản ứng</a>
   </nav>
 
   <!-- ============ 1. CÂN BẰNG ============ -->
   <section class="tool" id="tool1">
-    <h3>1. Balance chemical equations</h3>
+    <h3>1. Cân bằng phương trình chemical equations</h3>
     <p class="hint">
-      Enter an equation using <code>-&gt;</code> or <code>=</code> between the two sides. Supports organic compounds, ions, and complexes with nested parentheses.
+      Nhập phương trình, dùng <code>-&gt;</code> hoặc <code>=</code> để ngăn cách hai vế. Hỗ trợ hợp chất hữu cơ, ion và phức chất có dấu ngoặc lồng nhau.
     </p>
     <div class="row">
       <input type="text" id="eq" value="N2 + H2 = NH3" autocomplete="off" spellcheck="false">
-      <button id="eqBtn">Balance</button>
+      <button id="eqBtn">Cân bằng</button>
     </div>
     <div class="chips" id="eqChips"></div>
     <div id="eqOut" class="result" aria-live="polite"></div>
@@ -231,13 +231,13 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
 
   <!-- ============ 2. MOLAR MASS ============ -->
   <section class="tool" id="tool2">
-    <h3>2. Khối lượng mol &amp; mass percentage</h3>
+    <h3>2. Khối lượng mol và phần trăm khối lượng</h3>
     <p class="hint">
-      Enter a chemical formula (including ions, parentheses, and hydrates such as <code>CuSO4.5H2O</code>). Results include khối lượng mol and each element's mass percentage.
+      Nhập công thức hóa học (bao gồm ion, dấu ngoặc và hợp chất ngậm nước như <code>CuSO4.5H2O</code>). Kết quả gồm khối lượng mol và phần trăm khối lượng của từng nguyên tố.
     </p>
     <div class="row">
       <input type="text" id="mmIn" value="CuSO4.5H2O" autocomplete="off" spellcheck="false">
-      <button id="mmBtn">Calculate</button>
+      <button id="mmBtn">Tính toán</button>
     </div>
     <div class="chips" id="mmChips"></div>
     <div id="mmOut" class="result" aria-live="polite"></div>
@@ -245,9 +245,9 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
 
   <!-- ============ 3. TÍNH THEO PHƯƠNG TRÌNH ============ -->
   <section class="tool" id="tool3">
-    <h3>3. Stoichiometric calculations</h3>
+    <h3>3. Tính toán theo phương trình hóa học</h3>
     <p class="hint">
-      Enter an equation (balanced or unbalanced—the tool will balance it), choose a known substance and its amount, then calculate the mass and amount of every other substance.
+      Nhập phương trình hóa học (đã cân bằng hoặc chưa cân bằng — công cụ sẽ tự cân bằng), chọn chất đã biết và lượng chất đó, sau đó tính lượng chất và khối lượng của các chất còn lại.
     </p>
     <div class="inline-form">
       <div>
@@ -272,7 +272,7 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
         </div>
       </div>
       <div class="row">
-        <button id="stBtn">Calculate</button>
+        <button id="stBtn">Tính toán</button>
       </div>
     </div>
     <div class="chips" id="stChips"></div>
@@ -281,9 +281,9 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
 
   <!-- ============ 4. LIMITING REACTANT & PERCENT YIELD ============ -->
   <section class="tool" id="tool4">
-    <h3>4. Chất giới hạn &amp; hiệu suất phản ứng</h3>
+    <h3>4. Chất giới hạn và hiệu suất phản ứng</h3>
     <p class="hint">
-      Enter the equation and the amounts of <em>all</em> reactants. The tool identifies the chất giới hạn, calculates the theoretical product mass, and calculates hiệu suất phản ứng if you enter the actual mass obtained.
+      Nhập phương trình hóa học và lượng của <em>tất cả</em> các chất phản ứng. Công cụ xác định chất giới hạn, tính khối lượng sản phẩm theo lý thuyết và tính hiệu suất phản ứng nếu bạn nhập khối lượng sản phẩm thực tế.
     </p>
     <div class="inline-form">
       <div>
@@ -293,16 +293,16 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
       <div id="lrInputs" class="cols"></div>
       <div class="cols">
         <div>
-          <label for="lrProduct">Product cần tính</label>
+          <label for="lrProduct">Sản phẩm cần tính</label>
           <select id="lrProduct"></select>
         </div>
         <div>
-          <label for="lrActual">Mass actual thu được (g, tùy chọn)</label>
+          <label for="lrActual">Khối lượng thực tế thu được (g, không bắt buộc)</label>
           <input type="number" id="lrActual" min="0" step="any" placeholder="ví dụ 12.5">
         </div>
       </div>
       <div class="row">
-        <button id="lrBtn">Calculate</button>
+        <button id="lrBtn">Tính toán</button>
       </div>
     </div>
     <div class="chips" id="lrChips"></div>
@@ -313,7 +313,7 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
 
 <footer>
   <div class="wrap">
-    <div>Subgeneric · Mô phỏng phục vụ học tập, không thay thế thí nghiệm actual.</div>
+    <div>Subgeneric · Mô phỏng phục vụ học tập, không thay thế thí nghiệm thực tế.</div>
     <div>Trường THCS và THPT Trần Đại Nghĩa</div>
   </div>
 </footer>
@@ -420,7 +420,7 @@ function parseFormula(str){
     var s='';
     while(i<str.length && /[0-9]/.test(str[i])){s+=str[i++];}
     var n=s?BigInt(s):1n;
-    if(n===0n)throw new Error('The atom count must be greater than 0');
+    if(n===0n)throw new Error('Số nguyên tử phải lớn hơn 0');
     return n;
   }
   function group(depth){
@@ -470,7 +470,7 @@ function molarMass(formula){
   for(var el in parsed.counts){
     if(el==='e')continue;
     var n=Number(parsed.counts[el]);
-    if(!(el in AW))throw new Error('No atomic mass is available for element "'+el+'"');
+    if(!(el in AW))throw new Error('Không có dữ liệu khối lượng nguyên tử cho nguyên tố "'+el+'"');
     var m=n*AW[el];
     total+=m;
     breakdown.push({el:el,n:n,mass:m,pct:0});
@@ -484,7 +484,7 @@ function molarMass(formula){
 function balance(eq){
   var parts=eq.trim().split(/\s*(?:->|=>|→|=)\s*/);
   if(parts.length!==2||!parts[0]||!parts[1])
-    throw new Error('Use exactly one arrow (->) or equals sign (=) between the left and right sides.');
+    throw new Error('Hãy dùng đúng một mũi tên (->) hoặc dấu bằng (=) để ngăn cách vế trái và vế phải.');
   function clean(s){
     // Split at a plus only when a new formula follows; keep the plus in Fe2+, H+, etc.
     return s.split(/\+(?=\s*\d*\s*(?:[A-Z]|\[|\(|\{))/).map(function(x){
@@ -492,7 +492,7 @@ function balance(eq){
     }).filter(function(x){return x!=='';});
   }
   var L=clean(parts[0]),R=clean(parts[1]);
-  if(!L.length||!R.length)throw new Error('Each side must contain at least one substance.');
+  if(!L.length||!R.length)throw new Error('Mỗi vế phải có ít nhất một chất.');
   var species=L.concat(R);
   var comps=species.map(parseFormula);
   var set={};
@@ -521,7 +521,7 @@ function balance(eq){
   }
   var free=[];
   for(var cc=0;cc<cols;cc++){if(pivots.indexOf(cc)<0)free.push(cc)}
-  if(free.length===0)throw new Error('Unable to balance. Check the chemical formulas.');
+  if(free.length===0)throw new Error('Không thể cân bằng phương trình. Hãy kiểm tra các công thức hóa học.');
   function positiveIntegerCoefficients(values){
     var x=new Array(cols).fill(null).map(function(){return [0n,1n]});
     free.forEach(function(fc,j){x[fc]=[BigInt(values[j]),1n]});
@@ -548,7 +548,7 @@ function balance(eq){
   if(free.length===1){
     ints=positiveIntegerCoefficients([1]);
   }else{
-    if(free.length>3)throw new Error('The equation has too many free variables. Split it into separate reactions.');
+    if(free.length>3)throw new Error('Phương trình có quá nhiều biến tự do. Hãy tách thành các phản ứng riêng.');
     var limit=24,attempts=0,maxAttempts=15000,values=new Array(free.length);
     var best=null,bestScore=null;
     function searchPositive(depth){
@@ -571,7 +571,7 @@ function balance(eq){
     searchPositive(0);
     ints=best;
   }
-  if(!ints)throw new Error('No suitable set of positive integer coefficients was found. Check the formulas or split the reaction into separate equations.');
+  if(!ints)throw new Error('Không tìm được bộ hệ số nguyên dương phù hợp. Hãy kiểm tra công thức hoặc tách phản ứng thành các phương trình riêng.');
   return {L:L,R:R,coef:ints,comps:comps,els:els};
 }
 
@@ -631,7 +631,7 @@ function renderBalanced(res){
     }).join(' + ');
   };
   var html=parts(res.L,0)+' &rarr; '+parts(res.R,res.L.length);
-  var tbl='<table class="atoms"><tr><th>Element</th><th>Trái</th><th>Phải</th><th></th></tr>';
+  var tbl='<table class="atoms"><tr><th>Nguyên tố</th><th>Trái</th><th>Phải</th><th></th></tr>';
   res.els.forEach(function(el){
     var dispName=el==='e'?'Điện tích':el;
     var l=0n,r=0n;
@@ -676,11 +676,11 @@ var mmIn=document.getElementById('mmIn'),mmOut=document.getElementById('mmOut');
 function runMolarMass(){
   try{
     var r=molarMass(mmIn.value);
-    var html='<div>Khối lượng mol of <strong>'+fmtFormula(r.formula)+
+    var html='<div>Khối lượng mol của <strong>'+fmtFormula(r.formula)+
              '</strong>: <strong>'+fmtNum(r.M,6)+' g/mol</strong>';
     if(r.charge!==0n)html+=' · điện tích '+r.charge.toString();
     html+='</div>';
-    html+='<table class="data"><tr><th>Element</th><th>Atom count</th><th>Mass (g/mol)</th><th>% mass</th></tr>';
+    html+='<table class="data"><tr><th>Nguyên tố</th><th>Số nguyên tử</th><th>Khối lượng (g/mol)</th><th>% khối lượng</th></tr>';
     r.breakdown.forEach(function(b){
       html+='<tr><td>'+b.el+'</td><td class="num">'+b.n+'</td><td class="num">'+
             fmtNum(b.mass,5)+'</td><td class="num">'+b.pct.toFixed(2)+'%</td></tr>';
@@ -729,7 +729,7 @@ function refreshStKnown(){
     });
     if(prev && names[parseInt(prev,10)]!==undefined) sel.value=prev;
   }catch(e){
-    sel.innerHTML='<option value="">— nhập equation hợp lệ —</option>';
+    sel.innerHTML='<option value="">— nhập phương trình hợp lệ —</option>';
   }
 }
 
@@ -738,22 +738,22 @@ function runStoich(){
     var res=balance(stEq.value);
     var names=res.L.concat(res.R);
     var idx=parseInt(stKnown.value,10);
-    if(isNaN(idx))throw new Error('Select a known substance.');
+    if(isNaN(idx))throw new Error('Hãy chọn một chất đã biết.');
     var amount=parseFloat(stAmt.value);
-    if(!isFinite(amount)||amount<=0)throw new Error('The amount must be positive.');
+    if(!isFinite(amount)||amount<=0)throw new Error('Lượng chất phải là số dương.');
     var Mlist=speciesMasses(res);
     var invalidMassIndex=Mlist.findIndex(function(m){return m===null;});
-    if(invalidMassIndex>=0)throw new Error('Unable to calculate the khối lượng mol of '+names[invalidMassIndex]);
+    if(invalidMassIndex>=0)throw new Error('Không thể tính khối lượng mol của '+names[invalidMassIndex]);
     var Mknown=Mlist[idx];
 
     var nKnown=(stUnit.value==='g')?amount/Mknown:amount;
     var coefKnown=Number(res.coef[idx]);
     var ratio=nKnown/coefKnown;
 
-    var html='<div>Equation: <strong>'+renderEquationLine(res)+'</strong></div>';
+    var html='<div>Phương trình hóa học: <strong>'+renderEquationLine(res)+'</strong></div>';
     html+='<div style="margin-top:6px">Known substance: <strong>'+fmtFormula(names[idx])+
           '</strong> — '+fmtNum(nKnown,5)+' mol ('+fmtNum(nKnown*Mknown,5)+' g)</div>';
-    html+='<table class="data"><tr><th>Chất</th><th>Hệ số</th><th>Amount (mol)</th><th>Mass (g)</th><th>Gas volume (0 °C, 1 atm; L)</th></tr>';
+    html+='<table class="data"><tr><th>Chất</th><th>Hệ số</th><th>Lượng chất (mol)</th><th>Khối lượng (g)</th><th>Thể tích khí (0 °C, 1 atm; L)</th></tr>';
     names.forEach(function(n,i){
       var coef=Number(res.coef[i]);
       var mol=ratio*coef;
@@ -819,7 +819,7 @@ function refreshLRInputs(){
   try{
     var res=balance(lrEq.value);
     var names=res.L;
-    if(!names.length)throw new Error('No reactants found.');
+    if(!names.length)throw new Error('Không tìm thấy chất phản ứng.');
     names.forEach(function(n,i){
       var wrap=document.createElement('div');
       var lab=document.createElement('label');
@@ -857,18 +857,18 @@ function runLimiting(){
     var res=balance(lrEq.value);
     var reactants=res.L;
     var products=res.R;
-    if(!reactants.length)throw new Error('No reactants found.');
-    if(!products.length)throw new Error('No products found.');
+    if(!reactants.length)throw new Error('Không tìm thấy chất phản ứng.');
+    if(!products.length)throw new Error('Không tìm thấy sản phẩm.');
 
     var Mlist=speciesMasses(res);
     var amounts=[];
     for(var i=0;i<reactants.length;i++){
       var inp=document.getElementById('lr_in_'+i);
-      if(!inp)throw new Error('Missing input for '+reactants[i]);
+      if(!inp)throw new Error('Thiếu dữ liệu cho '+reactants[i]);
       var v=parseFloat(inp.value);
-      if(!isFinite(v)||v<0)throw new Error('Invalid amount for '+reactants[i]+'.');
+      if(!isFinite(v)||v<0)throw new Error('Lượng chất không hợp lệ cho '+reactants[i]+'.');
       var M=Mlist[i];
-      if(M===null)throw new Error('Unable to calculate the khối lượng mol of '+reactants[i]);
+      if(M===null)throw new Error('Không thể tính khối lượng mol của '+reactants[i]);
       amounts.push({name:reactants[i],g:v,M:M,mol:v/M,coef:Number(res.coef[i])});
     }
 
@@ -877,14 +877,14 @@ function runLimiting(){
       var r=a.mol/a.coef;
       if(r<limRatio){limRatio=r;lim=a;}
     });
-    if(!lim||limRatio<=0)throw new Error('Enter a positive amount for at least one reactant.');
+    if(!lim||limRatio<=0)throw new Error('Hãy nhập lượng dương cho ít nhất một chất phản ứng.');
 
     var prodName=lrProduct.value;
     var prodIdx=products.indexOf(prodName);
-    if(prodIdx<0)throw new Error('Select a product to calculate.');
+    if(prodIdx<0)throw new Error('Hãy chọn sản phẩm cần tính.');
     var prodCoef=Number(res.coef[res.L.length+prodIdx]);
     var prodM=Mlist[res.L.length+prodIdx];
-    if(prodM===null)throw new Error('Unable to calculate the khối lượng mol of '+prodName);
+    if(prodM===null)throw new Error('Không thể tính khối lượng mol của '+prodName);
 
     var molTheoLT=limRatio*prodCoef;
     var massTheoLT=molTheoLT*prodM;
@@ -893,8 +893,8 @@ function runLimiting(){
     var haveActual=isFinite(actual)&&actual>0;
     var H=haveActual?actual/massTheoLT*100:null;
 
-    var html='<div>Equation: <strong>'+renderEquationLine(res)+'</strong></div>';
-    html+='<table class="data"><tr><th>Reactant</th><th>m (g)</th><th>M (g/mol)</th><th>n (mol)</th><th>n / hệ số</th></tr>';
+    var html='<div>Phương trình hóa học: <strong>'+renderEquationLine(res)+'</strong></div>';
+    html+='<table class="data"><tr><th>Chất phản ứng</th><th>m (g)</th><th>M (g/mol)</th><th>n (mol)</th><th>n / hệ số</th></tr>';
     amounts.forEach(function(a){
       var isLim=(a===lim);
       html+='<tr'+(isLim?' class="lim"':'')+'><td>'+fmtFormula(a.name)+
@@ -909,7 +909,7 @@ function runLimiting(){
     var duList=amounts.filter(function(a){return a!==lim});
     if(duList.length){
       html+='<div style="margin-top:10px">Sau reaction, các chất còn dư:</div>';
-      html+='<table class="data"><tr><th>Excess reactant</th><th>n ban đầu (mol)</th><th>n reaction (mol)</th><th>n dư (mol)</th><th>m dư (g)</th></tr>';
+      html+='<table class="data"><tr><th>Chất phản ứng dư</th><th>n ban đầu (mol)</th><th>n đã phản ứng (mol)</th><th>n còn dư (mol)</th><th>m còn dư (g)</th></tr>';
       duList.forEach(function(a){
         var nPU=limRatio*a.coef;
         var nDu=a.mol-nPU;
@@ -922,22 +922,22 @@ function runLimiting(){
       html+='</table>';
     }
 
-    html+='<div style="margin-top:12px">Product <strong>'+fmtFormula(prodName)+
-          '</strong> theo theoretical: <strong>'+fmtNum(massTheoLT,5)+' g</strong> ('+
+    html+='<div style="margin-top:12px">Sản phẩm <strong>'+fmtFormula(prodName)+
+          '</strong> theo lý thuyết: <strong>'+fmtNum(massTheoLT,5)+' g</strong> ('+
           fmtNum(molTheoLT,5)+' mol)</div>';
 
     if(haveActual){
-      html+='<div>Mass actual: <strong>'+fmtNum(actual,5)+' g</strong></div>';
-      html+='<div>Hiệu suất phản ứng reaction: <strong>'+H.toFixed(2)+'%</strong></div>';
+      html+='<div>Khối lượng thực tế: <strong>'+fmtNum(actual,5)+' g</strong></div>';
+      html+='<div>Hiệu suất phản ứng: <strong>'+H.toFixed(2)+'%</strong></div>';
     }else{
-      html+='<div style="color:var(--muted);font-size:14px">Nhập actual mass để tính hiệu suất phản ứng.</div>';
+      html+='<div style="color:var(--muted);font-size:14px">Nhập khối lượng thực tế để tính hiệu suất phản ứng.</div>';
     }
 
     html+='<details class="species"><summary>Xem cách tính</summary>'+
           '<div style="font-size:14px;color:var(--muted);margin-top:6px">'+
-          '1) Đổi mass mỗi reactant sang mol: n = m / M.<br>'+
-          '2) Chia n cho corresponding coefficient. Chất có ratio nhỏ nhất là chất giới hạn.<br>'+
-          '3) Amount (mol) product = ratio nhỏ nhất × hệ số product. Mass theoretical = n × M.<br>'+
+          '1) Đổi khối lượng mỗi chất phản ứng sang mol: n = m / M.<br>'+
+          '2) Chia n cho corresponding coefficient. Chất có tỉ số nhỏ nhất là chất giới hạn.<br>'+
+          '3) Lượng sản phẩm (mol) = tỉ số nhỏ nhất × hệ số sản phẩm. Khối lượng lý thuyết = n × M.<br>'+
           '4) Hiệu suất phản ứng H% = (m actual / m theoretical) × 100%.'+
           '</div></details>';
 
@@ -971,7 +971,7 @@ runLimiting();
 (function(){
  var root=document.documentElement,button=document.getElementById('themeToggle');
  if(!button)return;
- function update(){var dark=root.getAttribute('data-theme')==='dark';button.textContent=dark?'☀ Light mode':'☾ Dark mode';button.setAttribute('aria-pressed',String(dark));button.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');}
+ function update(){var dark=root.getAttribute('data-theme')==='dark';button.textContent=dark?'☀ Chế độ sáng':'☾ Chế độ tối';button.setAttribute('aria-pressed',String(dark));button.setAttribute('aria-label',dark?'Chuyển sang chế độ sáng':'Chuyển sang chế độ tối');}
  button.addEventListener('click',function(){var next=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',next);try{localStorage.setItem('subgeneric-theme',next)}catch(e){}update();});
  update();
 })();
