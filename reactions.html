@@ -164,7 +164,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     <div id="eqOut" class="result" aria-live="polite"></div>
   </section>
 
-  <!-- ============ 2. KHỐI LƯỢNG MOL ============ -->
+  <!-- ============ 2. MOLAR MASS ============ -->
   <section class="tool" id="tool2">
     <h3>2. Molar mass &amp; mass percentage</h3>
     <p class="hint">
@@ -214,7 +214,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     <div id="stOut" class="result" aria-live="polite"></div>
   </section>
 
-  <!-- ============ 4. CHẤT GIỚI HẠN & HIỆU SUẤT ============ -->
+  <!-- ============ 4. LIMITING REACTANT & PERCENT YIELD ============ -->
   <section class="tool" id="tool4">
     <h3>4. Limiting reactant &amp; percent yield</h3>
     <p class="hint">
@@ -398,7 +398,7 @@ function parseFormula(str){
   return {counts:r, charge:charge};
 }
 
-/* ===== KHỐI LƯỢNG MOL ===== */
+/* ===== MOLAR MASS ===== */
 function molarMass(formula){
   var parsed=parseFormula(formula);
   var total=0, breakdown=[];
