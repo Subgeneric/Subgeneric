@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>Chuẩn độ axit – bazơ – Subgeneric</title>
-<meta name="description" content="Mô phỏng chuẩn độ axit bằng NaOH: đường cong pH, màu chất chỉ thị, điểm tương đương.">
+<title>Mô phỏng chuẩn độ acid – base – Subgeneric</title>
+<meta name="description" content="Mô phỏng chuẩn độ acid bằng dung dịch NaOH, theo dõi pH và màu chất chỉ thị.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -111,38 +111,46 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 <main class="wrap">
 
-  <h1>Chuẩn độ axit – bazơ</h1>
-  <p class="intro">
-    Chuẩn độ axit bằng dung dịch NaOH. Kéo thanh trượt hoặc bấm nhỏ giọt để xem pH
-    và màu chất chỉ thị thay đổi như thế nào trên đường cong chuẩn độ.
-  </p>
+  <h1>Mô phỏng chuẩn độ acid – base</h1>
+  <p class="intro">Thêm dung dịch NaOH vào mẫu acid và theo dõi pH, màu chất chỉ thị cùng điểm tương đương.</p>
 
   <section class="rig-card" aria-label="Bộ dụng cụ chuẩn độ minh họa">
-    <div class="rig-heading"><strong>Bộ dụng cụ chuẩn độ</strong><span>Minh họa tương tác</span></div>
+    <div class="rig-heading"><strong>Bộ dụng cụ chuẩn độ</strong></div>
     <svg class="rig-svg" viewBox="0 0 760 330" role="img" aria-labelledby="rigTitle rigDesc">
-      <title id="rigTitle">Giá đỡ, buret và bình tam giác trong thí nghiệm chuẩn độ</title>
-      <desc id="rigDesc">Dung dịch NaOH trong buret nhỏ từng giọt vào bình tam giác chứa axit và chất chỉ thị. Màu dung dịch thay đổi theo pH.</desc>
-      <defs><linearGradient id="glass" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#dcebe8" stop-opacity=".48"/><stop offset=".5" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#c9e0dc" stop-opacity=".55"/></linearGradient></defs>
-      <rect width="760" height="330" fill="#f7fbf9"/><path d="M60 290H700" stroke="#d4e5df" stroke-width="2"/>
-      <rect x="113" y="36" width="12" height="254" rx="4" fill="#91aaa3"/><rect x="78" y="286" width="83" height="9" rx="4" fill="#718d85"/>
-      <path d="M119 71H260" stroke="#718d85" stroke-width="8" stroke-linecap="round"/><path d="M245 71v17" stroke="#718d85" stroke-width="5" stroke-linecap="round"/>
-      <rect x="226" y="45" width="30" height="182" rx="8" fill="url(#glass)" stroke="#8eaaa3" stroke-width="2"/>
-      <rect id="buretLiquid" x="231" y="53" width="20" height="150" rx="4" fill="#b6dce9" opacity=".9"/>
-      <path d="M230 62h7m-7 15h5m-5 15h7m-7 15h5m-5 15h7m-7 15h5m-5 15h7m-7 15h5m-5 15h7" stroke="#75968d" stroke-width="1.5"/>
-      <path d="M241 227v15" stroke="#718d85" stroke-width="4"/><rect x="218" y="238" width="46" height="9" rx="4" fill="#718d85"/><circle cx="241" cy="242" r="4" fill="#eaf4f0" stroke="#718d85" stroke-width="1.5"/><path d="M241 247v17" stroke="#718d85" stroke-width="2.5" stroke-linecap="round"/>
-      <path id="fallingDrop" d="M241 269 C236 276 236 280 241 283 C246 280 246 276 241 269Z" fill="#6db9a6"/>
-      <path d="M440 126h43v42l54 86a15 15 0 0 1-13 23H399a15 15 0 0 1-13-23l54-86v-42Z" fill="url(#glass)" stroke="#8eaaa3" stroke-width="2.5" stroke-linejoin="round"/>
-      <path id="flaskLiquid" d="M414 230l-22 35a8 8 0 0 0 7 12h124a8 8 0 0 0 7-12l-22-35Z" fill="#d9eaf0" opacity=".9"/>
-      <path d="M440 126h43M440 139h43" stroke="#8eaaa3" stroke-width="2.5"/><path d="M451 126v-14h21v14" fill="none" stroke="#8eaaa3" stroke-width="2"/>
-      <path d="M435 250q35 10 72 0M448 254q20 6 40 0" stroke="#fff" stroke-width="2" opacity=".55" fill="none"/>
-      <g font-family="Be Vietnam Pro, Arial, sans-serif" fill="#405f56">
-        <text x="273" y="52" font-size="13" font-weight="700">Buret chứa NaOH</text><path d="M268 57h-7" stroke="#91aaa3" stroke-width="1.5"/>
-        <text x="500" y="112" font-size="13" font-weight="700">Bình tam giác</text><text x="500" y="130" font-size="12">Axit + chất chỉ thị</text><path d="M498 136l-20 29" stroke="#91aaa3" stroke-width="1.5" fill="none"/>
-        <text x="78" y="316" font-size="12" fill="#6a817a">Giá đỡ</text><text x="178" y="22" font-size="12" fill="#6a817a">Dung dịch chuẩn</text>
-        <text x="530" y="285" font-size="12" fill="#6a817a">Màu dung dịch đổi theo pH</text><path d="M515 276l-22-24" stroke="#91aaa3" stroke-width="1.5" fill="none"/>
+      <title id="rigTitle">Buret đặt phía trên bình tam giác trong thí nghiệm chuẩn độ</title>
+      <desc id="rigDesc">Dung dịch từ buret nhỏ xuống bình tam giác đặt ngay bên dưới. Màu dung dịch trong bình thay đổi theo pH.</desc>
+      <defs>
+        <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#dcebe8" stop-opacity=".5"/>
+          <stop offset=".5" stop-color="#fff" stop-opacity=".85"/>
+          <stop offset="1" stop-color="#c9e0dc" stop-opacity=".6"/>
+        </linearGradient>
+      </defs>
+      <rect width="760" height="330" fill="#f7fbf9"/>
+      <path d="M170 294H590" stroke="#d4e5df" stroke-width="2"/>
+      <rect x="190" y="38" width="12" height="256" rx="4" fill="#91aaa3"/>
+      <rect x="158" y="290" width="76" height="9" rx="4" fill="#718d85"/>
+      <path d="M196 68H373" stroke="#718d85" stroke-width="8" stroke-linecap="round"/>
+      <path d="M365 68v12" stroke="#718d85" stroke-width="5" stroke-linecap="round"/>
+      <rect x="350" y="42" width="30" height="148" rx="8" fill="url(#glass)" stroke="#8eaaa3" stroke-width="2"/>
+      <rect id="buretLiquid" x="355" y="50" width="20" height="134" rx="4" fill="#b6dce9" opacity=".9"/>
+      <path d="M354 59h7m-7 14h5m-5 14h7m-7 14h5m-5 14h7m-7 14h5m-5 14h7m-7 14h5" stroke="#75968d" stroke-width="1.5"/>
+      <path d="M365 190v13" stroke="#718d85" stroke-width="4"/>
+      <rect x="344" y="200" width="42" height="9" rx="4" fill="#718d85"/>
+      <circle cx="365" cy="204" r="3.5" fill="#eaf4f0" stroke="#718d85" stroke-width="1.5"/>
+      <path d="M365 209v10" stroke="#718d85" stroke-width="2.5" stroke-linecap="round"/>
+      <path id="fallingDrop" d="M365 220 C360 227 360 231 365 234 C370 231 370 227 365 220Z" fill="#6db9a6"/>
+      <path d="M348 236h34v26l48 39a10 10 0 0 1-7 18H307a10 10 0 0 1-7-18l48-39Z" fill="url(#glass)" stroke="#8eaaa3" stroke-width="2.5" stroke-linejoin="round" transform="translate(0 -24)"/>
+      <path id="flaskLiquid" d="M326 256l-24 28a5 5 0 0 0 4 8h118a5 5 0 0 0 4-8l-24-28Z" fill="#d9eaf0" opacity=".9"/>
+      <path d="M348 212h34M348 222h34" stroke="#8eaaa3" stroke-width="2.5"/>
+      <path d="M331 280q34 9 68 0M344 284q20 5 40 0" stroke="#fff" stroke-width="2" opacity=".6" fill="none"/>
+      <g font-family="Be Vietnam Pro, Arial, sans-serif" fill="#405f56" font-size="13" font-weight="600">
+        <text x="395" y="75">Buret</text>
+        <text x="425" y="253">Bình tam giác</text>
       </g>
+      <path d="M390 79h-8M420 257l-20 14" stroke="#91aaa3" stroke-width="1.5" fill="none"/>
     </svg>
-    <div class="rig-caption">Kéo thanh trượt hoặc bấm “+0,5 mL” để theo dõi lượng dung dịch thêm vào và sự đổi màu trong bình.</div>
+    <div class="rig-caption">Buret đặt ngay phía trên bình tam giác, như trong bố trí thí nghiệm.</div>
   </section>
 
   <div class="sim">
@@ -152,16 +160,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     </div>
     <div class="ctrl">
       <div>
-        <label for="acid">Axit trong bình</label>
+        <label for="acid">Acid trong bình</label>
         <select id="acid">
-          <option value="">HCl (axit mạnh)</option>
+          <option value="">HCl (acid mạnh)</option>
           <option value="4.76">CH₃COOH (pKa 4,76)</option>
           <option value="3.75">HCOOH (pKa 3,75)</option>
           <option value="3.17">HF (pKa 3,17)</option>
         </select>
       </div>
       <div class="two">
-        <div><label for="Ca">Nồng độ axit (M)</label><input type="number" id="Ca" value="0.1" min="0.001" max="2" step="0.01"></div>
+        <div><label for="Ca">Nồng độ acid (M)</label><input type="number" id="Ca" value="0.1" min="0.001" max="2" step="0.01"></div>
         <div><label for="Va">Thể tích axit (mL)</label><input type="number" id="Va" value="25" min="5" max="100" step="1"></div>
       </div>
       <div class="two">
@@ -194,8 +202,8 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   <div class="explain">
     <b>Đọc đường cong:</b> Trước điểm tương đương, pH tăng chậm vì axit còn dư.
     Gần điểm tương đương, pH nhảy vọt — đây là lúc chất chỉ thị đổi màu rõ nhất.
-    Sau điểm tương đương, NaOH dư nên pH tiến dần tới pH của bazơ mạnh.
-    Đổi axit sang CH₃COOH để thấy điểm tương đương chuyển sang môi trường bazơ yếu (pH &gt; 7).
+    Sau điểm tương đương, NaOH dư nên pH tiến dần tới pH của base mạnh.
+    Đổi acid sang CH₃COOH để thấy điểm tương đương chuyển sang môi trường base yếu (pH &gt; 7).
   </div>
 
 </main>
@@ -268,11 +276,11 @@ function draw(){
   el('Veq').textContent=(Veq<0.1?Veq.toPrecision(3):Veq.toFixed(2))+' mL';
   var st;
   if(Math.abs(Vb-Veq)<Veq*0.01)st='Gần điểm tương đương: pH thay đổi rất nhanh.';
-  else if(Vb<Veq)st='Trước điểm tương đương: còn axit dư.';
-  else st='Sau điểm tương đương: NaOH dư, dung dịch có tính bazơ.';
+  else if(Vb<Veq)st='Trước điểm tương đương: còn acid dư.';
+  else st='Sau điểm tương đương: NaOH dư, dung dịch có tính base.';
   el('tStatus').textContent=st;
   var liquid=el('flaskLiquid');if(liquid)liquid.setAttribute('fill',indicatorColor(el('ind').value,pH));
-  var buret=el('buretLiquid');if(buret){var used=Math.max(0,Math.min(1,Vb/Vmax));buret.setAttribute('y',String(53+used*145));buret.setAttribute('height',String(Math.max(5,150-used*145)));}
+  var buret=el('buretLiquid');if(buret){var used=Math.max(0,Math.min(1,Vb/Vmax));buret.setAttribute('y',String(50+used*125));buret.setAttribute('height',String(Math.max(5,134-used*125)));}
   var drop=el('fallingDrop');if(drop){drop.setAttribute('opacity',Vb>=Vmax?'.15':'1');drop.setAttribute('fill',indicatorColor(el('ind').value,pH));}
 
   var W=canvas.clientWidth,H=canvas.clientHeight,L=44,R=14,T=14,B=34,pw=W-L-R,ph=H-T-B;
