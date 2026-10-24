@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>Acid–base titration simulator – Subgeneric</title>
-<meta name="description" content="Acid–base titration simulation using NaOH, with pH and indicator color tracking.">
+<title>Acid–base chuẩn độ simulator – Subgeneric</title>
+<meta name="description" content="Acid–base chuẩn độ simulation using NaOH, with pH and indicator color tracking.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -104,21 +104,21 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     <nav aria-label="Điều hướng chính">
       <a href="index.html">Trang chủ</a>
       <a href="reactions.html">Reactions &amp; calculations</a>
-      <a href="titration.html" aria-current="page">Titration simulator</a>
+      <a href="chuẩn độ.html" aria-current="page">Chuẩn độ simulator</a>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
 
-  <h1>Acid–base titration simulator</h1>
-  <p class="intro">Add NaOH solution to an acid sample and track pH, indicator color, and the equivalence point.</p>
+  <h1>Acid–base chuẩn độ simulator</h1>
+  <p class="intro">Add NaOH solution to an acid sample and track pH, indicator color, and the điểm tương đương.</p>
 
-  <section class="rig-card" aria-label="Titration apparatus illustration">
-    <div class="rig-heading"><strong>Titration apparatus</strong></div>
+  <section class="rig-card" aria-label="Chuẩn độ apparatus illustration">
+    <div class="rig-heading"><strong>Chuẩn độ apparatus</strong></div>
     <svg class="rig-svg" viewBox="0 0 760 330" role="img" aria-labelledby="rigTitle rigDesc">
-      <title id="rigTitle">A burette positioned above an Erlenmeyer flask during titration</title>
-      <desc id="rigDesc">Solution drips from the burette into the Erlenmeyer flask below. The solution color changes with pH.</desc>
+      <title id="rigTitle">A burette positioned above an bình tam giác during chuẩn độ</title>
+      <desc id="rigDesc">Solution drips from the burette into the bình tam giác below. The solution color changes with pH.</desc>
       <defs>
         <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stop-color="#dcebe8" stop-opacity=".5"/>
@@ -146,16 +146,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       <path d="M331 280q34 9 68 0M344 284q20 5 40 0" stroke="#fff" stroke-width="2" opacity=".6" fill="none"/>
       <g font-family="Be Vietnam Pro, Arial, sans-serif" fill="#405f56" font-size="13" font-weight="600">
         <text x="395" y="75">Burette</text>
-        <text x="425" y="253">Erlenmeyer flask</text>
+        <text x="425" y="253">bình tam giác</text>
       </g>
       <path d="M390 79h-8M420 257l-20 14" stroke="#91aaa3" stroke-width="1.5" fill="none"/>
     </svg>
-    <div class="rig-caption">The burette is positioned directly above the Erlenmeyer flask, as in a standard titration setup.</div>
+    <div class="rig-caption">The burette is positioned directly above the bình tam giác, as in a standard chuẩn độ setup.</div>
   </section>
 
   <div class="sim">
     <div>
-      <canvas id="curve" aria-label="Titration curve: pH versus NaOH volume"></canvas>
+      <canvas id="curve" aria-label="Chuẩn độ curve: pH versus NaOH volume"></canvas>
       <div class="status" id="tStatus"></div>
     </div>
     <div class="ctrl">
@@ -200,7 +200,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
   </div>
 
   <div class="explain">
-    <b>Reading the curve:</b> Before the equivalence point, pH rises gradually while acid remains. Near the equivalence point, pH changes sharply and the indicator changes color. After the equivalence point, excess NaOH makes the solution increasingly basic. Switch to CH₃COOH to see the equivalence point shift above pH 7 for a weak acid–strong base titration.
+    <b>Reading the curve:</b> Before the điểm tương đương, pH rises gradually while acid remains. Near the điểm tương đương, pH changes sharply and the indicator changes color. After the điểm tương đương, excess NaOH makes the solution increasingly basic. Switch to CH₃COOH to see the điểm tương đương shift above pH 7 for a weak acid–strong base chuẩn độ.
   </div>
 
 </main>
@@ -213,7 +213,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </footer>
 
 <script>
-function titrationPH(Ca,Va,Cb,Vb,pKa){
+function chuẩn độPH(Ca,Va,Cb,Vb,pKa){
   var V=Va+Vb,Na=Cb*Vb/V,Ct=Ca*Va/V;
   var Ka=(pKa===null||pKa===undefined)?1e12:Math.pow(10,-pKa),Kw=1e-14;
   var lo=-1,hi=15;
@@ -267,14 +267,14 @@ function draw(){
   var slider=el('Vb');slider.max=String(Vmax);slider.step=String(Math.min(0.05,Vmax/100));
   if(parseFloat(slider.value)>Vmax)slider.value=Vmax;
   var Vb=parseFloat(slider.value)||0;
-  var pH=titrationPH(p.Ca,p.Va,p.Cb,Vb,p.pKa);
+  var pH=chuẩn độPH(p.Ca,p.Va,p.Cb,Vb,p.pKa);
   el('VbLabel').textContent=Vb.toFixed(2);
   el('pH').textContent=pH.toFixed(2);
   el('Veq').textContent=(Veq<0.1?Veq.toPrecision(3):Veq.toFixed(2))+' mL';
   var st;
-  if(Math.abs(Vb-Veq)<Veq*0.01)st='Near the equivalence point: pH changes rapidly.';
-  else if(Vb<Veq)st='Before the equivalence point: excess acid remains.';
-  else st='After the equivalence point: excess NaOH makes the solution basic.';
+  if(Math.abs(Vb-Veq)<Veq*0.01)st='Near the điểm tương đương: pH changes rapidly.';
+  else if(Vb<Veq)st='Before the điểm tương đương: excess acid remains.';
+  else st='After the điểm tương đương: excess NaOH makes the solution basic.';
   el('tStatus').textContent=st;
   var liquid=el('flaskLiquid');if(liquid)liquid.setAttribute('fill',indicatorColor(el('ind').value,pH));
   var buret=el('buretLiquid');if(buret){var used=Math.max(0,Math.min(1,Vb/Vmax));buret.setAttribute('y',String(50+used*125));buret.setAttribute('height',String(Math.max(5,134-used*125)));}
@@ -303,7 +303,7 @@ function draw(){
   ctx.strokeStyle='#0a7562';ctx.lineWidth=2.5;ctx.beginPath();
   var N=240;
   for(var k=0;k<=N;k++){
-    var v2=Vmax*k/N,ph2=titrationPH(p.Ca,p.Va,p.Cb,v2,p.pKa);
+    var v2=Vmax*k/N,ph2=chuẩn độPH(p.Ca,p.Va,p.Cb,v2,p.pKa);
     var x=L+pw*k/N,yy=T+ph*(1-Math.max(0,Math.min(14,ph2))/14);
     if(k===0)ctx.moveTo(x,yy);else ctx.lineTo(x,yy);
   }
