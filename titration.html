@@ -94,7 +94,71 @@ footer{
   color:var(--muted);font-size:14px;
 }
 footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* Shared dark mode */
+html[data-theme="dark"]{color-scheme:dark}
+html[data-theme="dark"]{
+  --ink:#e3eeeb;--muted:#a3b8b1;--line:#344a44;--bg:#111a18;--paper:#1a2723;
+  --accent:#59c6a5;--accent-dark:#83ddbd;--accent-hover:#287f69;--mint:#203c32;
+  --soft:#1a2925;--code:#1b2925;--warn:#f0cb73;--warn-bg:#3b321d;--err:#ffaaaa;--err-bg:#3a2222;
+  --shadow:0 14px 38px rgba(0,0,0,.22)
+}
+html[data-theme="dark"] body{background:var(--bg);color:var(--ink)}
+html[data-theme="dark"] header,html[data-theme="dark"] footer{background:var(--bg);border-color:var(--line)}
+html[data-theme="dark"] .nav-cta,
+html[data-theme="dark"] .lab-card,
+html[data-theme="dark"] .tool,
+html[data-theme="dark"] .tool-card,
+html[data-theme="dark"] .metric,
+html[data-theme="dark"] .rig-card,
+html[data-theme="dark"] .readout div,
+html[data-theme="dark"] .result,
+html[data-theme="dark"] .explain,
+html[data-theme="dark"] .btn-secondary,
+html[data-theme="dark"] .chip,
+html[data-theme="dark"] .eyebrow,
+html[data-theme="dark"] .live{background:var(--paper);color:var(--ink);border-color:var(--line)}
+html[data-theme="dark"] .lab-bottom .metric,
+html[data-theme="dark"] .readout div,
+html[data-theme="dark"] .result{background:var(--code)}
+html[data-theme="dark"] .lab-top{border-color:var(--line)}
+html[data-theme="dark"] .lab-card{box-shadow:var(--shadow)}
+html[data-theme="dark"] .hero:before{background:transparent}
+html[data-theme="dark"] .eyebrow{color:var(--accent)}
+html[data-theme="dark"] .hero-copy,
+html[data-theme="dark"] .section-head p,
+html[data-theme="dark"] .metric small,
+html[data-theme="dark"] .readout div,
+html[data-theme="dark"] .rig-heading span,
+html[data-theme="dark"] .rig-caption{color:var(--muted)}
+html[data-theme="dark"] .btn-primary{background:var(--accent);color:#10221c}
+html[data-theme="dark"] .btn-primary:hover{background:var(--accent-dark)}
+html[data-theme="dark"] input[type=text],
+html[data-theme="dark"] input[type=number],
+html[data-theme="dark"] input[type=range],
+html[data-theme="dark"] select,
+html[data-theme="dark"] textarea,
+html[data-theme="dark"] canvas{background:#15211d;color:var(--ink);border-color:var(--line)}
+html[data-theme="dark"] code{background:var(--code);color:var(--ink)}
+html[data-theme="dark"] .chip{background:var(--paper);color:var(--ink)}
+html[data-theme="dark"] .chip:hover,
+html[data-theme="dark"] button.plain:hover{background:#263b34}
+html[data-theme="dark"] button.plain{background:var(--paper);color:var(--accent)}
+html[data-theme="dark"] table.data tr.lim td{background:var(--warn-bg)}
+html[data-theme="dark"] .explain{border-left-color:var(--accent)}
+html[data-theme="dark"] .team-card,
+html[data-theme="dark"] .team-member,
+html[data-theme="dark"] .feature-card,
+html[data-theme="dark"] .tool-visual,
+html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--line)}
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:7px 11px;border:1px solid var(--line);border-radius:9px;background:var(--paper,var(--bg));color:var(--ink);font:inherit;font-size:13px;font-weight:600;white-space:nowrap;cursor:pointer}
+.theme-toggle:hover{border-color:var(--accent)}
+@media(max-width:620px){.theme-toggle{padding:7px 9px;font-size:12px}}
+
 </style>
+<script>
+(function(){try{var saved=localStorage.getItem('subgeneric-theme');var theme=saved==='dark'||saved==='light'?saved:(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',theme)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();
+</script>
 </head>
 <body>
 
@@ -105,6 +169,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       <a href="index.html">Trang chủ</a>
       <a href="reactions.html">Reactions &amp; calculations</a>
       <a href="titration.html" aria-current="page">Titration simulator</a>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">☾ Dark mode</button>
     </nav>
   </div>
 </header>
@@ -339,6 +404,15 @@ el('auto').addEventListener('click',function(){
 });
 window.addEventListener('resize',function(){resizeCanvas();draw()});
 resizeCanvas();draw();
+</script>
+<script>
+(function(){
+ var root=document.documentElement,button=document.getElementById('themeToggle');
+ if(!button)return;
+ function update(){var dark=root.getAttribute('data-theme')==='dark';button.textContent=dark?'☀ Light mode':'☾ Dark mode';button.setAttribute('aria-pressed',String(dark));button.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');}
+ button.addEventListener('click',function(){var next=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',next);try{localStorage.setItem('subgeneric-theme',next)}catch(e){}update();});
+ update();
+})();
 </script>
 </body>
 </html>
