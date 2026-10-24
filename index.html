@@ -17,7 +17,7 @@ html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
 a{color:inherit}
 .wrap{width:min(1100px,calc(100% - 40px));margin:0 auto}
-header{position:sticky;top:0;z-index:5;background:rgba(245,250,248,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(220,233,228,.9)}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
 .nav{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:24px}
 .brand{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-size:19px;font-weight:800;letter-spacing:-.04em}
 .brand-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--accent);color:white;box-shadow:0 3px 8px rgba(8,116,95,.13)}
@@ -27,7 +27,7 @@ nav a{color:var(--muted);font-size:14px;font-weight:600;text-decoration:none}
 nav a:hover,nav a[aria-current=page]{color:var(--accent)}
 .nav-cta{padding:9px 14px;border:1px solid var(--line);border-radius:10px;background:white}
 .hero{position:relative;overflow:hidden;padding:86px 0 70px}
-.hero:before{content:"";position:absolute;width:460px;height:460px;right:-120px;top:-160px;border-radius:50%;background:radial-gradient(circle,rgba(183,228,207,.7),rgba(183,228,207,0) 70%);pointer-events:none}
+.hero:before{content:none}
 .hero-grid{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);align-items:center;gap:64px}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 11px;border:1px solid #cce5d9;border-radius:999px;background:#edf8f2;color:var(--accent-dark);font-size:12px;font-weight:700;letter-spacing:.02em}
 .eyebrow-dot{width:7px;height:7px;border-radius:50%;background:#1a9a72}
@@ -37,14 +37,14 @@ h1 span{color:var(--accent)}
 .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:47px;padding:12px 17px;border-radius:12px;text-decoration:none;font-size:14px;font-weight:700;transition:transform .18s,background .18s}
 .btn:hover{transform:translateY(-2px)}
-.btn-primary{background:var(--accent);color:#fff;box-shadow:0 8px 18px rgba(8,116,95,.16)}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:none}
 .btn-primary:hover{background:var(--accent-dark)}
 .btn-secondary{background:white;border:1px solid var(--line);color:var(--ink)}
 .hero-art{position:relative;min-height:340px;display:grid;place-items:center}
 .orbit{position:absolute;width:300px;height:300px;border:1px dashed #b9d9cb;border-radius:50%}
 .orbit:before,.orbit:after{content:"";position:absolute;width:12px;height:12px;border-radius:50%;background:#54b48e;border:4px solid var(--bg)}
 .orbit:before{top:37px;left:40px}.orbit:after{bottom:40px;right:24px;background:#e8b95a}
-.lab-card{position:relative;width:min(340px,100%);padding:22px;border:1px solid rgba(220,233,228,.95);border-radius:22px;background:rgba(255,255,255,.92);box-shadow:0 24px 70px rgba(22,76,58,.13);transform:rotate(-2deg)}
+.lab-card{position:relative;width:min(340px,100%);padding:22px;border:1px solid rgba(220,233,228,.95);border-radius:14px;background:#fff;box-shadow:0 8px 24px rgba(22,76,58,.06)}
 .lab-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:17px;border-bottom:1px solid #edf2ef}
 .lab-title{font-size:13px;font-weight:700}.live{font-size:11px;color:var(--accent);background:#e9f7ef;border-radius:99px;padding:4px 8px;font-weight:700}
 .molecule{height:155px;display:grid;place-items:center}
@@ -58,8 +58,8 @@ h1 span{color:var(--accent)}
 h2{font-size:clamp(27px,3.3vw,38px);line-height:1.2;letter-spacing:-.04em;margin:10px 0 12px}
 .section-head p{margin:0;color:var(--muted)}
 .tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.tool-card{position:relative;display:flex;flex-direction:column;min-height:280px;padding:26px;border:1px solid var(--line);border-radius:18px;background:var(--paper);box-shadow:0 4px 15px rgba(21,70,55,.025);text-decoration:none;transition:transform .2s,box-shadow .2s,border-color .2s}
-.tool-card:hover{transform:translateY(-4px);border-color:#b9dccc;box-shadow:var(--shadow)}
+.tool-card{position:relative;display:flex;flex-direction:column;min-height:280px;padding:26px;border:1px solid var(--line);border-radius:18px;background:var(--paper);box-shadow:0 4px 15px rgba(21,70,55,.025);text-decoration:none;transition:border-color .15s}
+.tool-card:hover{border-color:#9fcbb9}
 .tool-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
 .tool-icon{display:grid;place-items:center;width:52px;height:52px;border-radius:15px;background:var(--mint);color:var(--accent);font-size:25px}
 .arrow{color:var(--muted);font-size:22px;transition:transform .2s}.tool-card:hover .arrow{transform:translate(3px,-3px);color:var(--accent)}
@@ -94,7 +94,6 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
       <a href="index.html" aria-current="page">Trang chủ</a>
       <a href="#tools">Công cụ</a>
       <a href="#why">Điểm khác biệt</a>
-      <a class="nav-cta" href="#team">Đội ngũ</a>
     </nav>
   </div>
 </header>
@@ -104,7 +103,7 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
       <div>
         <div class="eyebrow"><span class="eyebrow-dot"></span> HÓA HỌC TƯƠNG TÁC · TIẾNG VIỆT</div>
         <h1>Hiểu Hóa bằng cách <span>tự tay thử.</span></h1>
-        <p class="hero-copy">Một bộ công cụ Hóa học bằng tiếng Việt để bạn tự cân bằng phương trình, thử các phép tính và theo dõi chuẩn độ thay đổi theo từng giọt.</p>
+        <p class="hero-copy">Cân bằng phương trình, làm các phép tính phản ứng và thử mô phỏng chuẩn độ ngay trên trình duyệt.</p>
         <div class="actions">
           <a class="btn btn-primary" href="#tools">Khám phá công cụ <span aria-hidden="true">↘</span></a>
           <a class="btn btn-secondary" href="titration.html">Thử mô phỏng chuẩn độ <span aria-hidden="true">→</span></a>
@@ -163,8 +162,8 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
     <div class="wrap band-inner">
       <div>
         <div class="kicker">Điểm khác biệt</div>
-        <h2>Từ công thức trên giấy đến thứ bạn có thể nhìn thấy.</h2>
-        <p>Thay vì chỉ hiện đáp số, Subgeneric cho bạn thay đổi dữ liệu và quan sát điều gì thay đổi theo. Mục tiêu là giúp những phần Hóa học khó hình dung trở nên dễ thử, dễ kiểm tra và gần với chương trình học ở Việt Nam hơn.</p>
+        <h2>Thử thay đổi dữ liệu để hiểu kết quả.</h2>
+        <p>Các công cụ cho bạn xem kết quả và thử những giá trị khác nhau. Có thể dùng để kiểm tra bài tập hoặc tìm hiểu xem một thay đổi nhỏ ảnh hưởng đến kết quả ra sao.</p>
       </div>
       <div class="steps">
         <div class="step"><span class="step-num">1</span><span><strong>Nhập dữ liệu.</strong> Dùng phương trình hoặc thông số của bài tập.</span></div>

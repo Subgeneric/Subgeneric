@@ -29,7 +29,7 @@ a{color:var(--accent)}
 header{border-bottom:1px solid var(--line);padding:16px 0}
 header .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap}
 header .name{font-weight:700;font-size:18px;letter-spacing:-.01em;text-decoration:none;color:var(--ink)}
-.brand-symbol{display:inline-grid;place-items:center;width:30px;height:30px;margin-right:6px;border-radius:9px;background:#e3f3ec;color:#0a7562;font-size:19px;vertical-align:middle}
+.brand-symbol{display:inline-grid;place-items:center;width:30px;height:30px;margin-right:6px;border-radius:9px;background:#0a7562;color:#fff;vertical-align:middle}.brand-symbol svg{width:27px;height:27px}
 header nav a{color:var(--muted);text-decoration:none;margin-left:18px;font-size:15px;font-weight:500}
 header nav a:hover,header nav a[aria-current]{color:var(--ink);text-decoration:underline}
 
@@ -62,6 +62,7 @@ button.plain:hover{background:#eef6f4}
 .rig-heading{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:13px 16px 0}
 .rig-heading strong{font-size:14px}.rig-heading span{font-size:12px;color:var(--muted)}
 .rig-svg{display:block;width:100%;height:auto;max-height:340px}
+#flaskLiquid,#fallingDrop{transition:fill 180ms ease-out}
 .rig-caption{padding:0 16px 14px;color:var(--muted);font-size:12px}
 .sim{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px;align-items:start}
 @media(max-width:700px){.sim{grid-template-columns:1fr}.rig-heading{align-items:flex-start;flex-direction:column;gap:2px}.rig-svg{min-height:190px}}
@@ -99,7 +100,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
 <header>
   <div class="wrap">
-    <a class="name" href="index.html" aria-label="Subgeneric — trang chủ"><span class="brand-symbol" aria-hidden="true">⚗</span> Subgeneric</a>
+    <a class="name" href="index.html" aria-label="Subgeneric — trang chủ"><span class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 40 40" focusable="false"><path d="M13 8h14M16 8v9l-7 13a3 3 0 0 0 3 4h16a3 3 0 0 0 3-4l-7-13V8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 27h16l3 5a1.5 1.5 0 0 1-1.5 2h-19a1.5 1.5 0 0 1-1.5-2z" fill="#9fe2c7"/><circle cx="18" cy="24" r="1.6" fill="#fff"/><circle cx="23" cy="21" r="1.2" fill="#fff"/></svg></span> Subgeneric</a>
     <nav aria-label="Điều hướng chính">
       <a href="index.html">Trang chủ</a>
       <a href="reactions.html">Phản ứng &amp; tính toán</a>
@@ -237,7 +238,8 @@ function params(){
   };
 }
 function lerp(a,b,t){return a+(b-a)*t}
-function mix(c1,c2,t){t=Math.max(0,Math.min(1,t));
+function smoothStep(t){t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)}
+function mix(c1,c2,t){t=smoothStep(t);
   return [lerp(c1[0],c2[0],t),lerp(c1[1],c2[1],t),lerp(c1[2],c2[2],t)]}
 function indicatorColor(kind,pH){
   var c;
