@@ -62,6 +62,7 @@ button.plain:hover{background:#eef6f4}
 .rig-heading{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:13px 16px 0}
 .rig-heading strong{font-size:14px}.rig-heading span{font-size:12px;color:var(--muted)}
 .rig-svg{display:block;width:100%;height:auto;max-height:340px}
+#flaskLiquid,#fallingDrop{transition:fill 180ms ease-out}
 .rig-caption{padding:0 16px 14px;color:var(--muted);font-size:12px}
 .sim{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px;align-items:start}
 @media(max-width:700px){.sim{grid-template-columns:1fr}.rig-heading{align-items:flex-start;flex-direction:column;gap:2px}.rig-svg{min-height:190px}}
@@ -237,7 +238,8 @@ function params(){
   };
 }
 function lerp(a,b,t){return a+(b-a)*t}
-function mix(c1,c2,t){t=Math.max(0,Math.min(1,t));
+function smoothStep(t){t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)}
+function mix(c1,c2,t){t=smoothStep(t);
   return [lerp(c1[0],c2[0],t),lerp(c1[1],c2[1],t),lerp(c1[2],c2[2],t)]}
 function indicatorColor(kind,pH){
   var c;
