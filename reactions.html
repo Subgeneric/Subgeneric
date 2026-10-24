@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>Reactions &amp; calculations – Subgeneric</title>
-<meta name="description" content="Balance equation, molar mass, tính toán theo equation, limiting reactant và percent yield.">
+<meta name="description" content="Equation balancing, molar mass, stoichiometry, limiting reactants, and percent yield.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -355,7 +355,7 @@ function parseFormula(str){
     var s='';
     while(i<str.length && /[0-9]/.test(str[i])){s+=str[i++];}
     var n=s?BigInt(s):1n;
-    if(n===0n)throw new Error('Chỉ atom count phải lớn hơn 0');
+    if(n===0n)throw new Error('The atom count must be greater than 0');
     return n;
   }
   function group(depth){
@@ -419,7 +419,7 @@ function molarMass(formula){
 function balance(eq){
   var parts=eq.trim().split(/\s*(?:->|=>|→|=)\s*/);
   if(parts.length!==2||!parts[0]||!parts[1])
-    throw new Error('Cần đúng một mũi tên (->) hoặc dấu = giữa left-hand side và right-hand side.');
+    throw new Error('Use exactly one arrow (->) or equals sign (=) between the left and right sides.');
   function clean(s){
     // Split at a plus only when a new formula follows; keep the plus in Fe2+, H+, etc.
     return s.split(/\+(?=\s*\d*\s*(?:[A-Z]|\[|\(|\{))/).map(function(x){
@@ -483,7 +483,7 @@ function balance(eq){
   if(free.length===1){
     ints=positiveIntegerCoefficients([1]);
   }else{
-    if(free.length>3)throw new Error('Equation có quá nhiều ẩn tự do. Hãy tách thành từng reaction riêng.');
+    if(free.length>3)throw new Error('The equation has too many free variables. Split it into separate reactions.');
     var limit=24,attempts=0,maxAttempts=15000,values=new Array(free.length);
     var best=null,bestScore=null;
     function searchPositive(depth){
@@ -506,7 +506,7 @@ function balance(eq){
     searchPositive(0);
     ints=best;
   }
-  if(!ints)throw new Error('Không tìm được bộ hệ số nguyên dương phù hợp. Hãy kiểm tra công thức hoặc tách thành reaction riêng.');
+  if(!ints)throw new Error('No suitable set of positive integer coefficients was found. Check the formulas or split the reaction into separate equations.');
   return {L:L,R:R,coef:ints,comps:comps,els:els};
 }
 
@@ -611,7 +611,7 @@ var mmIn=document.getElementById('mmIn'),mmOut=document.getElementById('mmOut');
 function runMolarMass(){
   try{
     var r=molarMass(mmIn.value);
-    var html='<div>Molar mass của <strong>'+fmtFormula(r.formula)+
+    var html='<div>Molar mass of <strong>'+fmtFormula(r.formula)+
              '</strong>: <strong>'+fmtNum(r.M,6)+' g/mol</strong>';
     if(r.charge!==0n)html+=' · điện tích '+r.charge.toString();
     html+='</div>';
@@ -675,7 +675,7 @@ function runStoich(){
     var idx=parseInt(stKnown.value,10);
     if(isNaN(idx))throw new Error('Select a known substance.');
     var amount=parseFloat(stAmt.value);
-    if(!isFinite(amount)||amount<=0)throw new Error('Lượng phải là số dương.');
+    if(!isFinite(amount)||amount<=0)throw new Error('The amount must be positive.');
     var Mlist=speciesMasses(res);
     var invalidMassIndex=Mlist.findIndex(function(m){return m===null;});
     if(invalidMassIndex>=0)throw new Error('Unable to calculate the molar mass of '+names[invalidMassIndex]);
@@ -799,9 +799,9 @@ function runLimiting(){
     var amounts=[];
     for(var i=0;i<reactants.length;i++){
       var inp=document.getElementById('lr_in_'+i);
-      if(!inp)throw new Error('Thiếu ô nhập cho '+reactants[i]);
+      if(!inp)throw new Error('Missing input for '+reactants[i]);
       var v=parseFloat(inp.value);
-      if(!isFinite(v)||v<0)throw new Error('Lượng của '+reactants[i]+' không hợp lệ.');
+      if(!isFinite(v)||v<0)throw new Error('Invalid amount for '+reactants[i]+'.');
       var M=Mlist[i];
       if(M===null)throw new Error('Unable to calculate the molar mass of '+reactants[i]);
       amounts.push({name:reactants[i],g:v,M:M,mol:v/M,coef:Number(res.coef[i])});
