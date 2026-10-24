@@ -326,7 +326,7 @@ function lcm(a,b){return (a*b)/gcd(a,b)}
 function frac(n,d){
   if(d===undefined)d=1n;else if(typeof d==='number')d=BigInt(d);
   if(typeof n==='number')n=BigInt(n);
-  if(d===0n)throw new Error('Chia cho 0');
+  if(d===0n)throw new Error('Không thể chia cho 0');
   if(d<0n){n=-n;d=-d}
   var g=gcd(n,d);return [n/g,d/g];
 }
@@ -445,7 +445,7 @@ function parseFormula(str){
         counts[el]=(counts[el]||0n)+n2;
       }
       else if(/[a-z]/.test(c)){
-        throw new Error('Invalid element symbol near "'+str.substring(i)+'"');
+        throw new Error('Ký hiệu nguyên tố không hợp lệ gần "'+str.substring(i)+'"');
       }
       else if(/[0-9]/.test(c)){
         throw new Error('Số không mong đợi trong "'+str+'"');
@@ -724,7 +724,7 @@ function refreshStKnown(){
     names.forEach(function(n,i){
       var o=document.createElement('option');
       o.value=String(i);
-      o.textContent=n+(i<res.L.length?' (reactant)':' (product)');
+      o.textContent=n+(i<res.L.length?' (chất phản ứng)':' (sản phẩm)');
       sel.appendChild(o);
     });
     if(prev && names[parseInt(prev,10)]!==undefined) sel.value=prev;
