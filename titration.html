@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>Acid–base chuẩn độ simulator – Subgeneric</title>
-<meta name="description" content="Acid–base titration simulation using NaOH, with pH and indicator color tracking.">
+<title>Mô phỏng chuẩn độ acid–base – Subgeneric</title>
+<meta name="description" content="Mô phỏng chuẩn độ acid–base bằng NaOH, theo dõi pH và sự đổi màu của chất chỉ thị.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -167,23 +167,23 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
     <a class="name" href="index.html" aria-label="Subgeneric — trang chủ"><span class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 40 40" focusable="false"><path d="M13 8h14M16 8v9l-7 13a3 3 0 0 0 3 4h16a3 3 0 0 0 3-4l-7-13V8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 27h16l3 5a1.5 1.5 0 0 1-1.5 2h-19a1.5 1.5 0 0 1-1.5-2z" fill="#9fe2c7"/><circle cx="18" cy="24" r="1.6" fill="#fff"/><circle cx="23" cy="21" r="1.2" fill="#fff"/></svg></span> Subgeneric</a>
     <nav aria-label="Điều hướng chính">
       <a href="index.html">Trang chủ</a>
-      <a href="reactions.html">Reactions &amp; calculations</a>
-      <a href="titration.html" aria-current="page">Titration simulator</a>
-    <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">☾ Dark mode</button>
+      <a href="reactions.html">Phản ứng và tính toán</a>
+      <a href="titration.html" aria-current="page">Mô phỏng chuẩn độ</a>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">☾ Chế độ tối</button>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
 
-  <h1>Acid–base chuẩn độ simulator</h1>
-  <p class="intro">Add NaOH solution to an acid sample and track pH, indicator color, and the điểm tương đương.</p>
+  <h1>Mô phỏng chuẩn độ acid–base</h1>
+  <p class="intro">Thêm dung dịch NaOH vào mẫu acid để theo dõi pH, màu của chất chỉ thị và điểm tương đương.</p>
 
   <section class="rig-card" aria-label="Chuẩn độ apparatus illustration">
     <div class="rig-heading"><strong>Chuẩn độ apparatus</strong></div>
     <svg class="rig-svg" viewBox="0 0 760 330" role="img" aria-labelledby="rigTitle rigDesc">
-      <title id="rigTitle">A burette positioned above an bình tam giác during titration</title>
-      <desc id="rigDesc">Solution drips from the burette into the bình tam giác below. The solution color changes with pH.</desc>
+      <title id="rigTitle">Burette đặt phía trên bình tam giác trong quá trình chuẩn độ</title>
+      <desc id="rigDesc">Dung dịch nhỏ giọt từ burette xuống bình tam giác bên dưới. Màu dung dịch thay đổi theo pH.</desc>
       <defs>
         <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stop-color="#dcebe8" stop-opacity=".5"/>
@@ -215,30 +215,30 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
       </g>
       <path d="M390 79h-8M420 257l-20 14" stroke="#91aaa3" stroke-width="1.5" fill="none"/>
     </svg>
-    <div class="rig-caption">The burette is positioned directly above the bình tam giác, as in a standard titration setup.</div>
+    <div class="rig-caption">Burette được đặt ngay phía trên bình tam giác, giống bố trí chuẩn trong thí nghiệm chuẩn độ.</div>
   </section>
 
   <div class="sim">
     <div>
-      <canvas id="curve" aria-label="Chuẩn độ curve: pH versus NaOH volume"></canvas>
+      <canvas id="curve" aria-label="Đường cong chuẩn độ: pH theo thể tích NaOH"></canvas>
       <div class="status" id="tStatus"></div>
     </div>
     <div class="ctrl">
       <div>
-        <label for="acid">Acid in flask</label>
+        <label for="acid">Acid trong bình</label>
         <select id="acid">
-          <option value="">HCl (strong acid)</option>
+          <option value="">HCl (acid mạnh)</option>
           <option value="4.76">CH₃COOH (pKa 4.76)</option>
           <option value="3.75">HCOOH (pKa 3.75)</option>
           <option value="3.17">HF (pKa 3.17)</option>
         </select>
       </div>
       <div class="two">
-        <div><label for="Ca">Acid concentration (M)</label><input type="number" id="Ca" value="0.1" min="0.001" max="2" step="0.01"></div>
-        <div><label for="Va">Acid volume (mL)</label><input type="number" id="Va" value="25" min="5" max="100" step="1"></div>
+        <div><label for="Ca">Nồng độ acid (M)</label><input type="number" id="Ca" value="0.1" min="0.001" max="2" step="0.01"></div>
+        <div><label for="Va">Thể tích acid (mL)</label><input type="number" id="Va" value="25" min="5" max="100" step="1"></div>
       </div>
       <div class="two">
-        <div><label for="Cb">NaOH concentration (M)</label><input type="number" id="Cb" value="0.1" min="0.001" max="2" step="0.01"></div>
+        <div><label for="Cb">Nồng độ NaOH (M)</label><input type="number" id="Cb" value="0.1" min="0.001" max="2" step="0.01"></div>
         <div>
           <label for="ind">Chất chỉ thị</label>
           <select id="ind">
@@ -249,7 +249,7 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
         </div>
       </div>
       <div>
-        <label for="Vb">NaOH volume added: <span id="VbLabel">0.00</span> mL</label>
+        <label for="Vb">Thể tích NaOH đã thêm: <span id="VbLabel">0.00</span> mL</label>
         <input type="range" id="Vb" min="0" max="50" step="0.05" value="0">
       </div>
       <div class="row">
@@ -259,20 +259,20 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
       </div>
       <div class="readout" aria-live="polite">
         <div>pH<b id="pH">–</b></div>
-        <div>Equivalence volume<b id="Veq">–</b></div>
+        <div>Thể tích tại điểm tương đương<b id="Veq">–</b></div>
       </div>
     </div>
   </div>
 
   <div class="explain">
-    <b>Reading the curve:</b> Before the điểm tương đương, pH rises gradually while acid remains. Near the điểm tương đương, pH changes sharply and the indicator changes color. After the điểm tương đương, excess NaOH makes the solution increasingly basic. Switch to CH₃COOH to see the điểm tương đương shift above pH 7 for a weak acid–strong base titration.
+    <b>Cách đọc đường cong:</b> Trước điểm tương đương, pH tăng từ từ khi acid vẫn còn. Gần điểm tương đương, pH thay đổi đột ngột và chất chỉ thị đổi màu. Sau điểm tương đương, NaOH dư làm dung dịch có tính base mạnh hơn. Chuyển sang CH₃COOH để thấy điểm tương đương dịch lên trên pH 7 trong chuẩn độ acid yếu–base mạnh.
   </div>
 
 </main>
 
 <footer>
   <div class="wrap">
-    <div>Subgeneric · Mô phỏng phục vụ học tập, không thay thế thí nghiệm actual.</div>
+    <div>Subgeneric · Mô phỏng phục vụ học tập, không thay thế thí nghiệm thực tế.</div>
     <div>Trường THCS và THPT Trần Đại Nghĩa</div>
   </div>
 </footer>
@@ -337,8 +337,8 @@ function draw(){
   el('pH').textContent=pH.toFixed(2);
   el('Veq').textContent=(Veq<0.1?Veq.toPrecision(3):Veq.toFixed(2))+' mL';
   var st;
-  if(Math.abs(Vb-Veq)<Veq*0.01)st='Near the điểm tương đương: pH changes rapidly.';
-  else if(Vb<Veq)st='Before the điểm tương đương: excess acid remains.';
+  if(Math.abs(Vb-Veq)<Veq*0.01)st='Gần điểm tương đương: pH thay đổi nhanh.';
+  else if(Vb<Veq)st='Trước điểm tương đương: acid vẫn còn dư.';
   else st='After the điểm tương đương: excess NaOH makes the solution basic.';
   el('tStatus').textContent=st;
   var liquid=el('flaskLiquid');if(liquid)liquid.setAttribute('fill',indicatorColor(el('ind').value,pH));
@@ -409,7 +409,7 @@ resizeCanvas();draw();
 (function(){
  var root=document.documentElement,button=document.getElementById('themeToggle');
  if(!button)return;
- function update(){var dark=root.getAttribute('data-theme')==='dark';button.textContent=dark?'☀ Light mode':'☾ Dark mode';button.setAttribute('aria-pressed',String(dark));button.setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');}
+ function update(){var dark=root.getAttribute('data-theme')==='dark';button.textContent=dark?'☀ Chế độ sáng':'☾ Chế độ tối';button.setAttribute('aria-pressed',String(dark));button.setAttribute('aria-label',dark?'Chuyển sang chế độ sáng':'Chuyển sang chế độ tối');}
  button.addEventListener('click',function(){var next=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',next);try{localStorage.setItem('subgeneric-theme',next)}catch(e){}update();});
  update();
 })();
