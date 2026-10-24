@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>Reactions &amp; calculations – Subgeneric</title>
-<meta name="description" content="Equation balancing, molar mass, stoichiometry, limiting reactants, and percent yield.">
+<meta name="description" content="Equation balancing, khối lượng mol, stoichiometry, chất giới hạns, and hiệu suất phản ứng.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -131,7 +131,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     <nav aria-label="Điều hướng chính">
       <a href="index.html">Trang chủ</a>
       <a href="reactions.html" aria-current="page">Reactions &amp; calculations</a>
-      <a href="titration.html">Titration simulator</a>
+      <a href="chuẩn độ.html">Chuẩn độ simulator</a>
     </nav>
   </div>
 </header>
@@ -140,19 +140,19 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
   <h1>Reactions &amp; calculations</h1>
   <p class="intro">
-    Four tools share one equation-balancing engine. Enter an equation and the tool balances it, then calculates molar mass, amount of substance, mass, and gas volume.
+    Four tools share one equation-balancing engine. Enter an equation and the tool balances it, then calculates khối lượng mol, amount of substance, mass, and gas volume.
   </p>
 
   <nav class="nav-tools" aria-label="Mục lục công cụ">
     <a href="#tool1">1. Balance</a>
-    <a href="#tool2">2. Molar mass</a>
+    <a href="#tool2">2. Khối lượng mol</a>
     <a href="#tool3">3. Stoichiometry</a>
-    <a href="#tool4">4. Limiting reactant &amp; percent yield</a>
+    <a href="#tool4">4. Chất giới hạn &amp; hiệu suất phản ứng</a>
   </nav>
 
   <!-- ============ 1. CÂN BẰNG ============ -->
   <section class="tool" id="tool1">
-    <h3>1. Balance chemical equations</h3>
+    <h3>1. Balance phương trình hóa họcs</h3>
     <p class="hint">
       Enter an equation using <code>-&gt;</code> or <code>=</code> between the two sides. Supports organic compounds, ions, and complexes with nested parentheses.
     </p>
@@ -166,9 +166,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
   <!-- ============ 2. MOLAR MASS ============ -->
   <section class="tool" id="tool2">
-    <h3>2. Molar mass &amp; mass percentage</h3>
+    <h3>2. Khối lượng mol &amp; mass percentage</h3>
     <p class="hint">
-      Enter a chemical formula (including ions, parentheses, and hydrates such as <code>CuSO4.5H2O</code>). Results include molar mass and each element's mass percentage.
+      Enter a chemical formula (including ions, parentheses, and hydrates such as <code>CuSO4.5H2O</code>). Results include khối lượng mol and each element's mass percentage.
     </p>
     <div class="row">
       <input type="text" id="mmIn" value="CuSO4.5H2O" autocomplete="off" spellcheck="false">
@@ -186,7 +186,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     </p>
     <div class="inline-form">
       <div>
-        <label for="stEq">Chemical equation</label>
+        <label for="stEq">Phương trình hóa học</label>
         <input type="text" id="stEq" value="Fe + 2HCl -> FeCl2 + H2" autocomplete="off" spellcheck="false">
       </div>
       <div class="cols-3">
@@ -216,13 +216,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 
   <!-- ============ 4. LIMITING REACTANT & PERCENT YIELD ============ -->
   <section class="tool" id="tool4">
-    <h3>4. Limiting reactant &amp; percent yield</h3>
+    <h3>4. Chất giới hạn &amp; hiệu suất phản ứng</h3>
     <p class="hint">
-      Enter the equation and the amounts of <em>all</em> reactants. The tool identifies the limiting reactant, calculates the theoretical product mass, and calculates percent yield if you enter the actual mass obtained.
+      Enter the equation and the amounts of <em>all</em> reactants. The tool identifies the chất giới hạn, calculates the theoretical product mass, and calculates hiệu suất phản ứng if you enter the actual mass obtained.
     </p>
     <div class="inline-form">
       <div>
-        <label for="lrEq">Chemical equation</label>
+        <label for="lrEq">Phương trình hóa học</label>
         <input type="text" id="lrEq" value="N2 + 3H2 -> 2NH3" autocomplete="off" spellcheck="false">
       </div>
       <div id="lrInputs" class="cols"></div>
@@ -611,7 +611,7 @@ var mmIn=document.getElementById('mmIn'),mmOut=document.getElementById('mmOut');
 function runMolarMass(){
   try{
     var r=molarMass(mmIn.value);
-    var html='<div>Molar mass of <strong>'+fmtFormula(r.formula)+
+    var html='<div>Khối lượng mol of <strong>'+fmtFormula(r.formula)+
              '</strong>: <strong>'+fmtNum(r.M,6)+' g/mol</strong>';
     if(r.charge!==0n)html+=' · điện tích '+r.charge.toString();
     html+='</div>';
@@ -678,7 +678,7 @@ function runStoich(){
     if(!isFinite(amount)||amount<=0)throw new Error('The amount must be positive.');
     var Mlist=speciesMasses(res);
     var invalidMassIndex=Mlist.findIndex(function(m){return m===null;});
-    if(invalidMassIndex>=0)throw new Error('Unable to calculate the molar mass of '+names[invalidMassIndex]);
+    if(invalidMassIndex>=0)throw new Error('Unable to calculate the khối lượng mol of '+names[invalidMassIndex]);
     var Mknown=Mlist[idx];
 
     var nKnown=(stUnit.value==='g')?amount/Mknown:amount;
@@ -803,7 +803,7 @@ function runLimiting(){
       var v=parseFloat(inp.value);
       if(!isFinite(v)||v<0)throw new Error('Invalid amount for '+reactants[i]+'.');
       var M=Mlist[i];
-      if(M===null)throw new Error('Unable to calculate the molar mass of '+reactants[i]);
+      if(M===null)throw new Error('Unable to calculate the khối lượng mol of '+reactants[i]);
       amounts.push({name:reactants[i],g:v,M:M,mol:v/M,coef:Number(res.coef[i])});
     }
 
@@ -819,7 +819,7 @@ function runLimiting(){
     if(prodIdx<0)throw new Error('Select a product to calculate.');
     var prodCoef=Number(res.coef[res.L.length+prodIdx]);
     var prodM=Mlist[res.L.length+prodIdx];
-    if(prodM===null)throw new Error('Unable to calculate the molar mass of '+prodName);
+    if(prodM===null)throw new Error('Unable to calculate the khối lượng mol of '+prodName);
 
     var molTheoLT=limRatio*prodCoef;
     var massTheoLT=molTheoLT*prodM;
@@ -863,17 +863,17 @@ function runLimiting(){
 
     if(haveActual){
       html+='<div>Mass actual: <strong>'+fmtNum(actual,5)+' g</strong></div>';
-      html+='<div>Percent yield reaction: <strong>'+H.toFixed(2)+'%</strong></div>';
+      html+='<div>Hiệu suất phản ứng reaction: <strong>'+H.toFixed(2)+'%</strong></div>';
     }else{
-      html+='<div style="color:var(--muted);font-size:14px">Nhập actual mass để tính percent yield.</div>';
+      html+='<div style="color:var(--muted);font-size:14px">Nhập actual mass để tính hiệu suất phản ứng.</div>';
     }
 
     html+='<details class="species"><summary>Xem cách tính</summary>'+
           '<div style="font-size:14px;color:var(--muted);margin-top:6px">'+
           '1) Đổi mass mỗi reactant sang mol: n = m / M.<br>'+
-          '2) Chia n cho corresponding coefficient. Chất có ratio nhỏ nhất là limiting reactant.<br>'+
+          '2) Chia n cho corresponding coefficient. Chất có ratio nhỏ nhất là chất giới hạn.<br>'+
           '3) Amount (mol) product = ratio nhỏ nhất × hệ số product. Mass theoretical = n × M.<br>'+
-          '4) Percent yield H% = (m actual / m theoretical) × 100%.'+
+          '4) Hiệu suất phản ứng H% = (m actual / m theoretical) × 100%.'+
           '</div></details>';
 
     lrOut.className='result';
