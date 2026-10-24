@@ -7,8 +7,11 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>Subgeneric — Học Hóa bằng công cụ tương tác</title>
 <meta name="description" content="Subgeneric là bộ công cụ Hóa học tương tác bằng tiếng Việt cho học sinh Việt Nam: cân bằng phương trình, tính toán phản ứng và mô phỏng chuẩn độ.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#18352f;--muted:#60766f;--line:#dce9e4;--bg:#f5faf8;--paper:#fff;--accent:#08745f;--accent-dark:#075846;--mint:#e3f3ec;--shadow:0 14px 38px rgba(21,70,55,.07);--font:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+:root{--ink:#18352f;--muted:#60766f;--line:#dce9e4;--bg:#f5faf8;--paper:#fff;--accent:#08745f;--accent-dark:#075846;--mint:#e3f3ec;--shadow:0 14px 38px rgba(21,70,55,.07);--font:"Be Vietnam Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased}
@@ -68,6 +71,10 @@ h2{font-size:clamp(27px,3.3vw,38px);line-height:1.2;letter-spacing:-.04em;margin
 .band{padding:0 0 76px}
 .band-inner{display:grid;grid-template-columns:1fr 1fr;gap:30px;padding:34px;border:1px solid #d5e9df;border-radius:20px;background:linear-gradient(120deg,#e9f7ef,#f8fcfa 70%)}
 .band h2{font-size:27px;margin-top:0}.band p{margin:0;color:var(--muted);font-size:14px}
+.team-panel{display:grid;grid-template-columns:76px minmax(0,1fr);gap:24px;align-items:start;padding:30px;border:1px solid var(--line);border-radius:18px;background:#fff}
+.team-mark{width:64px;height:64px;border-radius:16px;background:var(--mint);color:var(--accent);display:grid;place-items:center}.team-mark svg{width:42px;height:42px}
+.team-panel h2{margin-top:8px}.team-panel p{max-width:700px;color:var(--muted);font-size:14px}
+@media(max-width:600px){.team-panel{grid-template-columns:1fr;padding:22px;gap:12px}}
 .steps{display:grid;gap:14px}
 .step{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:#46645a}
 .step-num{flex:0 0 27px;height:27px;display:grid;place-items:center;border-radius:9px;background:#fff;color:var(--accent);font-weight:800;border:1px solid #d8e9df}
@@ -165,10 +172,21 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
       </div>
     </div>
   </section>
+  <section class="section" id="team">
+    <div class="wrap team-panel">
+      <div class="team-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M7 18 24 8l17 10-17 10L7 18Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M14 23v10c6 5 14 5 20 0V23M41 18v13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="41" cy="34" r="2.5" fill="currentColor"/></svg></div>
+      <div>
+        <div class="kicker">Người đứng sau dự án</div>
+        <h2>Được làm bởi học sinh Trần Đại Nghĩa.</h2>
+        <p>Chúng mình là một nhóm học sinh đến từ THCS và THPT Trần Đại Nghĩa. Subgeneric bắt đầu từ một ý tưởng đơn giản: nếu có thể tự thay đổi số liệu và nhìn thấy kết quả ngay, Hóa học sẽ bớt trừu tượng hơn.</p>
+        <p>Dự án vẫn đang được phát triển. Chúng mình muốn tiếp tục hoàn thiện công cụ dựa trên việc học thực tế và góp ý từ những bạn sử dụng.</p>
+      </div>
+    </div>
+  </section>
 </main>
 <footer>
   <div class="wrap footer-row">
-    <span>Subgeneric · Công cụ Hóa học tương tác</span>
+    <span>Subgeneric · Dự án học sinh Trần Đại Nghĩa</span>
     <div class="footer-links"><a href="index.html">Trang chủ</a><a href="reactions.html">Phản ứng &amp; tính toán</a><a href="titration.html">Mô phỏng chuẩn độ</a></div>
   </div>
 </footer>
