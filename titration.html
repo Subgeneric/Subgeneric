@@ -158,7 +158,7 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
 
 /* Keep the apparatus and plotted graph dark with the shared theme */
 html[data-theme="dark"] .rig-card{background:#17241f;border-color:var(--line)}
-html[data-theme="dark"] .rig-svg > rect:first-child{fill:#15211d}
+html[data-theme="dark"] .rig-svg > rect[width="760"]{fill:#15211d}
 html[data-theme="dark"] .rig-svg text{fill:#b9d0c7}
 html[data-theme="dark"] .rig-svg path[stroke="#d4e5df"]{stroke:#344a44}
 html[data-theme="dark"] .rig-svg path[stroke="#718d85"],
@@ -421,7 +421,7 @@ resizeCanvas();draw();
  var root=document.documentElement,button=document.getElementById('themeToggle');
  if(!button)return;
  function update(){var dark=root.getAttribute('data-theme')==='dark';button.textContent=dark?'☀ Chế độ sáng':'☾ Chế độ tối';button.setAttribute('aria-pressed',String(dark));button.setAttribute('aria-label',dark?'Chuyển sang chế độ sáng':'Chuyển sang chế độ tối');}
- button.addEventListener('click',function(){var next=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',next);try{localStorage.setItem('subgeneric-theme',next)}catch(e){}update();});
+ button.addEventListener('click',function(){var next=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',next);try{localStorage.setItem('subgeneric-theme',next)}catch(e){}update();if(typeof resizeCanvas==='function'&&typeof draw==='function'){resizeCanvas();draw();}});
  update();
 })();
 </script>
