@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <title>Acid–base titration simulator – Subgeneric</title>
-<meta name="description" content="Titration simulator acid bằng solution NaOH, theo dõi pH và màu indicator.">
+<meta name="description" content="Acid–base titration simulation using NaOH, with pH and indicator color tracking.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -273,7 +273,7 @@ function draw(){
   el('Veq').textContent=(Veq<0.1?Veq.toPrecision(3):Veq.toFixed(2))+' mL';
   var st;
   if(Math.abs(Vb-Veq)<Veq*0.01)st='Near the equivalence point: pH changes rapidly.';
-  else if(Vb<Veq)st='Trước equivalence point: excess acid.';
+  else if(Vb<Veq)st='Before the equivalence point: excess acid remains.';
   else st='After the equivalence point: excess NaOH makes the solution basic.';
   el('tStatus').textContent=st;
   var liquid=el('flaskLiquid');if(liquid)liquid.setAttribute('fill',indicatorColor(el('ind').value,pH));
