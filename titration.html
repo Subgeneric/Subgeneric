@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>Mô phỏng chuẩn độ acid – base – Subgeneric</title>
-<meta name="description" content="Mô phỏng chuẩn độ acid bằng dung dịch NaOH, theo dõi pH và màu chất chỉ thị.">
+<title>Acid–base titration simulator – Subgeneric</title>
+<meta name="description" content="Titration simulator acid bằng solution NaOH, theo dõi pH và màu indicator.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -103,22 +103,22 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
     <a class="name" href="index.html" aria-label="Subgeneric — trang chủ"><span class="brand-symbol" aria-hidden="true"><svg viewBox="0 0 40 40" focusable="false"><path d="M13 8h14M16 8v9l-7 13a3 3 0 0 0 3 4h16a3 3 0 0 0 3-4l-7-13V8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 27h16l3 5a1.5 1.5 0 0 1-1.5 2h-19a1.5 1.5 0 0 1-1.5-2z" fill="#9fe2c7"/><circle cx="18" cy="24" r="1.6" fill="#fff"/><circle cx="23" cy="21" r="1.2" fill="#fff"/></svg></span> Subgeneric</a>
     <nav aria-label="Điều hướng chính">
       <a href="index.html">Trang chủ</a>
-      <a href="reactions.html">Phản ứng &amp; tính toán</a>
-      <a href="titration.html" aria-current="page">Mô phỏng chuẩn độ</a>
+      <a href="reactions.html">Reactions &amp; calculations</a>
+      <a href="titration.html" aria-current="page">Titration simulator</a>
     </nav>
   </div>
 </header>
 
 <main class="wrap">
 
-  <h1>Mô phỏng chuẩn độ acid – base</h1>
-  <p class="intro">Thêm dung dịch NaOH vào mẫu acid và theo dõi pH, màu chất chỉ thị cùng điểm tương đương.</p>
+  <h1>Acid–base titration simulator</h1>
+  <p class="intro">Add NaOH solution to an acid sample and track pH, indicator color, and the equivalence point.</p>
 
-  <section class="rig-card" aria-label="Bộ dụng cụ chuẩn độ minh họa">
-    <div class="rig-heading"><strong>Bộ dụng cụ chuẩn độ</strong></div>
+  <section class="rig-card" aria-label="Titration apparatus illustration">
+    <div class="rig-heading"><strong>Titration apparatus</strong></div>
     <svg class="rig-svg" viewBox="0 0 760 330" role="img" aria-labelledby="rigTitle rigDesc">
-      <title id="rigTitle">Buret đặt phía trên bình tam giác trong thí nghiệm chuẩn độ</title>
-      <desc id="rigDesc">Dung dịch từ buret nhỏ xuống bình tam giác đặt ngay bên dưới. Màu dung dịch trong bình thay đổi theo pH.</desc>
+      <title id="rigTitle">A burette positioned above an Erlenmeyer flask during titration</title>
+      <desc id="rigDesc">Solution drips from the burette into the Erlenmeyer flask below. The solution color changes with pH.</desc>
       <defs>
         <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stop-color="#dcebe8" stop-opacity=".5"/>
@@ -145,72 +145,69 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       <path d="M348 212h34M348 222h34" stroke="#8eaaa3" stroke-width="2.5"/>
       <path d="M331 280q34 9 68 0M344 284q20 5 40 0" stroke="#fff" stroke-width="2" opacity=".6" fill="none"/>
       <g font-family="Be Vietnam Pro, Arial, sans-serif" fill="#405f56" font-size="13" font-weight="600">
-        <text x="395" y="75">Buret</text>
-        <text x="425" y="253">Bình tam giác</text>
+        <text x="395" y="75">Burette</text>
+        <text x="425" y="253">Erlenmeyer flask</text>
       </g>
       <path d="M390 79h-8M420 257l-20 14" stroke="#91aaa3" stroke-width="1.5" fill="none"/>
     </svg>
-    <div class="rig-caption">Buret đặt ngay phía trên bình tam giác, như trong bố trí thí nghiệm.</div>
+    <div class="rig-caption">The burette is positioned directly above the Erlenmeyer flask, as in a standard titration setup.</div>
   </section>
 
   <div class="sim">
     <div>
-      <canvas id="curve" aria-label="Đường cong chuẩn độ pH theo thể tích NaOH"></canvas>
+      <canvas id="curve" aria-label="Titration curve: pH versus NaOH volume"></canvas>
       <div class="status" id="tStatus"></div>
     </div>
     <div class="ctrl">
       <div>
-        <label for="acid">Acid trong bình</label>
+        <label for="acid">Acid in flask</label>
         <select id="acid">
-          <option value="">HCl (acid mạnh)</option>
-          <option value="4.76">CH₃COOH (pKa 4,76)</option>
-          <option value="3.75">HCOOH (pKa 3,75)</option>
-          <option value="3.17">HF (pKa 3,17)</option>
+          <option value="">HCl (strong acid)</option>
+          <option value="4.76">CH₃COOH (pKa 4.76)</option>
+          <option value="3.75">HCOOH (pKa 3.75)</option>
+          <option value="3.17">HF (pKa 3.17)</option>
         </select>
       </div>
       <div class="two">
-        <div><label for="Ca">Nồng độ acid (M)</label><input type="number" id="Ca" value="0.1" min="0.001" max="2" step="0.01"></div>
-        <div><label for="Va">Thể tích axit (mL)</label><input type="number" id="Va" value="25" min="5" max="100" step="1"></div>
+        <div><label for="Ca">Acid concentration (M)</label><input type="number" id="Ca" value="0.1" min="0.001" max="2" step="0.01"></div>
+        <div><label for="Va">Acid volume (mL)</label><input type="number" id="Va" value="25" min="5" max="100" step="1"></div>
       </div>
       <div class="two">
-        <div><label for="Cb">Nồng độ NaOH (M)</label><input type="number" id="Cb" value="0.1" min="0.001" max="2" step="0.01"></div>
+        <div><label for="Cb">NaOH concentration (M)</label><input type="number" id="Cb" value="0.1" min="0.001" max="2" step="0.01"></div>
         <div>
-          <label for="ind">Chất chỉ thị</label>
+          <label for="ind">Indicator</label>
           <select id="ind">
-            <option value="pp">Phenolphtalein</option>
-            <option value="mo">Metyl da cam</option>
-            <option value="bb">Bromthymol xanh</option>
+            <option value="pp">Phenolphthalein</option>
+            <option value="mo">Methyl orange</option>
+            <option value="bb">Bromothymol blue</option>
           </select>
         </div>
       </div>
       <div>
-        <label for="Vb">Thể tích NaOH đã nhỏ: <span id="VbLabel">0.00</span> mL</label>
+        <label for="Vb">NaOH volume added: <span id="VbLabel">0.00</span> mL</label>
         <input type="range" id="Vb" min="0" max="50" step="0.05" value="0">
       </div>
       <div class="row">
-        <button class="plain" id="drop">+0,5 mL</button>
+        <button class="plain" id="drop">+0.5 mL</button>
         <button class="plain" id="auto">Tự động</button>
         <button class="plain" id="reset">Đặt lại</button>
       </div>
       <div class="readout" aria-live="polite">
         <div>pH<b id="pH">–</b></div>
-        <div>V tương đương<b id="Veq">–</b></div>
+        <div>Equivalence volume<b id="Veq">–</b></div>
       </div>
     </div>
   </div>
 
   <div class="explain">
-    <b>Đọc đường cong:</b> Trước điểm tương đương, pH tăng chậm vì axit còn dư.
-    Gần điểm tương đương, pH nhảy vọt — đây là lúc chất chỉ thị đổi màu rõ nhất.
-    Sau điểm tương đương, NaOH dư nên pH tiến dần tới pH của base mạnh.
-    Đổi acid sang CH₃COOH để thấy điểm tương đương chuyển sang môi trường base yếu (pH &gt; 7).
+    <b>Reading the curve:</b> Before the equivalence point, pH rises gradually while acid remains. Near the equivalence point, pH changes sharply and the indicator changes color. After the equivalence point, excess NaOH makes the solution increasingly basic. Switch to CH₃COOH to see the equivalence point shift above pH 7 for a weak acid–strong base titration.
   </div>
 
 </main>
 
 <footer>
   <div class="wrap">
-    <div>Subgeneric · Mô phỏng phục vụ học tập, không thay thế thí nghiệm thực tế.</div>
+    <div>Subgeneric · Mô phỏng phục vụ học tập, không thay thế thí nghiệm actual.</div>
     <div>Trường THCS và THPT Trần Đại Nghĩa</div>
   </div>
 </footer>
@@ -275,9 +272,9 @@ function draw(){
   el('pH').textContent=pH.toFixed(2);
   el('Veq').textContent=(Veq<0.1?Veq.toPrecision(3):Veq.toFixed(2))+' mL';
   var st;
-  if(Math.abs(Vb-Veq)<Veq*0.01)st='Gần điểm tương đương: pH thay đổi rất nhanh.';
-  else if(Vb<Veq)st='Trước điểm tương đương: còn acid dư.';
-  else st='Sau điểm tương đương: NaOH dư, dung dịch có tính base.';
+  if(Math.abs(Vb-Veq)<Veq*0.01)st='Near the equivalence point: pH changes rapidly.';
+  else if(Vb<Veq)st='Trước equivalence point: excess acid.';
+  else st='After the equivalence point: excess NaOH makes the solution basic.';
   el('tStatus').textContent=st;
   var liquid=el('flaskLiquid');if(liquid)liquid.setAttribute('fill',indicatorColor(el('ind').value,pH));
   var buret=el('buretLiquid');if(buret){var used=Math.max(0,Math.min(1,Vb/Vmax));buret.setAttribute('y',String(50+used*125));buret.setAttribute('height',String(Math.max(5,134-used*125)));}
