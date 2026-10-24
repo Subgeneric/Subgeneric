@@ -155,6 +155,17 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
 .theme-toggle:hover{border-color:var(--accent)}
 @media(max-width:620px){.theme-toggle{padding:7px 9px;font-size:12px}}
 
+
+/* Keep the apparatus and plotted graph dark with the shared theme */
+html[data-theme="dark"] .rig-card{background:#17241f;border-color:var(--line)}
+html[data-theme="dark"] .rig-svg > rect[width="760"]{fill:#15211d}
+html[data-theme="dark"] .rig-svg text{fill:#b9d0c7}
+html[data-theme="dark"] .rig-svg path[stroke="#d4e5df"]{stroke:#344a44}
+html[data-theme="dark"] .rig-svg path[stroke="#718d85"],
+html[data-theme="dark"] .rig-svg path[stroke="#91aaa3"]{stroke:#78968b}
+html[data-theme="dark"] canvas{background:#15211d;border-color:var(--line)}
+html[data-theme="dark"] .explain{color:var(--muted)}
+
 </style>
 <script>
 (function(){try{var saved=localStorage.getItem('subgeneric-theme');var theme=saved==='dark'||saved==='light'?saved:(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',theme)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();
@@ -348,7 +359,7 @@ function draw(){
   var W=canvas.clientWidth,H=canvas.clientHeight,L=44,R=14,T=14,B=34,pw=W-L-R,ph=H-T-B;
   ctx.clearRect(0,0,W,H);
   ctx.font='12px "Be Vietnam Pro",system-ui,sans-serif';
-  ctx.fillStyle='#5b726d';ctx.strokeStyle='#eef3f1';ctx.lineWidth=1;
+  var dark=document.documentElement.getAttribute('data-theme')==='dark';ctx.fillStyle=dark?'#a3b8b1':'#5b726d';ctx.strokeStyle=dark?'#2b4039':'#eef3f1';ctx.lineWidth=1;
   for(var y=0;y<=14;y+=2){
     var py=T+ph*(1-y/14);
     ctx.beginPath();ctx.moveTo(L,py);ctx.lineTo(W-R,py);ctx.stroke();
@@ -362,10 +373,10 @@ function draw(){
   ctx.fillText('V NaOH (mL)',L+pw/2,H-1);
   ctx.save();ctx.translate(11,T+ph/2);ctx.rotate(-Math.PI/2);ctx.fillText('pH',0,0);ctx.restore();
   var eqx=L+pw*(Veq/Vmax);
-  ctx.setLineDash([5,4]);ctx.strokeStyle='#c98a0a';
+  ctx.setLineDash([5,4]);ctx.strokeStyle=dark?'#e4bb59':'#c98a0a';
   ctx.beginPath();ctx.moveTo(eqx,T);ctx.lineTo(eqx,T+ph);ctx.stroke();ctx.setLineDash([]);
-  ctx.fillStyle='#8a6008';ctx.fillText('tương đương',eqx,T+11);
-  ctx.strokeStyle='#0a7562';ctx.lineWidth=2.5;ctx.beginPath();
+  ctx.fillStyle=dark?'#e4bb59':'#8a6008';ctx.fillText('tương đương',eqx,T+11);
+  ctx.strokeStyle=dark?'#59c6a5':'#0a7562';ctx.lineWidth=2.5;ctx.beginPath();
   var N=240;
   for(var k=0;k<=N;k++){
     var v2=Vmax*k/N,ph2=titrationPH(p.Ca,p.Va,p.Cb,v2,p.pKa);
@@ -410,7 +421,7 @@ resizeCanvas();draw();
  var root=document.documentElement,button=document.getElementById('themeToggle');
  if(!button)return;
  function update(){var dark=root.getAttribute('data-theme')==='dark';button.textContent=dark?'☀ Chế độ sáng':'☾ Chế độ tối';button.setAttribute('aria-pressed',String(dark));button.setAttribute('aria-label',dark?'Chuyển sang chế độ sáng':'Chuyển sang chế độ tối');}
- button.addEventListener('click',function(){var next=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',next);try{localStorage.setItem('subgeneric-theme',next)}catch(e){}update();});
+ button.addEventListener('click',function(){var next=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',next);try{localStorage.setItem('subgeneric-theme',next)}catch(e){}update();if(typeof resizeCanvas==='function'&&typeof draw==='function'){resizeCanvas();draw();}});
  update();
 })();
 </script>
