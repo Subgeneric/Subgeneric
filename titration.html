@@ -141,7 +141,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
       <path d="M365 209v10" stroke="#718d85" stroke-width="2.5" stroke-linecap="round"/>
       <path id="fallingDrop" d="M365 220 C360 227 360 231 365 234 C370 231 370 227 365 220Z" fill="#6db9a6"/>
       <path d="M348 236h34v26l48 39a10 10 0 0 1-7 18H307a10 10 0 0 1-7-18l48-39Z" fill="url(#glass)" stroke="#8eaaa3" stroke-width="2.5" stroke-linejoin="round" transform="translate(0 -24)"/>
-      <path id="flaskLiquid" d="M326 270l-24 28a5 5 0 0 0 4 8h118a5 5 0 0 0 4-8l-24-28Z" fill="#d9eaf0" opacity=".9"/>
+      <path id="flaskLiquid" d="M326 256l-24 28a5 5 0 0 0 4 8h118a5 5 0 0 0 4-8l-24-28Z" fill="#d9eaf0" opacity=".9"/>
       <path d="M348 212h34M348 222h34" stroke="#8eaaa3" stroke-width="2.5"/>
       <path d="M331 280q34 9 68 0M344 284q20 5 40 0" stroke="#fff" stroke-width="2" opacity=".6" fill="none"/>
       <g font-family="Be Vietnam Pro, Arial, sans-serif" fill="#405f56" font-size="13" font-weight="600">
@@ -280,7 +280,7 @@ function draw(){
   else st='Sau điểm tương đương: NaOH dư, dung dịch có tính base.';
   el('tStatus').textContent=st;
   var liquid=el('flaskLiquid');if(liquid)liquid.setAttribute('fill',indicatorColor(el('ind').value,pH));
-  var buret=el('buretLiquid');if(buret){var used=Math.max(0,Math.min(1,Vb/Vmax));buret.setAttribute('y',String(53+used*145));buret.setAttribute('height',String(Math.max(5,150-used*145)));}
+  var buret=el('buretLiquid');if(buret){var used=Math.max(0,Math.min(1,Vb/Vmax));buret.setAttribute('y',String(50+used*125));buret.setAttribute('height',String(Math.max(5,134-used*125)));}
   var drop=el('fallingDrop');if(drop){drop.setAttribute('opacity',Vb>=Vmax?'.15':'1');drop.setAttribute('fill',indicatorColor(el('ind').value,pH));}
 
   var W=canvas.clientWidth,H=canvas.clientHeight,L=44,R=14,T=14,B=34,pw=W-L-R,ph=H-T-B;
