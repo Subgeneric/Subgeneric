@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>Mô phỏng chuẩn độ acid–base – Subgeneric</title>
-<meta name="description" content="Mô phỏng chuẩn độ acid–base bằng NaOH, theo dõi pH và sự đổi màu của chất chỉ thị.">
+<title>Mô phỏng chuẩn độ axit–bazơ | Subgeneric</title>
+<meta name="description" content="Thử chuẩn độ axit bằng NaOH và theo dõi sự thay đổi pH, màu sắc của chất chỉ thị.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -187,11 +187,11 @@ html[data-theme="dark"] .explain{color:var(--muted)}
 
 <main class="wrap">
 
-  <h1>Mô phỏng chuẩn độ acid–base</h1>
+  <h1>Mô phỏng chuẩn độ axit–bazơ</h1>
 <section class="rig-card" aria-label="Minh họa dụng cụ chuẩn độ">
 <svg class="rig-svg" viewBox="0 0 760 330" role="img" aria-labelledby="rigTitle rigDesc">
-      <title id="rigTitle">Burette đặt phía trên bình tam giác trong quá trình chuẩn độ</title>
-      <desc id="rigDesc">Dung dịch nhỏ giọt từ burette xuống bình tam giác bên dưới. Màu dung dịch thay đổi theo pH.</desc>
+      <title id="rigTitle">Burette nhỏ dung dịch NaOH vào bình tam giác</title>
+      <desc id="rigDesc">NaOH nhỏ từ burette vào bình tam giác. Màu dung dịch trong bình đổi theo pH.</desc>
       <defs>
         <linearGradient id="glass" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stop-color="#dcebe8" stop-opacity=".5"/>
@@ -232,26 +232,26 @@ html[data-theme="dark"] .explain{color:var(--muted)}
     </div>
     <div class="ctrl">
       <div>
-        <label for="acid">Acid trong bình</label>
+        <label for="acid">Axit trong bình</label>
         <select id="acid">
-          <option value="">HCl (acid mạnh)</option>
-          <option value="4.76">CH₃COOH (pKa 4.76)</option>
-          <option value="3.75">HCOOH (pKa 3.75)</option>
-          <option value="3.17">HF (pKa 3.17)</option>
+          <option value="">HCl (axit mạnh)</option>
+          <option value="4.76">CH₃COOH (pKa 4,76)</option>
+          <option value="3.75">HCOOH (pKa 3,75)</option>
+          <option value="3.17">HF (pKa 3,17)</option>
         </select>
       </div>
       <div class="two">
-        <div><label for="Ca">Nồng độ acid (M)</label><input type="number" id="Ca" value="0.1" min="0.001" max="2" step="0.01"></div>
-        <div><label for="Va">Thể tích acid (mL)</label><input type="number" id="Va" value="25" min="5" max="100" step="1"></div>
+        <div><label for="Ca">Nồng độ axit (M)</label><input type="number" id="Ca" value="0.1" min="0.001" max="2" step="0.01"></div>
+        <div><label for="Va">Thể tích axit (mL)</label><input type="number" id="Va" value="25" min="5" max="100" step="1"></div>
       </div>
       <div class="two">
         <div><label for="Cb">Nồng độ NaOH (M)</label><input type="number" id="Cb" value="0.1" min="0.001" max="2" step="0.01"></div>
         <div>
           <label for="ind">Chất chỉ thị</label>
           <select id="ind">
-            <option value="pp">Phenolphthalein</option>
-            <option value="mo">Methyl orange</option>
-            <option value="bb">Bromothymol blue</option>
+            <option value="pp">Phenolphtalein</option>
+            <option value="mo">Metyl da cam</option>
+            <option value="bb">Bromothymol xanh</option>
           </select>
         </div>
       </div>
@@ -261,12 +261,12 @@ html[data-theme="dark"] .explain{color:var(--muted)}
       </div>
       <div class="row">
         <button class="plain" id="drop">+0.5 mL</button>
-        <button class="plain" id="auto">Tự động</button>
+        <button class="plain" id="auto">Chạy tự động</button>
         <button class="plain" id="reset">Đặt lại</button>
       </div>
       <div class="readout" aria-live="polite">
         <div>pH<b id="pH">–</b></div>
-        <div>Thể tích tại điểm tương đương<b id="Veq">–</b></div>
+        <div>Thể tích ở điểm tương đương<b id="Veq">–</b></div>
       </div>
     </div>
   </div>
@@ -340,9 +340,9 @@ function draw(){
   el('pH').textContent=pH.toFixed(2);
   el('Veq').textContent=(Veq<0.1?Veq.toPrecision(3):Veq.toFixed(2))+' mL';
   var st;
-  if(Math.abs(Vb-Veq)<Veq*0.01)st='Gần điểm tương đương: pH thay đổi nhanh.';
-  else if(Vb<Veq)st='Trước điểm tương đương: acid vẫn còn dư.';
-  else st='Sau điểm tương đương: NaOH dư làm dung dịch có tính base mạnh hơn.';
+  if(Math.abs(Vb-Veq)<Veq*0.01)st='Gần điểm tương đương, pH thay đổi nhanh.';
+  else if(Vb<Veq)st='Trước điểm tương đương, axit vẫn còn dư.';
+  else st='Sau điểm tương đương, NaOH dư khiến dung dịch có tính bazơ.';
   el('tStatus').textContent=st;
   var liquid=el('flaskLiquid');if(liquid)liquid.setAttribute('fill',indicatorColor(el('ind').value,pH));
   var buret=el('buretLiquid');if(buret){var used=Math.max(0,Math.min(1,Vb/Vmax));buret.setAttribute('y',String(50+used*125));buret.setAttribute('height',String(Math.max(5,134-used*125)));}
@@ -362,7 +362,7 @@ function draw(){
     var v=Vmax*i/4,px=L+pw*i/4;
     ctx.fillText(v.toFixed(1),px,H-14);
   }
-  ctx.fillText('V NaOH (mL)',L+pw/2,H-1);
+  ctx.fillText('Thể tích NaOH (mL)',L+pw/2,H-1);
   ctx.save();ctx.translate(11,T+ph/2);ctx.rotate(-Math.PI/2);ctx.fillText('pH',0,0);ctx.restore();
   var eqx=L+pw*(Veq/Vmax);
   ctx.setLineDash([5,4]);ctx.strokeStyle=dark?'#e4bb59':'#c98a0a';
@@ -381,7 +381,7 @@ function draw(){
   ctx.strokeStyle='#c33';ctx.lineWidth=3;
   ctx.beginPath();ctx.arc(cx,cy,6,0,Math.PI*2);ctx.fill();ctx.stroke();
 }
-function stopAuto(){if(timer){clearInterval(timer);timer=null}el('auto').textContent='Tự động'}
+function stopAuto(){if(timer){clearInterval(timer);timer=null}el('auto').textContent='Chạy tự động'}
 ['acid','Ca','Va','Cb','ind'].forEach(function(id){
   el(id).addEventListener('input',function(){stopAuto();draw()});
 });
@@ -397,7 +397,7 @@ el('auto').addEventListener('click',function(){
   if(timer){stopAuto();return}
   var s=el('Vb');
   if(parseFloat(s.value)>=parseFloat(s.max))s.value=0;
-  el('auto').textContent='Dừng';
+  el('auto').textContent='Tạm dừng';
   timer=setInterval(function(){
     var max=parseFloat(s.max),step=max/160;
     s.value=Math.min(max,parseFloat(s.value)+step);
@@ -412,7 +412,7 @@ resizeCanvas();draw();
 (function(){
  var root=document.documentElement,button=document.getElementById('themeToggle');
  if(!button)return;
- function update(){var dark=root.getAttribute('data-theme')==='dark';button.textContent=dark?'☀ Chế độ sáng':'☾ Chế độ tối';button.setAttribute('aria-pressed',String(dark));button.setAttribute('aria-label',dark?'Chuyển sang chế độ sáng':'Chuyển sang chế độ tối');}
+ function update(){var dark=root.getAttribute('data-theme')==='dark';button.textContent=dark?'☀ Chế độ sáng':'☾ Chế độ tối';button.setAttribute('aria-pressed',String(dark));button.setAttribute('aria-label',dark?'Bật chế độ sáng':'Bật chế độ tối');}
  button.addEventListener('click',function(){var next=root.getAttribute('data-theme')==='dark'?'light':'dark';root.setAttribute('data-theme',next);try{localStorage.setItem('subgeneric-theme',next)}catch(e){}update();if(typeof resizeCanvas==='function'&&typeof draw==='function'){resizeCanvas();draw();}});
  update();
 })();
