@@ -156,7 +156,7 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
 @media(max-width:620px){.theme-toggle{padding:7px 9px;font-size:12px}}
 
 
-/* Keep the apparatus and plotted graph dark with the shared theme */
+/* Keep the titration illustration and plotted graph dark with the shared theme */
 html[data-theme="dark"] .rig-card{background:#17241f;border-color:var(--line)}
 html[data-theme="dark"] .rig-svg > rect[width="760"]{fill:#15211d}
 html[data-theme="dark"] .rig-svg text{fill:#b9d0c7}
@@ -188,11 +188,8 @@ html[data-theme="dark"] .explain{color:var(--muted)}
 <main class="wrap">
 
   <h1>Mô phỏng chuẩn độ acid–base</h1>
-  <p class="intro">Thêm dung dịch NaOH vào mẫu acid để theo dõi pH, màu của chất chỉ thị và điểm tương đương.</p>
-
-  <section class="rig-card" aria-label="Chuẩn độ apparatus illustration">
-    <div class="rig-heading"><strong>Chuẩn độ apparatus</strong></div>
-    <svg class="rig-svg" viewBox="0 0 760 330" role="img" aria-labelledby="rigTitle rigDesc">
+<section class="rig-card" aria-label="Minh họa dụng cụ chuẩn độ">
+<svg class="rig-svg" viewBox="0 0 760 330" role="img" aria-labelledby="rigTitle rigDesc">
       <title id="rigTitle">Burette đặt phía trên bình tam giác trong quá trình chuẩn độ</title>
       <desc id="rigDesc">Dung dịch nhỏ giọt từ burette xuống bình tam giác bên dưới. Màu dung dịch thay đổi theo pH.</desc>
       <defs>
@@ -226,8 +223,7 @@ html[data-theme="dark"] .explain{color:var(--muted)}
       </g>
       <path d="M390 79h-8M420 257l-20 14" stroke="#91aaa3" stroke-width="1.5" fill="none"/>
     </svg>
-    <div class="rig-caption">Burette được đặt ngay phía trên bình tam giác, giống bố trí chuẩn trong thí nghiệm chuẩn độ.</div>
-  </section>
+</section>
 
   <div class="sim">
     <div>
@@ -273,10 +269,6 @@ html[data-theme="dark"] .explain{color:var(--muted)}
         <div>Thể tích tại điểm tương đương<b id="Veq">–</b></div>
       </div>
     </div>
-  </div>
-
-  <div class="explain">
-    <b>Cách đọc đường cong:</b> Trước điểm tương đương, pH tăng từ từ khi acid vẫn còn. Gần điểm tương đương, pH thay đổi đột ngột và chất chỉ thị đổi màu. Sau điểm tương đương, NaOH dư làm dung dịch có tính base mạnh hơn. Chuyển sang CH₃COOH để thấy điểm tương đương dịch lên trên pH 7 trong chuẩn độ acid yếu–base mạnh.
   </div>
 
 </main>
