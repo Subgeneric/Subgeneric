@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<title>Phản ứng và tính toán – Subgeneric</title>
-<meta name="description" content="Cân bằng phương trình hóa học, khối lượng mol, tính toán theo phương trình, chất giới hạn và hiệu suất phản ứng.">
+<title>Phản ứng và tính toán | Subgeneric</title>
+<meta name="description" content="Cân bằng phương trình, tính khối lượng mol, tính theo phương trình và tìm chất giới hạn, hiệu suất phản ứng.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -205,7 +205,7 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
 
   <h1>Phản ứng và tính toán</h1>
   <p class="intro">
-    Bốn công cụ sử dụng chung một bộ máy cân bằng phương trình. Nhập phương trình hóa học để cân bằng, sau đó tính khối lượng mol, lượng chất, khối lượng và thể tích khí.
+    Dùng các công cụ dưới đây để cân bằng phương trình, tính khối lượng mol, làm bài toán theo phản ứng và tìm chất giới hạn.
   </p>
 
   <nav class="nav-tools" aria-label="Mục lục công cụ">
@@ -219,7 +219,7 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
   <section class="tool" id="tool1">
     <h3>1. Cân bằng phương trình hóa học</h3>
     <p class="hint">
-      Nhập phương trình, dùng <code>-&gt;</code> hoặc <code>=</code> để ngăn cách hai vế. Hỗ trợ hợp chất hữu cơ, ion và phức chất có dấu ngoặc lồng nhau.
+      Nhập phương trình rồi bấm Cân bằng. Dùng <code>-&gt;</code> hoặc <code>=</code> để ngăn cách hai vế. Bạn cũng có thể nhập ion, hợp chất hữu cơ và phức chất.
     </p>
     <div class="row">
       <input type="text" id="eq" value="N2 + H2 = NH3" autocomplete="off" spellcheck="false">
@@ -233,11 +233,11 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
   <section class="tool" id="tool2">
     <h3>2. Khối lượng mol và phần trăm khối lượng</h3>
     <p class="hint">
-      Nhập công thức hóa học (bao gồm ion, dấu ngoặc và hợp chất ngậm nước như <code>CuSO4.5H2O</code>). Kết quả gồm khối lượng mol và phần trăm khối lượng của từng nguyên tố.
+      Nhập công thức để xem khối lượng mol và tỉ lệ khối lượng của từng nguyên tố. Ví dụ: <code>CuSO4.5H2O</code>.
     </p>
     <div class="row">
       <input type="text" id="mmIn" value="CuSO4.5H2O" autocomplete="off" spellcheck="false">
-      <button id="mmBtn">Tính toán</button>
+      <button id="mmBtn">Tính khối lượng mol</button>
     </div>
     <div class="chips" id="mmChips"></div>
     <div id="mmOut" class="result" aria-live="polite"></div>
@@ -247,7 +247,7 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
   <section class="tool" id="tool3">
     <h3>3. Tính toán theo phương trình hóa học</h3>
     <p class="hint">
-      Nhập phương trình hóa học (đã cân bằng hoặc chưa cân bằng — công cụ sẽ tự cân bằng), chọn chất đã biết và lượng chất đó, sau đó tính lượng chất và khối lượng của các chất còn lại.
+      Nhập phương trình, chọn chất và lượng đã biết. Công cụ sẽ cân bằng phương trình nếu cần rồi tính lượng các chất còn lại.
     </p>
     <div class="inline-form">
       <div>
@@ -272,7 +272,7 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
         </div>
       </div>
       <div class="row">
-        <button id="stBtn">Tính toán</button>
+        <button id="stBtn">Tính lượng chất</button>
       </div>
     </div>
     <div class="chips" id="stChips"></div>
@@ -283,7 +283,7 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
   <section class="tool" id="tool4">
     <h3>4. Chất giới hạn và hiệu suất phản ứng</h3>
     <p class="hint">
-      Nhập phương trình hóa học và lượng của <em>tất cả</em> các chất phản ứng. Công cụ xác định chất giới hạn, tính khối lượng sản phẩm theo lý thuyết và tính hiệu suất phản ứng nếu bạn nhập khối lượng sản phẩm thực tế.
+      Nhập phương trình và lượng của từng chất phản ứng, rồi chọn sản phẩm cần tính. Thêm khối lượng sản phẩm thực tế nếu muốn tính hiệu suất.
     </p>
     <div class="inline-form">
       <div>
@@ -302,7 +302,7 @@ html[data-theme="dark"] .demo-panel{background:var(--paper);border-color:var(--l
         </div>
       </div>
       <div class="row">
-        <button id="lrBtn">Tính toán</button>
+        <button id="lrBtn">Tính lượng sản phẩm</button>
       </div>
     </div>
     <div class="chips" id="lrChips"></div>
@@ -484,7 +484,7 @@ function molarMass(formula){
 function balance(eq){
   var parts=eq.trim().split(/\s*(?:->|=>|→|=)\s*/);
   if(parts.length!==2||!parts[0]||!parts[1])
-    throw new Error('Hãy dùng đúng một mũi tên (->) hoặc dấu bằng (=) để ngăn cách vế trái và vế phải.');
+    throw new Error('Nhập phương trình theo dạng: chất phản ứng -> sản phẩm.');
   function clean(s){
     // Split at a plus only when a new formula follows; keep the plus in Fe2+, H+, etc.
     return s.split(/\+(?=\s*\d*\s*(?:[A-Z]|\[|\(|\{))/).map(function(x){
@@ -521,7 +521,7 @@ function balance(eq){
   }
   var free=[];
   for(var cc=0;cc<cols;cc++){if(pivots.indexOf(cc)<0)free.push(cc)}
-  if(free.length===0)throw new Error('Không thể cân bằng phương trình. Hãy kiểm tra các công thức hóa học.');
+  if(free.length===0)throw new Error('Chưa cân bằng được phương trình này. Hãy kiểm tra lại công thức các chất.');
   function positiveIntegerCoefficients(values){
     var x=new Array(cols).fill(null).map(function(){return [0n,1n]});
     free.forEach(function(fc,j){x[fc]=[BigInt(values[j]),1n]});
@@ -548,7 +548,7 @@ function balance(eq){
   if(free.length===1){
     ints=positiveIntegerCoefficients([1]);
   }else{
-    if(free.length>3)throw new Error('Phương trình có quá nhiều biến tự do. Hãy tách thành các phản ứng riêng.');
+    if(free.length>3)throw new Error('Phương trình này chưa xác định được một bộ hệ số duy nhất. Hãy thử tách thành các phản ứng nhỏ hơn.');
     var limit=24,attempts=0,maxAttempts=15000,values=new Array(free.length);
     var best=null,bestScore=null;
     function searchPositive(depth){
@@ -571,7 +571,7 @@ function balance(eq){
     searchPositive(0);
     ints=best;
   }
-  if(!ints)throw new Error('Không tìm được bộ hệ số nguyên dương phù hợp. Hãy kiểm tra công thức hoặc tách phản ứng thành các phương trình riêng.');
+  if(!ints)throw new Error('Chưa tìm được hệ số phù hợp. Hãy kiểm tra lại công thức hoặc thử cân bằng từng phản ứng riêng.');
   return {L:L,R:R,coef:ints,comps:comps,els:els};
 }
 
@@ -686,7 +686,7 @@ function runMolarMass(){
             fmtNum(b.mass,5)+'</td><td class="num">'+b.pct.toFixed(2)+'%</td></tr>';
     });
     html+='</table>';
-    html+='<details class="species"><summary>Xem cách tính</summary>'+
+    html+='<details class="species"><summary>Cách tính</summary>'+
           '<div style="font-size:14px;color:var(--muted);margin-top:6px">'+
           'M = '+r.breakdown.map(function(b){return b.n+'×'+AW[b.el];}).join(' + ')+
           ' = '+fmtNum(r.M,6)+' g/mol</div></details>';
@@ -729,7 +729,7 @@ function refreshStKnown(){
     });
     if(prev && names[parseInt(prev,10)]!==undefined) sel.value=prev;
   }catch(e){
-    sel.innerHTML='<option value="">— nhập phương trình hợp lệ —</option>';
+    sel.innerHTML='<option value="">— nhập phương trình trước —</option>';
   }
 }
 
@@ -767,7 +767,7 @@ function runStoich(){
             '<td class="num">'+(vol!==null?fmtNum(vol,5):'–')+'</td></tr>';
     });
     html+='</table>';
-    html+='<details class="species"><summary>Xem cách tính</summary>'+
+    html+='<details class="species"><summary>Cách tính</summary>'+
           '<div style="font-size:14px;color:var(--muted);margin-top:6px">'+
           'n('+escapeHTML(names[idx])+') = '+(stUnit.value==='g'
             ?fmtNum(amount,5)+' g ÷ '+fmtNum(Mknown,5)+' g/mol = '+fmtNum(nKnown,5)+' mol'
@@ -847,7 +847,7 @@ function refreshLRInputs(){
     });
     if(prev)lrProduct.value=prev;
   }catch(e){
-    container.innerHTML='<div style="color:var(--muted);font-size:14px">Nhập phương trình hợp lệ để bắt đầu.</div>';
+    container.innerHTML='<div style="color:var(--muted);font-size:14px">Nhập phương trình để bắt đầu.</div>';
     lrProduct.innerHTML='';
   }
 }
@@ -930,10 +930,10 @@ function runLimiting(){
       html+='<div>Khối lượng thực tế: <strong>'+fmtNum(actual,5)+' g</strong></div>';
       html+='<div>Hiệu suất phản ứng: <strong>'+H.toFixed(2)+'%</strong></div>';
     }else{
-      html+='<div style="color:var(--muted);font-size:14px">Nhập khối lượng thực tế để tính hiệu suất phản ứng.</div>';
+      html+='<div style="color:var(--muted);font-size:14px">Nhập khối lượng sản phẩm thực tế để tính hiệu suất.</div>';
     }
 
-    html+='<details class="species"><summary>Xem cách tính</summary>'+
+    html+='<details class="species"><summary>Cách tính</summary>'+
           '<div style="font-size:14px;color:var(--muted);margin-top:6px">'+
           '1) Đổi khối lượng mỗi chất phản ứng sang mol: n = m / M.<br>'+
           '2) Chia n cho hệ số tương ứng. Chất có tỉ số nhỏ nhất là chất giới hạn.<br>'+
