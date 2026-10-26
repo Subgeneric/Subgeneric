@@ -26,6 +26,8 @@ nav{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
 nav a{color:var(--muted);font-size:14px;font-weight:600;text-decoration:none}
 nav a:hover,nav a[aria-current=page]{color:var(--accent)}
 .nav-cta{padding:9px 14px;border:1px solid var(--line);border-radius:10px;background:white}
+nav a[href="#feedback"]{padding:9px 14px;border:1px solid var(--accent);border-radius:10px;background:var(--accent);color:#fff;font-weight:800;box-shadow:0 4px 12px rgba(8,116,95,.18)}
+nav a[href="#feedback"]:hover{background:var(--accent-dark);color:#fff}
 .hero{position:relative;overflow:hidden;padding:86px 0 70px}
 .hero:before{content:none}
 .hero-grid{position:relative;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);align-items:center;gap:64px}
@@ -74,11 +76,17 @@ h2{font-size:clamp(27px,3.3vw,38px);line-height:1.2;letter-spacing:-.04em;margin
 .team-panel{display:grid;grid-template-columns:76px minmax(0,1fr);gap:24px;align-items:start;padding:30px;border:1px solid var(--line);border-radius:18px;background:#fff}
 .team-mark{width:64px;height:64px;border-radius:16px;background:var(--mint);color:var(--accent);display:grid;place-items:center}.team-mark svg{width:42px;height:42px}
 .team-panel h2{margin-top:8px}.team-panel p{max-width:700px;color:var(--muted);font-size:14px}
-.feedback-panel{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:30px;border:1px solid var(--line);border-radius:18px;background:var(--paper)}
-.feedback-panel p{max-width:680px;margin:0;color:var(--muted);font-size:14px}
-.feedback-panel h2{margin:8px 0 10px;font-size:clamp(25px,3vw,32px)}
-.feedback-btn{flex:0 0 auto}
-@media(max-width:600px){.feedback-panel{align-items:flex-start;flex-direction:column;padding:22px;gap:18px}}
+.feedback-panel{position:relative;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:clamp(26px,4vw,42px);border:2px solid #8acbb2;border-radius:22px;background:linear-gradient(120deg,#e4f6ec 0%,#f8fcfa 72%);box-shadow:0 14px 34px rgba(8,116,95,.10);overflow:hidden}
+.feedback-panel:before{content:"";position:absolute;left:0;top:0;bottom:0;width:7px;background:var(--accent)}
+.feedback-panel .kicker{display:inline-flex;padding:6px 10px;border-radius:999px;background:#d1eee0;color:#075846;letter-spacing:.08em}
+.feedback-panel p{max-width:680px;margin:0;color:var(--muted);font-size:15px}
+.feedback-panel h2{margin:12px 0 12px;font-size:clamp(27px,3.2vw,36px)}
+.feedback-btn{flex:0 0 auto;min-height:52px;padding:14px 20px;font-size:15px;box-shadow:0 7px 18px rgba(8,116,95,.20)}
+html[data-theme="dark"] .feedback-panel{background:linear-gradient(120deg,#1c382e 0%,#17241f 75%);border-color:#438e74;box-shadow:0 14px 34px rgba(0,0,0,.2)}
+html[data-theme="dark"] .feedback-panel .kicker{background:#234b3c;color:#b9f0d8}
+html[data-theme="dark"] nav a[href="#feedback"]{background:var(--accent);border-color:var(--accent);color:#10221c}
+html[data-theme="dark"] nav a[href="#feedback"]:hover{background:var(--accent-dark)}
+@media(max-width:600px){.feedback-panel{align-items:flex-start;flex-direction:column;padding:24px 20px 24px 25px;gap:18px}.feedback-btn{width:100%}}
 @media(max-width:600px){.team-panel{grid-template-columns:1fr;padding:22px;gap:12px}}
 .steps{display:grid;gap:14px}
 .step{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:#46645a}
@@ -255,16 +263,6 @@ html[data-theme="dark"] .tag{background:#20352e;color:#b8d9cd}
       </div>
     </div>
   </section>
-  <section class="section" id="team">
-    <div class="wrap team-panel">
-      <div class="team-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M7 18 24 8l17 10-17 10L7 18Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M14 23v10c6 5 14 5 20 0V23M41 18v13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="41" cy="34" r="2.5" fill="currentColor"/></svg></div>
-      <div>
-        <div class="kicker">Người đứng sau dự án</div>
-        <p>Chúng mình là một nhóm học sinh đến từ THCS và THPT Trần Đại Nghĩa. Subgeneric bắt đầu từ một ý tưởng đơn giản: nếu có thể tự thay đổi số liệu và nhìn thấy kết quả ngay, Hóa học sẽ bớt trừu tượng hơn.</p>
-        <p>Dự án vẫn đang được phát triển. Chúng mình muốn tiếp tục hoàn thiện công cụ dựa trên quá trình học tập thực tế và góp ý từ những bạn sử dụng.</p>
-      </div>
-    </div>
-  </section>
   <section class="section" id="feedback">
     <div class="wrap feedback-panel">
       <div>
@@ -273,6 +271,16 @@ html[data-theme="dark"] .tag{background:#20352e;color:#b8d9cd}
         <p>Bạn đã thử các công cụ học Hóa? Hãy chia sẻ trải nghiệm, báo lỗi hoặc đề xuất tính năng để chúng mình hoàn thiện website hơn.</p>
       </div>
       <a class="btn btn-primary feedback-btn" href="https://forms.gle/YhbTJZdVpVYnKRgr7" target="_blank" rel="noopener noreferrer">Gửi góp ý <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+  <section class="section" id="team">
+    <div class="wrap team-panel">
+      <div class="team-mark" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M7 18 24 8l17 10-17 10L7 18Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><path d="M14 23v10c6 5 14 5 20 0V23M41 18v13" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="41" cy="34" r="2.5" fill="currentColor"/></svg></div>
+      <div>
+        <div class="kicker">Người đứng sau dự án</div>
+        <p>Chúng mình là một nhóm học sinh đến từ THCS và THPT Trần Đại Nghĩa. Subgeneric bắt đầu từ một ý tưởng đơn giản: nếu có thể tự thay đổi số liệu và nhìn thấy kết quả ngay, Hóa học sẽ bớt trừu tượng hơn.</p>
+        <p>Dự án vẫn đang được phát triển. Chúng mình muốn tiếp tục hoàn thiện công cụ dựa trên quá trình học tập thực tế và góp ý từ những bạn sử dụng.</p>
+      </div>
     </div>
   </section>
 </main>
