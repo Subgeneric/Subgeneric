@@ -74,6 +74,11 @@ h2{font-size:clamp(27px,3.3vw,38px);line-height:1.2;letter-spacing:-.04em;margin
 .team-panel{display:grid;grid-template-columns:76px minmax(0,1fr);gap:24px;align-items:start;padding:30px;border:1px solid var(--line);border-radius:18px;background:#fff}
 .team-mark{width:64px;height:64px;border-radius:16px;background:var(--mint);color:var(--accent);display:grid;place-items:center}.team-mark svg{width:42px;height:42px}
 .team-panel h2{margin-top:8px}.team-panel p{max-width:700px;color:var(--muted);font-size:14px}
+.feedback-panel{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:30px;border:1px solid var(--line);border-radius:18px;background:var(--paper)}
+.feedback-panel p{max-width:680px;margin:0;color:var(--muted);font-size:14px}
+.feedback-panel h2{margin:8px 0 10px;font-size:clamp(25px,3vw,32px)}
+.feedback-btn{flex:0 0 auto}
+@media(max-width:600px){.feedback-panel{align-items:flex-start;flex-direction:column;padding:22px;gap:18px}}
 @media(max-width:600px){.team-panel{grid-template-columns:1fr;padding:22px;gap:12px}}
 .steps{display:grid;gap:14px}
 .step{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:#46645a}
@@ -170,6 +175,7 @@ html[data-theme="dark"] .tag{background:#20352e;color:#b8d9cd}
     <nav aria-label="Điều hướng chính">
       <a href="index.html" aria-current="page">Trang chủ</a>
       <a href="#tools">Công cụ</a>
+      <a href="#feedback">Góp ý</a>
     <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false">☾ Chế độ tối</button>
     </nav>
   </div>
@@ -260,11 +266,21 @@ html[data-theme="dark"] .tag{background:#20352e;color:#b8d9cd}
       </div>
     </div>
   </section>
+  <section class="section" id="feedback">
+    <div class="wrap feedback-panel">
+      <div>
+        <div class="kicker">Góp ý &amp; cải thiện</div>
+        <h2>Giúp Subgeneric tốt hơn nhé!</h2>
+        <p>Bạn đã thử các công cụ học Hóa? Hãy chia sẻ trải nghiệm, báo lỗi hoặc đề xuất tính năng để chúng mình hoàn thiện website hơn.</p>
+      </div>
+      <a class="btn btn-primary feedback-btn" href="https://forms.gle/YhbTJZdVpVYnKRgr7" target="_blank" rel="noopener noreferrer">Gửi góp ý <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
 </main>
 <footer>
   <div class="wrap footer-row">
     <span>Subgeneric · Dự án học sinh Trần Đại Nghĩa</span>
-    <div class="footer-links"><a href="index.html">Trang chủ</a><a href="reactions.html">Phản ứng &amp; tính toán</a><a href="titration.html">Mô phỏng chuẩn độ</a></div>
+    <div class="footer-links"><a href="index.html">Trang chủ</a><a href="reactions.html">Phản ứng &amp; tính toán</a><a href="titration.html">Mô phỏng chuẩn độ</a><a href="#feedback">Góp ý</a></div>
   </div>
 </footer>
 <script>
